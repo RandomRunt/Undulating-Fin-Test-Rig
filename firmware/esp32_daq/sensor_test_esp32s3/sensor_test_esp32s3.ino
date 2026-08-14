@@ -1,13 +1,14 @@
-/*
+﻿/*
   ESP32-S3 bench test for the thesis test-rig DAQ sensors:
-    - HX711 load-cell ADC
-    - NAU7802 load-cell ADC
-    - INA260 current/voltage/power monitor
+    - SparkFun HX711 load-cell ADC breakout
+    - Adafruit NAU7802 load-cell ADC breakout
+    - Adafruit INA260 current/voltage/power monitor
 
   Arduino Library Manager dependencies:
     - HX711 Arduino Library by Bogdan Necula
-    - SparkFun Qwiic Scale NAU7802 Arduino Library
-    - Adafruit INA260 Library (and Adafruit BusIO)
+    - Adafruit NAU7802 Library
+    - Adafruit INA260 Library
+    - Adafruit BusIO (dependency of both Adafruit sensor libraries)
 
   Open Serial Monitor at 115200 baud. Send "t" to tare both load-cell
   channels. Calibration factors below are placeholders until calibrated.
@@ -15,11 +16,11 @@
 
 #include <Wire.h>
 #include <HX711.h>
-#include <SparkFun_Qwiic_Scale_NAU7802_Arduino_Library.h>
+#include <Adafruit_NAU7802.h>
 #include <Adafruit_INA260.h>
 
 // Change these four pins to match the ESP32-S3 board and test-rig wiring.
-constexpr uint8_t I2C_SDA_PIN = 8;
+constexpr uint8_t I2C_SDA_PIN = 8;              
 constexpr uint8_t I2C_SCL_PIN = 9;
 constexpr uint8_t HX711_DOUT_PIN = 18;
 constexpr uint8_t HX711_SCK_PIN = 19;
@@ -30,14 +31,38 @@ constexpr float HX711_CALIBRATION_FACTOR = 1.0f;
 constexpr float NAU7802_CALIBRATION_FACTOR = 1.0f;
 
 HX711 hx711;
-NAU7802 nau7802;
+Adafruit_NAU7802 nau7802;
 Adafruit_INA260 ina260;
 
 bool hx711Found = false;
 bool nau7802Found = false;
 bool ina260Found = false;
 uint32_t lastPrintMs = 0;
+int32_t nau7802ZeroOffset = 0;
 
+// Average NAU7802 samples without waiting forever if the device stops responding.
+bool readNau7802Average(uint8_t sampleCount, int32_t &average) {
+  int64_t sum = 0;
+  uint8_t samplesRead = 0;
+  const uint32_t startMs = millis();
+
+  while (samplesRead < sampleCount && millis() - startMs < 3000) {
+    if (nau7802.available()) {
+      sum += nau7802.read();
+      samplesRead++;
+    } else {
+      delay(1);
+    }
+  }
+
+  if (samplesRead != sampleCount) {
+    return false;
+  }
+  average = static_cast<int32_t>(sum / sampleCount);
+  return true;
+}
+
+// Tare load cells for both HX711 and NAU7802 if they are detected. This should be done with no load applied to the load cells.
 void tareLoadCells() {
   Serial.println("Taring load-cell ADCs; remove all applied load...");
 
@@ -49,13 +74,19 @@ void tareLoadCells() {
   }
 
   if (nau7802Found) {
-    nau7802.calculateZeroOffset(64);
-    Serial.println("NAU7802 tare complete.");
+    int32_t newOffset = 0;
+    if (readNau7802Average(64, newOffset)) {
+      nau7802ZeroOffset = newOffset;
+      Serial.println("NAU7802 tare complete.");
+    } else {
+      Serial.println("NAU7802 tare failed (samples timed out).");
+    }
   } else {
     Serial.println("NAU7802 tare skipped (not detected).");
   }
 }
 
+// Serial print data and status of all three sensors. This is called once at setup and then periodically in loop().
 void printSensorStatus() {
   Serial.println();
   Serial.println("ESP32-S3 sensor test results");
@@ -84,9 +115,20 @@ void setup() {
     hx711.set_scale(HX711_CALIBRATION_FACTOR);
   }
 
-  nau7802Found = nau7802.begin(Wire);
+  nau7802Found = nau7802.begin(&Wire);
   if (nau7802Found) {
-    nau7802.setCalibrationFactor(NAU7802_CALIBRATION_FACTOR);
+    // Settings for a single load cell on the Adafruit breakout.
+    nau7802.setLDO(NAU7802_3V3);
+    nau7802.setGain(NAU7802_GAIN_128);
+    nau7802.setRate(NAU7802_RATE_80SPS);
+    nau7802.setPGACap(true);
+
+    // Discard startup conversions, then calibrate the ADC internal offset.
+    int32_t discarded = 0;
+    readNau7802Average(10, discarded);
+    if (!nau7802.calibrate(NAU7802_CALMOD_INTERNAL)) {
+      Serial.println("Warning: NAU7802 internal calibration failed.");
+    }
   }
 
   ina260Found = ina260.begin(INA260_I2CADDR_DEFAULT, &Wire);
@@ -121,8 +163,11 @@ void loop() {
   }
 
   if (nau7802Found && nau7802.available()) {
+    const int32_t raw = nau7802.read();
+    const float units = static_cast<float>(raw - nau7802ZeroOffset) /
+                        NAU7802_CALIBRATION_FACTOR;
     Serial.printf(", NAU7802_raw=%ld, NAU7802_units=%.3f",
-                  static_cast<long>(nau7802.getReading()), nau7802.getWeight());
+                  static_cast<long>(raw), units);
   } else {
     Serial.print(", NAU7802=NOT_READY");
   }
