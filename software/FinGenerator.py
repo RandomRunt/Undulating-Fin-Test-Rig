@@ -5,10 +5,16 @@ from scipy.integrate import quad
 # ==========================================
 # 1. PHYSICAL PARAMETERS (Enter required dimensions here)
 # ==========================================
-L_chassis = 192.0        # mm (Length of the straight linear mechanism)
-R_pivot = 8.0            # mm (Rigid offset from pivot axis to start of membrane)
-H_membrane = 87.38       # mm (Length of the flexible fin membrane)
-R_outer = R_pivot + H_membrane # mm (Total distance from pivot to outer edge)
+L_chassis = 198.0        # mm (Length of the straight linear mechanism) [OLD: 192.0]
+R_pivot = 17.0           # mm (Rigid offset from pivot axis to start of membrane) [OLD: 8.0]
+
+R_Outer = 76.2/2         # mm (Outer diameter of the T200 Propeller) [OLD: 25.0]
+R_hub = 40/2             # mm (Hub diameter of the T200 Propeller) [OLD: 8.0]
+A_t200_sweep = np.pi * (R_Outer**2 - R_hub**2)  # mm^2 (Cross-sectional area of the fin membrane at the pivot)
+theta_fin_sweep = 50.0   # degrees (Max sweep angle of the fin membrane) [OLD: 50.0]
+R_outer = np.sqrt((A_t200_sweep / (np.pi * theta_fin_sweep/360)) + R_pivot**2)   # mm (Length of the flexible fin membrane) [OLD: 87.38]
+
+H_membrane = R_outer - R_pivot # mm (Radial width of the flexible fin membrane) [OLD: 79.38]
 
 # Sweep angle parameters for the undulating fin motion
 theta_max_deg = 25.0     # degrees (Max sweep angle per side)
@@ -35,10 +41,29 @@ L_inner_flat = calc_material_length(R_pivot)
 L_outer_flat = calc_material_length(R_outer)
 
 print("--- 2D FLAT PATTERN DIMENSIONS ---")
-print(f"Straightened Chassis Base: {L_chassis:.2f} mm")
-print(f"Inner Edge Material Length (at R={R_pivot}mm): {L_inner_flat:.2f} mm")
-print(f"Outer Edge Material Length (at R={R_outer}mm): {L_outer_flat:.2f} mm")
-print(f"Required Radial Width: {H_membrane:.2f} mm")
+print(f"Straightened Chassis Base: {L_chassis:.4f} mm")
+print(f"Inner Edge Material Length (at R={R_pivot}mm): {L_inner_flat:.4f} mm")
+print(f"Outer Edge Material Length (at R={R_outer}mm): {L_outer_flat:.4f} mm")
+print(f"Outer Radial Width: {R_outer:.4f} mm")
+print(f"Actual Fin Radial Width: {H_membrane:.4f} mm")
+print("----------------------------------\n")
+
+# 1. Correct the Fin Width (Fixing the bug)
+W_fin = R_outer - R_pivot 
+
+# 2. Calculate the Flat Pattern Angle (in radians)
+alpha_rad = (L_outer_flat - L_inner_flat) / W_fin
+
+# 3. Convert Angle to Degrees for Fusion 360
+alpha_deg = np.degrees(alpha_rad)
+
+# 4. Calculate the True 2D Flat Inner Radius
+R_flat_inner = L_inner_flat / alpha_rad
+
+print(f"--- FUSION 360 CAD PARAMETERS ---")
+print(f"Fin Radial Width: {W_fin:.4f} mm")
+print(f"Sketch Sweep Angle: {alpha_deg:.4f} deg")
+print(f"Sketch Inner Radius: {R_flat_inner:.4f} mm")
 print("----------------------------------\n")
 
 # ==========================================
