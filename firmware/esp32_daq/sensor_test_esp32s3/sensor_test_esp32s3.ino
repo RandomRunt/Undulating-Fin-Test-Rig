@@ -20,7 +20,7 @@
 #include <Adafruit_INA260.h>
 
 // Change these four pins to match the ESP32-S3 board and test-rig wiring.
-constexpr uint8_t I2C_SDA_PIN = 8;              
+constexpr uint8_t I2C_SDA_PIN = 8;
 constexpr uint8_t I2C_SCL_PIN = 9;
 constexpr uint8_t HX711_DOUT_PIN = 18;
 constexpr uint8_t HX711_SCK_PIN = 19;

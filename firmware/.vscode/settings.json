@@ -1,0 +1,8 @@
+{
+    "idf.currentSetup": "C:\\esp\\v6.0.2\\esp-idf",
+    "cmake.sourceDirectory": "${workspaceFolder}/Thesis-DAQ",
+    "cmake.configureOnOpen": false,
+    "cmake.configureOnEdit": false,
+    "cmake.automaticReconfigure": false,
+    "cmake.autoSelectActiveFolder": false
+}
