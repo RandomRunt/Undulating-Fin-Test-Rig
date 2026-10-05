@@ -30,10 +30,12 @@ Finish a mode with `exit` before selecting another option.
 | Both breakout VIN pins | 3V3 |
 | Both breakout grounds and ESC signal ground | GND |
 
+![DAQ wiring: ESP32-C3, INA260, NAU7802, load cell and ESC with separate LiPo and USB supplies](docs/ina260-wiring.svg)
+
 ### S-type load cell to NAU7802
 
-Connect the load cell to channel 1 (A), which this firmware reads. For the common
-red/black/white/green/yellow cable, the usual mapping is:
+The JLBS-MD-5kg S-type load cell uses the confirmed wiring below. Connect its
+signal wires to channel 1 (A), which this firmware reads.
 
 | Load cell wire | NAU7802 terminal | Function |
 |---|---|---|
@@ -41,24 +43,15 @@ red/black/white/green/yellow cable, the usual mapping is:
 | Black | E- | Bridge excitation negative |
 | Green | A+ | Channel 1 signal positive |
 | White | A- | Channel 1 signal negative |
-| Yellow | Shield/GND, if confirmed as shield | Cable shield; not an ADC signal |
+| Yellow | Shield/GND | Cable shield; connect at the ADC end only |
 | None | B+ | Leave unconnected; channel 2 signal positive |
 | None | B- | Leave unconnected; channel 2 signal negative |
 
-Wire colours are not universal: confirm this mapping against the specific load
-cell's datasheet or label before powering it (For this JLBS-MD-5kg, a full bridge gives roughly 250 Ohms across opposite pairs and ~250 Ohms across other combinations). Yellow is commonly a shield/drain
-wire, but its role cannot be confirmed from colour alone. If confirmed as shield,
-connect it to the breakout's dedicated shield terminal, if present, or circuit
-GND at the ADC end only. E- may be used only if the breakout documents it as GND.
-If its role is unknown, leave yellow insulated until verified; do not connect it
-to B+ or B-.
+Connect yellow to the breakout's shield terminal, if provided, or circuit GND.
+Leave B+/B- unused; they are the channel 2 inputs.
 
-E+/E- power the load cell bridge; A+/A- measure its small differential output.
-B+/B- are a second differential input pair, not extra excitation or shield
-connections. After wiring, check that raw readings respond to an applied load,
-then use option 1 to tare and calibrate into newtons. Tension and compression
-produce opposite signs; the fitted calibration follows the signed known forces
-entered during calibration.
+Use option 1 to tare and calibrate into newtons. Tension and compression produce
+opposite signs; calibration follows the signed known forces entered.
 
 Wiring reference: [SparkFun NAU7802 hardware overview](https://learn.sparkfun.com/tutorials/qwiic-scale-hookup-guide/hardware-overview).
 
@@ -72,8 +65,29 @@ reinitializes sensors and neutral PWM, and clears force calibration. An unchange
 pin assignment can also reinitialize sensors after correcting their wiring.
 Settings apply for this session and revert to the defaults in `main.c` on reboot.
 
+### INA260 supply wiring (+ / -)
+
 Measure the DC supply to the ESC, not the motor phase wires:
-power positive -> INA260 IN+ -> INA260 IN- -> ESC positive.
+
+| Connection | Wiring |
+|---|---|
+| Supply positive (+) | Battery/supply + -> INA260 IN+ |
+| ESC positive (+) | INA260 IN- -> ESC + |
+| Supply negative (-) | Battery/supply - -> ESC - directly |
+| USB power | Computer/USB supply -> ESP32 USB-C |
+| Sensor electronics power | ESP32 3V3 -> INA260 VIN |
+| Signal ground reference | ESP32 GND -> INA260 GND and ESC signal GND |
+
+IN- is the positive supply output toward the ESC, not the battery negative.
+The breakout's VIN connects to ESP32 3V3 as shown above; it powers the sensor
+electronics, while IN+/IN- carry the measured ESC supply current.
+The ESP32 is powered by USB only. Never connect LiPo positive to ESP32 5V/3V3
+or INA260 VIN. The dotted ground connection provides the signal reference;
+ESC signal GND shares the ESC's battery-negative reference. These power paths
+use separate supplies but are not galvanically isolated. Keep the ESC's main
+negative return wired directly to the battery so motor current does not flow
+through the ESP32 ground wiring.
+
 Follow Adafruit's board/current limits; the INA260's 15 A continuous chip rating
 is below the Basic ESC's 30 A rating. Check your propulsion device's current
 before routing motor power through the breakout.
