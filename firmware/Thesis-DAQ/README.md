@@ -30,7 +30,38 @@ Finish a mode with `exit` before selecting another option.
 | Both breakout VIN pins | 3V3 |
 | Both breakout grounds and ESC signal ground | GND |
 
-Connect the load cell to NAU7802 channel 1 (A), following its wiring documentation.
+### S-type load cell to NAU7802
+
+Connect the load cell to channel 1 (A), which this firmware reads. For the common
+red/black/white/green/yellow cable, the usual mapping is:
+
+| Load cell wire | NAU7802 terminal | Function |
+|---|---|---|
+| Red | E+ | Bridge excitation positive |
+| Black | E- | Bridge excitation negative |
+| Green | A+ | Channel 1 signal positive |
+| White | A- | Channel 1 signal negative |
+| Yellow | Shield/GND, if confirmed as shield | Cable shield; not an ADC signal |
+| None | B+ | Leave unconnected; channel 2 signal positive |
+| None | B- | Leave unconnected; channel 2 signal negative |
+
+Wire colours are not universal: confirm this mapping against the specific load
+cell's datasheet or label before powering it (For this JLBS-MD-5kg, a full bridge gives roughly 250 Ohms across opposite pairs and ~250 Ohms across other combinations). Yellow is commonly a shield/drain
+wire, but its role cannot be confirmed from colour alone. If confirmed as shield,
+connect it to the breakout's dedicated shield terminal, if present, or circuit
+GND at the ADC end only. E- may be used only if the breakout documents it as GND.
+If its role is unknown, leave yellow insulated until verified; do not connect it
+to B+ or B-.
+
+E+/E- power the load cell bridge; A+/A- measure its small differential output.
+B+/B- are a second differential input pair, not extra excitation or shield
+connections. After wiring, check that raw readings respond to an applied load,
+then use option 1 to tare and calibrate into newtons. Tension and compression
+produce opposite signs; the fitted calibration follows the signed known forces
+entered during calibration.
+
+Wiring reference: [SparkFun NAU7802 hardware overview](https://learn.sparkfun.com/tutorials/qwiic-scale-hookup-guide/hardware-overview).
+
 The ESC requires its own motor power supply; its signal connector does not power
 the ESP32. GPIO8/9 share LED/BOOT and boot strapping, and GPIO18/19 are native USB.
 
