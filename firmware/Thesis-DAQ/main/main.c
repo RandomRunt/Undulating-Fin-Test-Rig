@@ -286,8 +286,9 @@ static void print_sample(int64_t now, const power_sample_t *power, int32_t raw,
         else snprintf(force_text, sizeof(force_text), "%" PRId32 " counts (uncalibrated)", raw);
     }
     if (mode == FORMATTED || mode == PWM_DATA) {
-        output("Timestamp: %" PRId64 " us, Force: %s%s, Power: %.4f W, Current PWM: %d us\n",
-               now, force_text, calibrated && force_status == ESP_OK ? " N" : "", power->power_W, pulse_us);
+        output("Timestamp: %" PRId64 " us, Force: %s%s, Voltage: %.4f V, Current: %.4f A, Power: %.4f W, Current PWM: %d us\n",
+               now, force_text, calibrated && force_status == ESP_OK ? " N" : "",
+               power->voltage_V, power->current_A, power->power_W, pulse_us);
     } else {
         // CSV keeps raw counts and read status, so later analysis can identify missing data.
         char calibrated_text[32] = "";

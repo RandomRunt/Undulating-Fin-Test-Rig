@@ -18,7 +18,7 @@ int main(void)
 
     mode = FORMATTED;
     print_sample(12345, &power, 123, ESP_OK, ESP_OK);
-    assert(strstr(captured, "Timestamp: 12345 us, Force: 123 counts (uncalibrated), Power: 24.0000 W, Current PWM: 1500 us"));
+    assert(strstr(captured, "Timestamp: 12345 us, Force: 123 counts (uncalibrated), Voltage: 12.0000 V, Current: 2.0000 A, Power: 24.0000 W, Current PWM: 1500 us"));
     captured[0] = 0;
     mode = CSV;
     print_sample(12345, &power, 123, ESP_OK, ESP_OK);

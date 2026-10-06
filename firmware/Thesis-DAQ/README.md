@@ -125,7 +125,7 @@ is separate from calibration into newtons.
 Formatted output uses the requested labels:
 
 ```text
-Timestamp: 123456 us, Force: 2.500000 N, Power: 12.0000 W, Current PWM: 1500 us
+Timestamp: 123456 us, Force: 2.500000 N, Voltage: 12.0000 V, Current: 1.0000 A, Power: 12.0000 W, Current PWM: 1500 us
 ```
 
 Before calibration, Force explicitly shows raw counts and `(uncalibrated)`.
