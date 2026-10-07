@@ -1,0 +1,770 @@
+
+[HOST COMMAND] 3
+3
+Printing sensor data; type exit + Enter to stop.
+time_us,force_raw,force_N,voltage_V,current_A,power_W,pulse_us,power_status,force_status,dropped_lines
+559242062,484741,,11.1137,0.0150,0.1700,1500,ESP_OK,ESP_OK,0
+559292062,484626,,11.1100,0.0112,0.1300,1500,ESP_OK,ESP_OK,0
+559342062,484473,,11.1112,0.0112,0.1300,1500,ESP_OK,ESP_OK,0
+559392062,484862,,11.1125,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+559442062,484789,,11.1150,0.0112,0.1300,1500,ESP_OK,ESP_OK,0
+559492062,484658,,11.1112,0.0150,0.1700,1500,ESP_OK,ESP_OK,0
+559542062,485231,,10.9925,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+559592062,484882,,10.9937,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+559642062,484835,,10.9913,0.0112,0.1300,1500,ESP_OK,ESP_OK,0
+559692062,484756,,10.9925,0.0100,0.1200,1500,ESP_OK,ESP_OK,0
+559742062,485047,,10.9975,0.0150,0.1700,1500,ESP_OK,ESP_OK,0
+559792062,485008,,11.0763,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+559842062,484921,,11.0800,0.0150,0.1700,1500,ESP_OK,ESP_OK,0
+559892062,484706,,11.0775,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+559942062,484949,,11.0800,0.0112,0.1300,1500,ESP_OK,ESP_OK,0
+559992062,485122,,11.0787,0.0150,0.1700,1500,ESP_OK,ESP_OK,0
+560042062,484715,,11.0775,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+560092062,484782,,11.0800,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+560142062,484893,,11.0763,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+560192062,484978,,11.0775,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+560242062,484563,,11.0750,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+560292062,485014,,11.0763,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+560342062,484985,,11.0787,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+560392062,484958,,11.0775,0.0112,0.1300,1500,ESP_OK,ESP_OK,0
+560442062,484725,,11.0787,0.0112,0.1300,1500,ESP_OK,ESP_OK,0
+560492062,485072,,11.0775,0.0162,0.1800,1500,ESP_OK,ESP_OK,0
+560542062,484905,,11.0975,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+560592062,485162,,11.1388,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+560642062,484791,,11.1350,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+560692062,485000,,11.1388,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+560742062,484897,,11.1362,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+560792062,485040,,11.1362,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+560842062,484873,,11.1400,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+560892062,485160,,11.1000,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+560942062,484829,,11.0850,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+560992062,484962,,11.0312,0.0112,0.1300,1500,ESP_OK,ESP_OK,0
+561042062,484855,,11.0312,0.0100,0.1200,1500,ESP_OK,ESP_OK,0
+561092062,484914,,11.0325,0.0150,0.1700,1500,ESP_OK,ESP_OK,0
+561142062,484715,,11.0300,0.0112,0.1300,1500,ESP_OK,ESP_OK,0
+561192062,485124,,11.0337,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+561242062,484689,,11.0287,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+561292062,485158,,11.0287,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+561342062,484893,,11.0312,0.0150,0.1700,1500,ESP_OK,ESP_OK,0
+561392062,484822,,11.0450,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+561442062,484823,,11.1650,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+561492062,484838,,11.1637,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+561542062,484865,,11.1650,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+561592062,485018,,11.1637,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+561642062,484681,,11.1600,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+561692062,484950,,11.0287,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+561742062,484903,,11.0250,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+561792062,484588,,11.0262,0.0100,0.1200,1500,ESP_OK,ESP_OK,0
+561842062,485215,,11.0287,0.0150,0.1700,1500,ESP_OK,ESP_OK,0
+561892062,484766,,11.0262,0.0100,0.1200,1500,ESP_OK,ESP_OK,0
+561942062,485101,,11.0287,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+561992062,485122,,11.0287,0.0150,0.1700,1500,ESP_OK,ESP_OK,0
+562042062,485007,,11.0275,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+562092062,484806,,11.1438,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+562142062,485115,,11.1400,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+562192062,485040,,11.1412,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+562242062,485093,,11.1412,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+562292062,485128,,11.1412,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+562342062,484959,,11.1425,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+562392062,484850,,11.1400,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+562442062,484729,,11.0912,0.0112,0.1300,1500,ESP_OK,ESP_OK,0
+562492062,484694,,11.0825,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+562542062,485107,,11.0800,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+562592062,484710,,11.0813,0.0150,0.1700,1500,ESP_OK,ESP_OK,0
+562642062,484823,,11.0175,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+562692062,485000,,11.0188,0.0112,0.1300,1500,ESP_OK,ESP_OK,0
+562742062,484991,,11.0212,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+562792062,484812,,11.0188,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+562842062,485047,,11.0212,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+562892062,484840,,11.0212,0.0150,0.1700,1500,ESP_OK,ESP_OK,0
+562942062,484545,,11.0300,0.0112,0.1300,1500,ESP_OK,ESP_OK,0
+562992062,484798,,11.0800,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+563042062,484669,,11.0988,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+563092062,484732,,11.1388,0.0112,0.1300,1500,ESP_OK,ESP_OK,0
+563142062,484943,,11.1375,0.0100,0.1200,1500,ESP_OK,ESP_OK,0
+563192062,484766,,11.1375,0.0112,0.1300,1500,ESP_OK,ESP_OK,0
+563242062,484527,,11.1400,0.0150,0.1700,1500,ESP_OK,ESP_OK,0
+563292062,484822,,11.1388,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+563342062,484855,,11.1400,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+563392062,484838,,11.1400,0.0150,0.1700,1500,ESP_OK,ESP_OK,0
+563442062,484833,,11.0300,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+563492062,485158,,11.0325,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+563542062,484735,,11.0287,0.0100,0.1200,1500,ESP_OK,ESP_OK,0
+563592062,484780,,11.0312,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+563642062,484433,,11.0287,0.0150,0.1700,1500,ESP_OK,ESP_OK,0
+563692062,484872,,11.0287,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+563742062,484829,,11.0300,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+563792062,484656,,11.0287,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+563842062,484931,,11.0512,0.0100,0.1200,1500,ESP_OK,ESP_OK,0
+563892062,485228,,11.1100,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+563942062,484633,,11.1100,0.0112,0.1300,1500,ESP_OK,ESP_OK,0
+563992062,484968,,11.1112,0.0150,0.1700,1500,ESP_OK,ESP_OK,0
+564042062,484549,,11.1087,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+564092062,484842,,11.1112,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+564142062,484825,,11.1075,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+564192062,485070,,11.1100,0.0112,0.1300,1500,ESP_OK,ESP_OK,0
+564242062,485051,,11.1112,0.0150,0.1700,1500,ESP_OK,ESP_OK,0
+564292062,484900,,11.1075,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+564342062,485061,,11.1100,0.0150,0.1700,1500,ESP_OK,ESP_OK,0
+564392062,484764,,11.1100,0.0112,0.1300,1500,ESP_OK,ESP_OK,0
+564442062,484513,,11.1112,0.0112,0.1300,1500,ESP_OK,ESP_OK,0
+564492062,484730,,11.1112,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+564542062,484667,,11.1075,0.0100,0.1200,1500,ESP_OK,ESP_OK,0
+564592062,485136,,11.1125,0.0112,0.1300,1500,ESP_OK,ESP_OK,0
+564642062,484907,,11.0437,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+564692062,484614,,11.0437,0.0100,0.1200,1500,ESP_OK,ESP_OK,0
+564742062,484571,,11.0450,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+564792062,484618,,11.0437,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+564842062,484725,,11.0462,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+564892062,485012,,11.0450,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+564942062,484873,,11.0462,0.0112,0.1300,1500,ESP_OK,ESP_OK,0
+564992062,484890,,11.0475,0.0150,0.1700,1500,ESP_OK,ESP_OK,0
+565042062,485023,,11.0450,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+565092062,485006,,11.0475,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+565142062,484971,,11.0450,0.0100,0.1200,1500,ESP_OK,ESP_OK,0
+565192062,484786,,11.0450,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+565242062,484937,,11.1062,0.0112,0.1300,1500,ESP_OK,ESP_OK,0
+565292062,484818,,11.1037,0.0112,0.1300,1500,ESP_OK,ESP_OK,0
+565342062,484649,,11.1075,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+565392062,484706,,11.1062,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+565442062,485059,,11.1062,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+565492062,484648,,11.1075,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+565542062,485069,,11.1050,0.0100,0.1200,1500,ESP_OK,ESP_OK,0
+565592062,484774,,11.1087,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+565642062,484807,,11.1037,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+565692062,484986,,11.1050,0.0100,0.1200,1500,ESP_OK,ESP_OK,0
+565742062,484755,,11.1075,0.0150,0.1700,1500,ESP_OK,ESP_OK,0
+565792062,484794,,11.1037,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+565842062,485343,,11.1075,0.0150,0.1700,1500,ESP_OK,ESP_OK,0
+565892062,484682,,11.1050,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+565942062,485051,,11.1075,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+565992062,485056,,10.9887,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+566042062,485201,,10.9862,0.0100,0.1200,1500,ESP_OK,ESP_OK,0
+566092062,484894,,10.9875,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+566142062,485317,,10.9850,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+566192062,484856,,11.1075,0.0100,0.1200,1500,ESP_OK,ESP_OK,0
+566242062,484953,,11.1075,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+566292062,484860,,11.1075,0.0100,0.1200,1500,ESP_OK,ESP_OK,0
+566342062,485091,,11.1100,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+566392062,485092,,11.1050,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+566442062,485243,,11.1112,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+566492062,485014,,11.1075,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+566542062,484403,,11.1100,0.0112,0.1300,1500,ESP_OK,ESP_OK,0
+566592062,484632,,11.1100,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+566642062,484749,,11.1075,0.0112,0.1300,1500,ESP_OK,ESP_OK,0
+566692062,484914,,11.1087,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+566742062,485075,,11.1075,0.0112,0.1300,1500,ESP_OK,ESP_OK,0
+566792062,485098,,11.1075,0.0100,0.1200,1500,ESP_OK,ESP_OK,0
+566842062,485257,,11.1087,0.0150,0.1700,1500,ESP_OK,ESP_OK,0
+566892062,484934,,11.0962,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+566942062,485107,,10.9900,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+566992062,485302,,10.9875,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+567042062,485439,,10.9875,0.0112,0.1300,1500,ESP_OK,ESP_OK,0
+567092062,484934,,11.0188,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+567142062,484917,,11.0588,0.0075,0.0800,1500,ESP_OK,ESP_OK,0
+567192062,485166,,11.1362,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+567242062,485001,,11.1337,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+567292062,485198,,11.1362,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+567342062,485031,,11.1337,0.0162,0.1800,1500,ESP_OK,ESP_OK,0
+567392062,484854,,11.1350,0.0112,0.1300,1500,ESP_OK,ESP_OK,0
+567442062,485233,,11.1388,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+567492062,484988,,11.1362,0.0112,0.1300,1500,ESP_OK,ESP_OK,0
+567542062,485057,,11.0763,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+567592062,485022,,11.0450,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+567642062,485501,,11.0425,0.0100,0.1200,1500,ESP_OK,ESP_OK,0
+567692062,484702,,11.0450,0.0112,0.1300,1500,ESP_OK,ESP_OK,0
+567742062,485001,,11.0425,0.0112,0.1300,1500,ESP_OK,ESP_OK,0
+567792062,485044,,11.0437,0.0112,0.1300,1500,ESP_OK,ESP_OK,0
+567842062,485015,,11.0437,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+567892062,484898,,11.0425,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+567942062,484887,,11.0462,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+567992062,485242,,11.0425,0.0112,0.1300,1500,ESP_OK,ESP_OK,0
+568042062,485493,,11.0450,0.0112,0.1300,1500,ESP_OK,ESP_OK,0
+568092062,485096,,11.1037,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+568142062,485167,,11.1025,0.0162,0.1800,1500,ESP_OK,ESP_OK,0
+568192062,485234,,11.1037,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+568242062,484591,,11.1012,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+568292062,484534,,11.1037,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+568342062,484935,,11.1025,0.0150,0.1700,1500,ESP_OK,ESP_OK,0
+568392062,484908,,11.1012,0.0125,0.1400,1500,ESP_OK,ESP_OK,0
+568442062,484517,,11.1037,0.0162,0.1800,1500,ESP_OK,ESP_OK,0
+568492062,484518,,11.1037,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+568542062,484671,,11.1037,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+568592062,484428,,11.1037,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+568642062,484397,,11.1025,0.0100,0.1200,1500,ESP_OK,ESP_OK,0
+568692062,484512,,11.1037,0.0112,0.1300,1500,ESP_OK,ESP_OK,0
+568742062,484565,,11.1012,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+568792062,484722,,11.1025,0.0112,0.1300,1500,ESP_OK,ESP_OK,0
+5
+[HOST COMMAND] exit
+68842062,484747,,11.1025,0.0137,0.1500,1500,ESP_OK,ESP_OK,0
+
+Returned to neutral.
+
+Thesis DAQ - choose a number, then Enter
+1. Calibrate force sensor
+2. Print formatted timestamped sensor output
+3. Print unformatted timestamped sensor output (CSV)
+4. Perform PWM test
+5. Perform PWM test with timestamped data printing
+6. Current pin settings
+7. PWM test settings
+Type exit + Enter in any mode to stop and return here.
+> 
+[HOST COMMAND] 4
+4
+PWM test started: 1500..1700 us, step 50 us, hold 5 s. Type exit to stop.
+PWM step: 1550 us
+PWM step: 1600 us
+PWM step: 1650 us
+
+[HOST COMMAND] exit
+
+Returned to neutral.
+
+Thesis DAQ - choose a number, then Enter
+1. Calibrate force sensor
+2. Print formatted timestamped sensor output
+3. Print unformatted timestamped sensor output (CSV)
+4. Perform PWM test
+5. Perform PWM test with timestamped data printing
+6. Current pin settings
+7. PWM test settings
+Type exit + Enter in any mode to stop and return here.
+> 
+[HOST COMMAND] 5
+5
+PWM test started: 1500..1700 us, step 50 us, hold 5 s. Type exit to stop.
+Timestamp: 604492062 us, Force: 483844 counts (uncalibrated), Voltage: 11.0687 V, Current: 0.0162 A, Power: 0.1800 W, Current PWM: 1500 us
+Timestamp: 604542062 us, Force: 483543 counts (uncalibrated), Voltage: 11.0662 V, Current: 0.0100 A, Power: 0.1200 W, Current PWM: 1500 us
+Timestamp: 604592062 us, Force: 483864 counts (uncalibrated), Voltage: 11.0675 V, Current: 0.0125 A, Power: 0.1400 W, Current PWM: 1500 us
+Timestamp: 604642062 us, Force: 483305 counts (uncalibrated), Voltage: 11.0687 V, Current: 0.0137 A, Power: 0.1500 W, Current PWM: 1500 us
+Timestamp: 604692062 us, Force: 483830 counts (uncalibrated), Voltage: 11.0687 V, Current: 0.0150 A, Power: 0.1700 W, Current PWM: 1500 us
+Timestamp: 604742062 us, Force: 484041 counts (uncalibrated), Voltage: 11.0662 V, Current: 0.0125 A, Power: 0.1400 W, Current PWM: 1500 us
+Timestamp: 604792062 us, Force: 483760 counts (uncalibrated), Voltage: 11.0687 V, Current: 0.0137 A, Power: 0.1500 W, Current PWM: 1500 us
+Timestamp: 604842062 us, Force: 483607 counts (uncalibrated), Voltage: 11.0675 V, Current: 0.0137 A, Power: 0.1500 W, Current PWM: 1500 us
+Timestamp: 604892062 us, Force: 483524 counts (uncalibrated), Voltage: 11.0675 V, Current: 0.0125 A, Power: 0.1400 W, Current PWM: 1500 us
+Timestamp: 604942062 us, Force: 483611 counts (uncalibrated), Voltage: 11.0700 V, Current: 0.0150 A, Power: 0.1700 W, Current PWM: 1500 us
+Timestamp: 604992062 us, Force: 483762 counts (uncalibrated), Voltage: 11.0662 V, Current: 0.0137 A, Power: 0.1500 W, Current PWM: 1500 us
+Timestamp: 605042062 us, Force: 483923 counts (uncalibrated), Voltage: 11.0687 V, Current: 0.0125 A, Power: 0.1400 W, Current PWM: 1500 us
+Timestamp: 605092062 us, Force: 483568 counts (uncalibrated), Voltage: 11.0675 V, Current: 0.0150 A, Power: 0.1700 W, Current PWM: 1500 us
+Timestamp: 605142062 us, Force: 483835 counts (uncalibrated), Voltage: 11.0662 V, Current: 0.0125 A, Power: 0.1400 W, Current PWM: 1500 us
+Timestamp: 605192062 us, Force: 483730 counts (uncalibrated), Voltage: 11.0687 V, Current: 0.0112 A, Power: 0.1300 W, Current PWM: 1500 us
+Timestamp: 605242062 us, Force: 484049 counts (uncalibrated), Voltage: 11.0662 V, Current: 0.0150 A, Power: 0.1700 W, Current PWM: 1500 us
+Timestamp: 605292062 us, Force: 484138 counts (uncalibrated), Voltage: 11.0687 V, Current: 0.0112 A, Power: 0.1300 W, Current PWM: 1500 us
+Timestamp: 605342062 us, Force: 484087 counts (uncalibrated), Voltage: 11.0662 V, Current: 0.0125 A, Power: 0.1400 W, Current PWM: 1500 us
+Timestamp: 605392062 us, Force: 483964 counts (uncalibrated), Voltage: 11.0687 V, Current: 0.0125 A, Power: 0.1400 W, Current PWM: 1500 us
+Timestamp: 605442062 us, Force: 484009 counts (uncalibrated), Voltage: 11.0675 V, Current: 0.0162 A, Power: 0.1800 W, Current PWM: 1500 us
+Timestamp: 605492062 us, Force: 484158 counts (uncalibrated), Voltage: 11.0662 V, Current: 0.0125 A, Power: 0.1400 W, Current PWM: 1500 us
+Timestamp: 605542062 us, Force: 484099 counts (uncalibrated), Voltage: 11.0687 V, Current: 0.0112 A, Power: 0.1300 W, Current PWM: 1500 us
+Timestamp: 605592062 us, Force: 483914 counts (uncalibrated), Voltage: 11.0662 V, Current: 0.0112 A, Power: 0.1300 W, Current PWM: 1500 us
+Timestamp: 605642062 us, Force: 484053 counts (uncalibrated), Voltage: 11.0687 V, Current: 0.0137 A, Power: 0.1500 W, Current PWM: 1500 us
+Timestamp: 605692062 us, Force: 483988 counts (uncalibrated), Voltage: 11.0662 V, Current: 0.0125 A, Power: 0.1400 W, Current PWM: 1500 us
+Timestamp: 605742062 us, Force: 484017 counts (uncalibrated), Voltage: 11.0662 V, Current: 0.0112 A, Power: 0.1300 W, Current PWM: 1500 us
+Timestamp: 605792062 us, Force: 484088 counts (uncalibrated), Voltage: 11.0700 V, Current: 0.0112 A, Power: 0.1300 W, Current PWM: 1500 us
+Timestamp: 605842062 us, Force: 484009 counts (uncalibrated), Voltage: 11.0662 V, Current: 0.0125 A, Power: 0.1400 W, Current PWM: 1500 us
+Timestamp: 605892062 us, Force: 483922 counts (uncalibrated), Voltage: 11.0687 V, Current: 0.0112 A, Power: 0.1300 W, Current PWM: 1500 us
+Timestamp: 605942062 us, Force: 483695 counts (uncalibrated), Voltage: 11.0675 V, Current: 0.0125 A, Power: 0.1400 W, Current PWM: 1500 us
+Timestamp: 605992062 us, Force: 484178 counts (uncalibrated), Voltage: 11.0662 V, Current: 0.0100 A, Power: 0.1200 W, Current PWM: 1500 us
+Timestamp: 606042062 us, Force: 484195 counts (uncalibrated), Voltage: 11.0700 V, Current: 0.0125 A, Power: 0.1400 W, Current PWM: 1500 us
+Timestamp: 606092062 us, Force: 483806 counts (uncalibrated), Voltage: 11.0675 V, Current: 0.0112 A, Power: 0.1300 W, Current PWM: 1500 us
+Timestamp: 606142062 us, Force: 483879 counts (uncalibrated), Voltage: 11.0700 V, Current: 0.0125 A, Power: 0.1400 W, Current PWM: 1500 us
+Timestamp: 606192062 us, Force: 484222 counts (uncalibrated), Voltage: 11.0662 V, Current: 0.0125 A, Power: 0.1400 W, Current PWM: 1500 us
+Timestamp: 606242062 us, Force: 484147 counts (uncalibrated), Voltage: 11.0687 V, Current: 0.0137 A, Power: 0.1500 W, Current PWM: 1500 us
+Timestamp: 606292062 us, Force: 484138 counts (uncalibrated), Voltage: 11.1213 V, Current: 0.0112 A, Power: 0.1300 W, Current PWM: 1500 us
+Timestamp: 606342062 us, Force: 484145 counts (uncalibrated), Voltage: 11.1262 V, Current: 0.0125 A, Power: 0.1400 W, Current PWM: 1500 us
+Timestamp: 606392062 us, Force: 484156 counts (uncalibrated), Voltage: 11.1250 V, Current: 0.0137 A, Power: 0.1500 W, Current PWM: 1500 us
+Timestamp: 606442062 us, Force: 483625 counts (uncalibrated), Voltage: 11.1250 V, Current: 0.0100 A, Power: 0.1200 W, Current PWM: 1500 us
+Timestamp: 606492062 us, Force: 483514 counts (uncalibrated), Voltage: 11.1275 V, Current: 0.0150 A, Power: 0.1700 W, Current PWM: 1500 us
+Timestamp: 606542062 us, Force: 484093 counts (uncalibrated), Voltage: 11.1250 V, Current: 0.0112 A, Power: 0.1300 W, Current PWM: 1500 us
+Timestamp: 606592062 us, Force: 483620 counts (uncalibrated), Voltage: 11.1275 V, Current: 0.0150 A, Power: 0.1700 W, Current PWM: 1500 us
+Timestamp: 606642062 us, Force: 483597 counts (uncalibrated), Voltage: 11.1250 V, Current: 0.0137 A, Power: 0.1500 W, Current PWM: 1500 us
+Timestamp: 606692062 us, Force: 483624 counts (uncalibrated), Voltage: 11.1250 V, Current: 0.0137 A, Power: 0.1500 W, Current PWM: 1500 us
+Timestamp: 606742062 us, Force: 484065 counts (uncalibrated), Voltage: 11.1275 V, Current: 0.0125 A, Power: 0.1400 W, Current PWM: 1500 us
+Timestamp: 606792062 us, Force: 483650 counts (uncalibrated), Voltage: 11.1000 V, Current: 0.0125 A, Power: 0.1400 W, Current PWM: 1500 us
+Timestamp: 606842062 us, Force: 483733 counts (uncalibrated), Voltage: 11.0162 V, Current: 0.0162 A, Power: 0.1800 W, Current PWM: 1500 us
+Timestamp: 606892062 us, Force: 484170 counts (uncalibrated), Voltage: 11.0138 V, Current: 0.0137 A, Power: 0.1500 W, Current PWM: 1500 us
+Timestamp: 606942062 us, Force: 483787 counts (uncalibrated), Voltage: 11.0162 V, Current: 0.0137 A, Power: 0.1500 W, Current PWM: 1500 us
+Timestamp: 606992062 us, Force: 483656 counts (uncalibrated), Voltage: 11.0150 V, Current: 0.0150 A, Power: 0.1700 W, Current PWM: 1500 us
+Timestamp: 607042062 us, Force: 483955 counts (uncalibrated), Voltage: 11.0150 V, Current: 0.0137 A, Power: 0.1500 W, Current PWM: 1500 us
+Timestamp: 607092062 us, Force: 484240 counts (uncalibrated), Voltage: 11.0162 V, Current: 0.0137 A, Power: 0.1500 W, Current PWM: 1500 us
+Timestamp: 607142062 us, Force: 484027 counts (uncalibrated), Voltage: 11.1175 V, Current: 0.0137 A, Power: 0.1500 W, Current PWM: 1500 us
+Timestamp: 607192062 us, Force: 484138 counts (uncalibrated), Voltage: 11.1213 V, Current: 0.0150 A, Power: 0.1700 W, Current PWM: 1500 us
+Timestamp: 607242062 us, Force: 484003 counts (uncalibrated), Voltage: 11.1200 V, Current: 0.0125 A, Power: 0.1400 W, Current PWM: 1500 us
+Timestamp: 607292062 us, Force: 483910 counts (uncalibrated), Voltage: 11.1225 V, Current: 0.0137 A, Power: 0.1500 W, Current PWM: 1500 us
+Timestamp: 607342062 us, Force: 483995 counts (uncalibrated), Voltage: 11.1200 V, Current: 0.0137 A, Power: 0.1500 W, Current PWM: 1500 us
+Timestamp: 607392062 us, Force: 483788 counts (uncalibrated), Voltage: 11.1213 V, Current: 0.0088 A, Power: 0.1000 W, Current PWM: 1500 us
+Timestamp: 607442062 us, Force: 483991 counts (uncalibrated), Voltage: 11.1225 V, Current: 0.0150 A, Power: 0.1700 W, Current PWM: 1500 us
+Timestamp: 607492062 us, Force: 484194 counts (uncalibrated), Voltage: 11.1187 V, Current: 0.0088 A, Power: 0.1000 W, Current PWM: 1500 us
+Timestamp: 607542062 us, Force: 483487 counts (uncalibrated), Voltage: 11.1213 V, Current: 0.0125 A, Power: 0.1400 W, Current PWM: 1500 us
+Timestamp: 607592062 us, Force: 484280 counts (uncalibrated), Voltage: 11.1187 V, Current: 0.0125 A, Power: 0.1400 W, Current PWM: 1500 us
+Timestamp: 607642062 us, Force: 483727 counts (uncalibrated), Voltage: 11.1187 V, Current: 0.0125 A, Power: 0.1400 W, Current PWM: 1500 us
+Timestamp: 607692062 us, Force: 483658 counts (uncalibrated), Voltage: 11.0625 V, Current: 0.0162 A, Power: 0.1800 W, Current PWM: 1500 us
+Timestamp: 607742062 us, Force: 484109 counts (uncalibrated), Voltage: 11.0612 V, Current: 0.0125 A, Power: 0.1400 W, Current PWM: 1500 us
+Timestamp: 607792062 us, Force: 484094 counts (uncalibrated), Voltage: 11.0650 V, Current: 0.0150 A, Power: 0.1700 W, Current PWM: 1500 us
+Timestamp: 607842062 us, Force: 483829 counts (uncalibrated), Voltage: 11.0612 V, Current: 0.0137 A, Power: 0.1500 W, Current PWM: 1500 us
+Timestamp: 607892062 us, Force: 483692 counts (uncalibrated), Voltage: 11.0625 V, Current: 0.0137 A, Power: 0.1500 W, Current PWM: 1500 us
+Timestamp: 607942062 us, Force: 483245 counts (uncalibrated), Voltage: 11.0612 V, Current: 0.0137 A, Power: 0.1500 W, Current PWM: 1500 us
+Timestamp: 607992062 us, Force: 483740 counts (uncalibrated), Voltage: 11.0612 V, Current: 0.0100 A, Power: 0.1200 W, Current PWM: 1500 us
+Timestamp: 608042062 us, Force: 483621 counts (uncalibrated), Voltage: 11.0650 V, Current: 0.0162 A, Power: 0.1800 W, Current PWM: 1500 us
+Timestamp: 608092062 us, Force: 483514 counts (uncalibrated), Voltage: 11.0600 V, Current: 0.0137 A, Power: 0.1500 W, Current PWM: 1500 us
+Timestamp: 608142062 us, Force: 483439 counts (uncalibrated), Voltage: 11.0650 V, Current: 0.0112 A, Power: 0.1300 W, Current PWM: 1500 us
+Timestamp: 608192062 us, Force: 483416 counts (uncalibrated), Voltage: 11.0612 V, Current: 0.0112 A, Power: 0.1300 W, Current PWM: 1500 us
+Timestamp: 608242062 us, Force: 483123 counts (uncalibrated), Voltage: 11.0600 V, Current: 0.0125 A, Power: 0.1400 W, Current PWM: 1500 us
+Timestamp: 608292062 us, Force: 483694 counts (uncalibrated), Voltage: 11.0625 V, Current: 0.0137 A, Power: 0.1500 W, Current PWM: 1500 us
+Timestamp: 608342062 us, Force: 483297 counts (uncalibrated), Voltage: 11.0600 V, Current: 0.0112 A, Power: 0.1300 W, Current PWM: 1500 us
+Timestamp: 608392062 us, Force: 483336 counts (uncalibrated), Voltage: 11.0625 V, Current: 0.0150 A, Power: 0.1700 W, Current PWM: 1500 us
+Timestamp: 608442062 us, Force: 483503 counts (uncalibrated), Voltage: 11.0612 V, Current: 0.0125 A, Power: 0.1400 W, Current PWM: 1500 us
+Timestamp: 608492062 us, Force: 483884 counts (uncalibrated), Voltage: 11.0637 V, Current: 0.0137 A, Power: 0.1500 W, Current PWM: 1500 us
+Timestamp: 608542062 us, Force: 483453 counts (uncalibrated), Voltage: 11.0625 V, Current: 0.0125 A, Power: 0.1400 W, Current PWM: 1500 us
+Timestamp: 608592062 us, Force: 483502 counts (uncalibrated), Voltage: 11.0600 V, Current: 0.0100 A, Power: 0.1200 W, Current PWM: 1500 us
+Timestamp: 608642062 us, Force: 483567 counts (uncalibrated), Voltage: 11.0650 V, Current: 0.0150 A, Power: 0.1700 W, Current PWM: 1500 us
+Timestamp: 608692062 us, Force: 483936 counts (uncalibrated), Voltage: 11.0600 V, Current: 0.0112 A, Power: 0.1300 W, Current PWM: 1500 us
+Timestamp: 608742062 us, Force: 483301 counts (uncalibrated), Voltage: 11.0637 V, Current: 0.0137 A, Power: 0.1500 W, Current PWM: 1500 us
+Timestamp: 608792062 us, Force: 483722 counts (uncalibrated), Voltage: 11.0612 V, Current: 0.0150 A, Power: 0.1700 W, Current PWM: 1500 us
+Timestamp: 608842062 us, Force: 483859 counts (uncalibrated), Voltage: 11.0612 V, Current: 0.0137 A, Power: 0.1500 W, Current PWM: 1500 us
+Timestamp: 608892062 us, Force: 483742 counts (uncalibrated), Voltage: 11.0612 V, Current: 0.0137 A, Power: 0.1500 W, Current PWM: 1500 us
+Timestamp: 608942062 us, Force: 483713 counts (uncalibrated), Voltage: 11.0887 V, Current: 0.0125 A, Power: 0.1400 W, Current PWM: 1500 us
+Timestamp: 608992062 us, Force: 483658 counts (uncalibrated), Voltage: 11.0900 V, Current: 0.0137 A, Power: 0.1500 W, Current PWM: 1500 us
+Timestamp: 609042062 us, Force: 483549 counts (uncalibrated), Voltage: 11.0875 V, Current: 0.0125 A, Power: 0.1400 W, Current PWM: 1500 us
+Timestamp: 609092062 us, Force: 483410 counts (uncalibrated), Voltage: 11.0900 V, Current: 0.0150 A, Power: 0.1700 W, Current PWM: 1500 us
+Timestamp: 609142062 us, Force: 483317 counts (uncalibrated), Voltage: 11.0862 V, Current: 0.0137 A, Power: 0.1500 W, Current PWM: 1500 us
+Timestamp: 609192062 us, Force: 483240 counts (uncalibrated), Voltage: 11.0887 V, Current: 0.0150 A, Power: 0.1700 W, Current PWM: 1500 us
+Timestamp: 609242062 us, Force: 483353 counts (uncalibrated), Voltage: 11.0887 V, Current: 0.0162 A, Power: 0.1800 W, Current PWM: 1500 us
+Timestamp: 609292062 us, Force: 483602 counts (uncalibrated), Voltage: 11.0875 V, Current: 0.0125 A, Power: 0.1400 W, Current PWM: 1500 us
+Timestamp: 609342062 us, Force: 483289 counts (uncalibrated), Voltage: 11.0900 V, Current: 0.0125 A, Power: 0.1400 W, Current PWM: 1500 us
+Timestamp: 609392062 us, Force: 483658 counts (uncalibrated), Voltage: 11.0875 V, Current: 0.0125 A, Power: 0.1400 W, Current PWM: 1500 us
+Timestamp: 609442062 us, Force: 483533 counts (uncalibrated), Voltage: 11.0925 V, Current: 0.0137 A, Power: 0.1500 W, Current PWM: 1500 us
+Timestamp: 609492062 us, Force: 483938 counts (uncalibrated), Voltage: 11.0875 V, Current: 0.0137 A, Power: 0.1500 W, Current PWM: 1500 us
+PWM step: 1550 us
+Timestamp: 609542062 us, Force: 482997 counts (uncalibrated), Voltage: 11.0900 V, Current: 0.0150 A, Power: 0.1700 W, Current PWM: 1550 us
+Timestamp: 609592062 us, Force: 483638 counts (uncalibrated), Voltage: 11.0875 V, Current: 0.0150 A, Power: 0.1700 W, Current PWM: 1550 us
+Timestamp: 609642062 us, Force: 483651 counts (uncalibrated), Voltage: 11.0900 V, Current: 0.0112 A, Power: 0.1300 W, Current PWM: 1550 us
+Timestamp: 609692062 us, Force: 483574 counts (uncalibrated), Voltage: 11.0687 V, Current: 0.4250 A, Power: 4.7100 W, Current PWM: 1550 us
+Timestamp: 609742062 us, Force: 483871 counts (uncalibrated), Voltage: 11.0787 V, Current: 0.0887 A, Power: 0.9900 W, Current PWM: 1550 us
+Timestamp: 609792062 us, Force: 483832 counts (uncalibrated), Voltage: 11.0887 V, Current: 0.0887 A, Power: 0.9900 W, Current PWM: 1550 us
+Timestamp: 609842062 us, Force: 483579 counts (uncalibrated), Voltage: 11.0862 V, Current: 0.0675 A, Power: 0.7400 W, Current PWM: 1550 us
+Timestamp: 609892062 us, Force: 483790 counts (uncalibrated), Voltage: 11.0862 V, Current: 0.0475 A, Power: 0.5200 W, Current PWM: 1550 us
+Timestamp: 609942062 us, Force: 483449 counts (uncalibrated), Voltage: 11.0862 V, Current: 0.0812 A, Power: 0.9000 W, Current PWM: 1550 us
+Timestamp: 609992062 us, Force: 483554 counts (uncalibrated), Voltage: 11.0862 V, Current: 0.0512 A, Power: 0.5600 W, Current PWM: 1550 us
+Timestamp: 610042062 us, Force: 483429 counts (uncalibrated), Voltage: 11.0875 V, Current: 0.0575 A, Power: 0.6400 W, Current PWM: 1550 us
+Timestamp: 610092062 us, Force: 483854 counts (uncalibrated), Voltage: 11.0850 V, Current: 0.0763 A, Power: 0.8400 W, Current PWM: 1550 us
+Timestamp: 610142062 us, Force: 483523 counts (uncalibrated), Voltage: 11.0887 V, Current: 0.0725 A, Power: 0.8100 W, Current PWM: 1550 us
+Timestamp: 610192062 us, Force: 483122 counts (uncalibrated), Voltage: 11.0850 V, Current: 0.0650 A, Power: 0.7200 W, Current PWM: 1550 us
+Timestamp: 610242062 us, Force: 483809 counts (uncalibrated), Voltage: 11.0900 V, Current: 0.0887 A, Power: 0.9900 W, Current PWM: 1550 us
+Timestamp: 610292062 us, Force: 483360 counts (uncalibrated), Voltage: 11.0850 V, Current: 0.0537 A, Power: 0.6000 W, Current PWM: 1550 us
+Timestamp: 610342062 us, Force: 483803 counts (uncalibrated), Voltage: 11.0850 V, Current: 0.0525 A, Power: 0.5800 W, Current PWM: 1550 us
+Timestamp: 610392062 us, Force: 483458 counts (uncalibrated), Voltage: 11.0862 V, Current: 0.0800 A, Power: 0.8800 W, Current PWM: 1550 us
+Timestamp: 610442062 us, Force: 483743 counts (uncalibrated), Voltage: 11.0837 V, Current: 0.0487 A, Power: 0.5400 W, Current PWM: 1550 us
+Timestamp: 610492062 us, Force: 483554 counts (uncalibrated), Voltage: 11.0850 V, Current: 0.0562 A, Power: 0.6300 W, Current PWM: 1550 us
+Timestamp: 610542062 us, Force: 483955 counts (uncalibrated), Voltage: 11.0862 V, Current: 0.0912 A, Power: 1.0100 W, Current PWM: 1550 us
+Timestamp: 610592062 us, Force: 484100 counts (uncalibrated), Voltage: 11.0887 V, Current: 0.0737 A, Power: 0.8200 W, Current PWM: 1550 us
+Timestamp: 610642062 us, Force: 484121 counts (uncalibrated), Voltage: 11.0837 V, Current: 0.0487 A, Power: 0.5400 W, Current PWM: 1550 us
+Timestamp: 610692062 us, Force: 483772 counts (uncalibrated), Voltage: 11.0887 V, Current: 0.0800 A, Power: 0.8800 W, Current PWM: 1550 us
+Timestamp: 610742062 us, Force: 483991 counts (uncalibrated), Voltage: 11.0900 V, Current: 0.0750 A, Power: 0.8300 W, Current PWM: 1550 us
+Timestamp: 610792062 us, Force: 484430 counts (uncalibrated), Voltage: 11.0850 V, Current: 0.0562 A, Power: 0.6300 W, Current PWM: 1550 us
+Timestamp: 610842062 us, Force: 483843 counts (uncalibrated), Voltage: 11.0875 V, Current: 0.0800 A, Power: 0.8800 W, Current PWM: 1550 us
+Timestamp: 610892062 us, Force: 484300 counts (uncalibrated), Voltage: 11.0862 V, Current: 0.0612 A, Power: 0.6800 W, Current PWM: 1550 us
+Timestamp: 610942062 us, Force: 484293 counts (uncalibrated), Voltage: 11.0300 V, Current: 0.0500 A, Power: 0.5500 W, Current PWM: 1550 us
+Timestamp: 610992062 us, Force: 484490 counts (uncalibrated), Voltage: 11.0237 V, Current: 0.0512 A, Power: 0.5600 W, Current PWM: 1550 us
+Timestamp: 611042062 us, Force: 484335 counts (uncalibrated), Voltage: 11.0312 V, Current: 0.0837 A, Power: 0.9200 W, Current PWM: 1550 us
+Timestamp: 611092062 us, Force: 484120 counts (uncalibrated), Voltage: 11.0287 V, Current: 0.0837 A, Power: 0.9200 W, Current PWM: 1550 us
+Timestamp: 611142062 us, Force: 484245 counts (uncalibrated), Voltage: 11.0275 V, Current: 0.0512 A, Power: 0.5600 W, Current PWM: 1550 us
+Timestamp: 611192062 us, Force: 483932 counts (uncalibrated), Voltage: 11.0250 V, Current: 0.0450 A, Power: 0.5000 W, Current PWM: 1550 us
+Timestamp: 611242062 us, Force: 484035 counts (uncalibrated), Voltage: 11.0275 V, Current: 0.0750 A, Power: 0.8300 W, Current PWM: 1550 us
+Timestamp: 611292062 us, Force: 484088 counts (uncalibrated), Voltage: 11.0312 V, Current: 0.1013 A, Power: 1.1100 W, Current PWM: 1550 us
+Timestamp: 611342062 us, Force: 483967 counts (uncalibrated), Voltage: 11.1150 V, Current: 0.0700 A, Power: 0.7800 W, Current PWM: 1550 us
+Timestamp: 611392062 us, Force: 484006 counts (uncalibrated), Voltage: 11.1163 V, Current: 0.0487 A, Power: 0.5400 W, Current PWM: 1550 us
+Timestamp: 611442062 us, Force: 483989 counts (uncalibrated), Voltage: 11.1163 V, Current: 0.0650 A, Power: 0.7200 W, Current PWM: 1550 us
+Timestamp: 611492062 us, Force: 483716 counts (uncalibrated), Voltage: 11.1175 V, Current: 0.0675 A, Power: 0.7600 W, Current PWM: 1550 us
+Timestamp: 611542062 us, Force: 483779 counts (uncalibrated), Voltage: 11.1137 V, Current: 0.0525 A, Power: 0.5900 W, Current PWM: 1550 us
+Timestamp: 611592062 us, Force: 483814 counts (uncalibrated), Voltage: 11.1175 V, Current: 0.0850 A, Power: 0.9500 W, Current PWM: 1550 us
+Timestamp: 611642062 us, Force: 483695 counts (uncalibrated), Voltage: 11.1175 V, Current: 0.0637 A, Power: 0.7000 W, Current PWM: 1550 us
+Timestamp: 611692062 us, Force: 483862 counts (uncalibrated), Voltage: 11.1150 V, Current: 0.0712 A, Power: 0.7900 W, Current PWM: 1550 us
+Timestamp: 611742062 us, Force: 483947 counts (uncalibrated), Voltage: 11.1200 V, Current: 0.0800 A, Power: 0.9000 W, Current PWM: 1550 us
+Timestamp: 611792062 us, Force: 483816 counts (uncalibrated), Voltage: 11.1137 V, Current: 0.0437 A, Power: 0.4900 W, Current PWM: 1550 us
+Timestamp: 611842062 us, Force: 484231 counts (uncalibrated), Voltage: 11.1163 V, Current: 0.0887 A, Power: 0.9900 W, Current PWM: 1550 us
+Timestamp: 611892062 us, Force: 483748 counts (uncalibrated), Voltage: 11.1163 V, Current: 0.0763 A, Power: 0.8400 W, Current PWM: 1550 us
+Timestamp: 611942062 us, Force: 483977 counts (uncalibrated), Voltage: 11.0562 V, Current: 0.0550 A, Power: 0.6100 W, Current PWM: 1550 us
+Timestamp: 611992062 us, Force: 483400 counts (uncalibrated), Voltage: 11.0600 V, Current: 0.0787 A, Power: 0.8700 W, Current PWM: 1550 us
+Timestamp: 612042062 us, Force: 483611 counts (uncalibrated), Voltage: 11.0562 V, Current: 0.0625 A, Power: 0.6900 W, Current PWM: 1550 us
+Timestamp: 612092062 us, Force: 483788 counts (uncalibrated), Voltage: 11.0575 V, Current: 0.0650 A, Power: 0.7200 W, Current PWM: 1550 us
+Timestamp: 612142062 us, Force: 483709 counts (uncalibrated), Voltage: 11.0550 V, Current: 0.0712 A, Power: 0.7900 W, Current PWM: 1550 us
+Timestamp: 612192062 us, Force: 483858 counts (uncalibrated), Voltage: 11.0612 V, Current: 0.0912 A, Power: 1.0100 W, Current PWM: 1550 us
+Timestamp: 612242062 us, Force: 483925 counts (uncalibrated), Voltage: 11.0575 V, Current: 0.0587 A, Power: 0.6500 W, Current PWM: 1550 us
+Timestamp: 612292062 us, Force: 484102 counts (uncalibrated), Voltage: 11.0575 V, Current: 0.0475 A, Power: 0.5200 W, Current PWM: 1550 us
+Timestamp: 612342062 us, Force: 483329 counts (uncalibrated), Voltage: 11.0575 V, Current: 0.0575 A, Power: 0.6400 W, Current PWM: 1550 us
+Timestamp: 612392062 us, Force: 483760 counts (uncalibrated), Voltage: 11.0588 V, Current: 0.0850 A, Power: 0.9300 W, Current PWM: 1550 us
+Timestamp: 612442062 us, Force: 483657 counts (uncalibrated), Voltage: 11.0625 V, Current: 0.0700 A, Power: 0.7700 W, Current PWM: 1550 us
+Timestamp: 612492062 us, Force: 483502 counts (uncalibrated), Voltage: 11.0550 V, Current: 0.0425 A, Power: 0.4700 W, Current PWM: 1550 us
+Timestamp: 612542062 us, Force: 483405 counts (uncalibrated), Voltage: 11.0588 V, Current: 0.0575 A, Power: 0.6400 W, Current PWM: 1550 us
+Timestamp: 612592062 us, Force: 483672 counts (uncalibrated), Voltage: 11.0550 V, Current: 0.0800 A, Power: 0.8800 W, Current PWM: 1550 us
+Timestamp: 612642062 us, Force: 483651 counts (uncalibrated), Voltage: 11.0588 V, Current: 0.0900 A, Power: 1.0000 W, Current PWM: 1550 us
+Timestamp: 612692062 us, Force: 483358 counts (uncalibrated), Voltage: 11.0588 V, Current: 0.0688 A, Power: 0.7600 W, Current PWM: 1550 us
+Timestamp: 612742062 us, Force: 484055 counts (uncalibrated), Voltage: 11.0550 V, Current: 0.0475 A, Power: 0.5200 W, Current PWM: 1550 us
+Timestamp: 612792062 us, Force: 483254 counts (uncalibrated), Voltage: 11.0575 V, Current: 0.0575 A, Power: 0.6400 W, Current PWM: 1550 us
+Timestamp: 612842062 us, Force: 483097 counts (uncalibrated), Voltage: 11.0588 V, Current: 0.0800 A, Power: 0.8800 W, Current PWM: 1550 us
+Timestamp: 612892062 us, Force: 483650 counts (uncalibrated), Voltage: 11.0600 V, Current: 0.0675 A, Power: 0.7400 W, Current PWM: 1550 us
+Timestamp: 612942062 us, Force: 483653 counts (uncalibrated), Voltage: 11.0637 V, Current: 0.0450 A, Power: 0.5000 W, Current PWM: 1550 us
+Timestamp: 612992062 us, Force: 483476 counts (uncalibrated), Voltage: 11.0988 V, Current: 0.0900 A, Power: 1.0000 W, Current PWM: 1550 us
+Timestamp: 613042062 us, Force: 483515 counts (uncalibrated), Voltage: 11.1287 V, Current: 0.0862 A, Power: 0.9600 W, Current PWM: 1550 us
+Timestamp: 613092062 us, Force: 483590 counts (uncalibrated), Voltage: 11.1225 V, Current: 0.0500 A, Power: 0.5500 W, Current PWM: 1550 us
+Timestamp: 613142062 us, Force: 483661 counts (uncalibrated), Voltage: 11.1275 V, Current: 0.0812 A, Power: 0.9100 W, Current PWM: 1550 us
+Timestamp: 613192062 us, Force: 483848 counts (uncalibrated), Voltage: 11.1237 V, Current: 0.0512 A, Power: 0.5800 W, Current PWM: 1550 us
+Timestamp: 613242062 us, Force: 483603 counts (uncalibrated), Voltage: 11.1262 V, Current: 0.0725 A, Power: 0.8100 W, Current PWM: 1550 us
+Timestamp: 613292062 us, Force: 483396 counts (uncalibrated), Voltage: 11.1262 V, Current: 0.0737 A, Power: 0.8200 W, Current PWM: 1550 us
+Timestamp: 613342062 us, Force: 483577 counts (uncalibrated), Voltage: 11.1262 V, Current: 0.0475 A, Power: 0.5200 W, Current PWM: 1550 us
+Timestamp: 613392062 us, Force: 483422 counts (uncalibrated), Voltage: 11.1237 V, Current: 0.0787 A, Power: 0.8700 W, Current PWM: 1550 us
+Timestamp: 613442062 us, Force: 483801 counts (uncalibrated), Voltage: 11.1225 V, Current: 0.0575 A, Power: 0.6400 W, Current PWM: 1550 us
+Timestamp: 613492062 us, Force: 483040 counts (uncalibrated), Voltage: 11.1137 V, Current: 0.0662 A, Power: 0.7400 W, Current PWM: 1550 us
+Timestamp: 613542062 us, Force: 483823 counts (uncalibrated), Voltage: 11.0637 V, Current: 0.0625 A, Power: 0.6900 W, Current PWM: 1550 us
+Timestamp: 613592062 us, Force: 483244 counts (uncalibrated), Voltage: 11.0487 V, Current: 0.0587 A, Power: 0.6500 W, Current PWM: 1550 us
+Timestamp: 613642062 us, Force: 483633 counts (uncalibrated), Voltage: 11.0462 V, Current: 0.0587 A, Power: 0.6500 W, Current PWM: 1550 us
+Timestamp: 613692062 us, Force: 483532 counts (uncalibrated), Voltage: 11.0487 V, Current: 0.0850 A, Power: 0.9300 W, Current PWM: 1550 us
+Timestamp: 613742062 us, Force: 483679 counts (uncalibrated), Voltage: 11.0487 V, Current: 0.0775 A, Power: 0.8600 W, Current PWM: 1550 us
+Timestamp: 613792062 us, Force: 483712 counts (uncalibrated), Voltage: 11.0475 V, Current: 0.0512 A, Power: 0.5600 W, Current PWM: 1550 us
+Timestamp: 613842062 us, Force: 483407 counts (uncalibrated), Voltage: 11.0462 V, Current: 0.0487 A, Power: 0.5400 W, Current PWM: 1550 us
+Timestamp: 613892062 us, Force: 483508 counts (uncalibrated), Voltage: 11.0487 V, Current: 0.0887 A, Power: 0.9900 W, Current PWM: 1550 us
+Timestamp: 613942062 us, Force: 483341 counts (uncalibrated), Voltage: 11.0500 V, Current: 0.0950 A, Power: 1.0500 W, Current PWM: 1550 us
+Timestamp: 613992062 us, Force: 483432 counts (uncalibrated), Voltage: 11.0462 V, Current: 0.0487 A, Power: 0.5400 W, Current PWM: 1550 us
+Timestamp: 614042062 us, Force: 483621 counts (uncalibrated), Voltage: 11.0487 V, Current: 0.0512 A, Power: 0.5600 W, Current PWM: 1550 us
+Timestamp: 614092062 us, Force: 483426 counts (uncalibrated), Voltage: 11.0462 V, Current: 0.0688 A, Power: 0.7600 W, Current PWM: 1550 us
+Timestamp: 614142062 us, Force: 483777 counts (uncalibrated), Voltage: 11.0512 V, Current: 0.0812 A, Power: 0.9000 W, Current PWM: 1550 us
+Timestamp: 614192062 us, Force: 483542 counts (uncalibrated), Voltage: 11.0462 V, Current: 0.0550 A, Power: 0.6000 W, Current PWM: 1550 us
+Timestamp: 614242062 us, Force: 483511 counts (uncalibrated), Voltage: 11.0850 V, Current: 0.0625 A, Power: 0.6900 W, Current PWM: 1550 us
+Timestamp: 614292062 us, Force: 483418 counts (uncalibrated), Voltage: 11.0837 V, Current: 0.0850 A, Power: 0.9500 W, Current PWM: 1550 us
+Timestamp: 614342062 us, Force: 483757 counts (uncalibrated), Voltage: 11.1025 V, Current: 0.0675 A, Power: 0.7600 W, Current PWM: 1550 us
+Timestamp: 614392062 us, Force: 483636 counts (uncalibrated), Voltage: 11.1012 V, Current: 0.0525 A, Power: 0.5900 W, Current PWM: 1550 us
+Timestamp: 614442062 us, Force: 483593 counts (uncalibrated), Voltage: 11.1025 V, Current: 0.0763 A, Power: 0.8400 W, Current PWM: 1550 us
+Timestamp: 614492062 us, Force: 483504 counts (uncalibrated), Voltage: 11.1050 V, Current: 0.0675 A, Power: 0.7600 W, Current PWM: 1550 us
+PWM step: 1600 us
+Timestamp: 614542062 us, Force: 483621 counts (uncalibrated), Voltage: 11.0988 V, Current: 0.0525 A, Power: 0.5900 W, Current PWM: 1600 us
+Timestamp: 614592062 us, Force: 483588 counts (uncalibrated), Voltage: 10.2750 V, Current: 0.3275 A, Power: 3.3700 W, Current PWM: 1600 us
+Timestamp: 614642062 us, Force: 483187 counts (uncalibrated), Voltage: 11.2650 V, Current: 0.2425 A, Power: 2.7300 W, Current PWM: 1600 us
+Timestamp: 614692062 us, Force: 483624 counts (uncalibrated), Voltage: 11.2688 V, Current: 0.1825 A, Power: 2.0600 W, Current PWM: 1600 us
+Timestamp: 614742062 us, Force: 483411 counts (uncalibrated), Voltage: 11.2675 V, Current: 0.1475 A, Power: 1.6600 W, Current PWM: 1600 us
+Timestamp: 614792062 us, Force: 483502 counts (uncalibrated), Voltage: 11.2662 V, Current: 0.1262 A, Power: 1.4200 W, Current PWM: 1600 us
+Timestamp: 614842062 us, Force: 483307 counts (uncalibrated), Voltage: 11.2675 V, Current: 0.1612 A, Power: 1.8200 W, Current PWM: 1600 us
+Timestamp: 614892062 us, Force: 484104 counts (uncalibrated), Voltage: 11.1562 V, Current: 0.1375 A, Power: 1.5400 W, Current PWM: 1600 us
+Timestamp: 614942062 us, Force: 483529 counts (uncalibrated), Voltage: 11.0662 V, Current: 0.1200 A, Power: 1.3300 W, Current PWM: 1600 us
+Timestamp: 614992062 us, Force: 483752 counts (uncalibrated), Voltage: 11.0600 V, Current: 0.1125 A, Power: 1.2400 W, Current PWM: 1600 us
+Timestamp: 615042062 us, Force: 483397 counts (uncalibrated), Voltage: 11.0650 V, Current: 0.1375 A, Power: 1.5200 W, Current PWM: 1600 us
+Timestamp: 615092062 us, Force: 483508 counts (uncalibrated), Voltage: 11.0600 V, Current: 0.1500 A, Power: 1.6600 W, Current PWM: 1600 us
+Timestamp: 615142062 us, Force: 483393 counts (uncalibrated), Voltage: 11.0650 V, Current: 0.1412 A, Power: 1.5600 W, Current PWM: 1600 us
+Timestamp: 615192062 us, Force: 483396 counts (uncalibrated), Voltage: 11.0625 V, Current: 0.1775 A, Power: 1.9600 W, Current PWM: 1600 us
+Timestamp: 615242062 us, Force: 483401 counts (uncalibrated), Voltage: 11.0662 V, Current: 0.1450 A, Power: 1.6000 W, Current PWM: 1600 us
+Timestamp: 615292062 us, Force: 483568 counts (uncalibrated), Voltage: 11.0625 V, Current: 0.1450 A, Power: 1.6000 W, Current PWM: 1600 us
+Timestamp: 615342062 us, Force: 483813 counts (uncalibrated), Voltage: 11.0650 V, Current: 0.1425 A, Power: 1.5700 W, Current PWM: 1600 us
+Timestamp: 615392062 us, Force: 483538 counts (uncalibrated), Voltage: 11.0650 V, Current: 0.1350 A, Power: 1.5000 W, Current PWM: 1600 us
+Timestamp: 615442062 us, Force: 483589 counts (uncalibrated), Voltage: 11.0637 V, Current: 0.1312 A, Power: 1.4500 W, Current PWM: 1600 us
+Timestamp: 615492062 us, Force: 483604 counts (uncalibrated), Voltage: 11.0650 V, Current: 0.1375 A, Power: 1.5200 W, Current PWM: 1600 us
+Timestamp: 615542062 us, Force: 483241 counts (uncalibrated), Voltage: 11.0612 V, Current: 0.1187 A, Power: 1.3200 W, Current PWM: 1600 us
+Timestamp: 615592062 us, Force: 483430 counts (uncalibrated), Voltage: 11.0637 V, Current: 0.1187 A, Power: 1.3200 W, Current PWM: 1600 us
+Timestamp: 615642062 us, Force: 483669 counts (uncalibrated), Voltage: 11.0625 V, Current: 0.1287 A, Power: 1.4200 W, Current PWM: 1600 us
+Timestamp: 615692062 us, Force: 483682 counts (uncalibrated), Voltage: 11.0637 V, Current: 0.1325 A, Power: 1.4700 W, Current PWM: 1600 us
+Timestamp: 615742062 us, Force: 483529 counts (uncalibrated), Voltage: 11.0650 V, Current: 0.1600 A, Power: 1.7700 W, Current PWM: 1600 us
+Timestamp: 615792062 us, Force: 483192 counts (uncalibrated), Voltage: 11.0612 V, Current: 0.1562 A, Power: 1.7300 W, Current PWM: 1600 us
+Timestamp: 615842062 us, Force: 483683 counts (uncalibrated), Voltage: 11.0637 V, Current: 0.1587 A, Power: 1.7500 W, Current PWM: 1600 us
+Timestamp: 615892062 us, Force: 484156 counts (uncalibrated), Voltage: 11.0612 V, Current: 0.1437 A, Power: 1.5900 W, Current PWM: 1600 us
+Timestamp: 615942062 us, Force: 483569 counts (uncalibrated), Voltage: 11.0662 V, Current: 0.1713 A, Power: 1.8900 W, Current PWM: 1600 us
+Timestamp: 615992062 us, Force: 483356 counts (uncalibrated), Voltage: 11.0637 V, Current: 0.1550 A, Power: 1.7200 W, Current PWM: 1600 us
+Timestamp: 616042062 us, Force: 483857 counts (uncalibrated), Voltage: 11.0675 V, Current: 0.1388 A, Power: 1.5400 W, Current PWM: 1600 us
+Timestamp: 616092062 us, Force: 483396 counts (uncalibrated), Voltage: 11.0637 V, Current: 0.1200 A, Power: 1.3300 W, Current PWM: 1600 us
+Timestamp: 616142062 us, Force: 483761 counts (uncalibrated), Voltage: 11.0637 V, Current: 0.1137 A, Power: 1.2500 W, Current PWM: 1600 us
+Timestamp: 616192062 us, Force: 483438 counts (uncalibrated), Voltage: 11.0612 V, Current: 0.1075 A, Power: 1.1900 W, Current PWM: 1600 us
+Timestamp: 616242062 us, Force: 483583 counts (uncalibrated), Voltage: 11.0600 V, Current: 0.1287 A, Power: 1.4200 W, Current PWM: 1600 us
+Timestamp: 616292062 us, Force: 483454 counts (uncalibrated), Voltage: 11.0625 V, Current: 0.1388 A, Power: 1.5400 W, Current PWM: 1600 us
+Timestamp: 616342062 us, Force: 483623 counts (uncalibrated), Voltage: 11.0612 V, Current: 0.1363 A, Power: 1.5100 W, Current PWM: 1600 us
+Timestamp: 616392062 us, Force: 483734 counts (uncalibrated), Voltage: 11.0637 V, Current: 0.1750 A, Power: 1.9300 W, Current PWM: 1600 us
+Timestamp: 616442062 us, Force: 483667 counts (uncalibrated), Voltage: 11.0637 V, Current: 0.1675 A, Power: 1.8600 W, Current PWM: 1600 us
+Timestamp: 616492062 us, Force: 483700 counts (uncalibrated), Voltage: 11.0650 V, Current: 0.1575 A, Power: 1.7400 W, Current PWM: 1600 us
+Timestamp: 616542062 us, Force: 483629 counts (uncalibrated), Voltage: 11.0650 V, Current: 0.1713 A, Power: 1.8900 W, Current PWM: 1600 us
+Timestamp: 616592062 us, Force: 483788 counts (uncalibrated), Voltage: 11.0637 V, Current: 0.1462 A, Power: 1.6100 W, Current PWM: 1600 us
+Timestamp: 616642062 us, Force: 483903 counts (uncalibrated), Voltage: 11.0662 V, Current: 0.1187 A, Power: 1.3200 W, Current PWM: 1600 us
+Timestamp: 616692062 us, Force: 483908 counts (uncalibrated), Voltage: 11.0600 V, Current: 0.1112 A, Power: 1.2300 W, Current PWM: 1600 us
+Timestamp: 616742062 us, Force: 483187 counts (uncalibrated), Voltage: 11.0625 V, Current: 0.1150 A, Power: 1.2700 W, Current PWM: 1600 us
+Timestamp: 616792062 us, Force: 483610 counts (uncalibrated), Voltage: 11.0625 V, Current: 0.1250 A, Power: 1.3800 W, Current PWM: 1600 us
+Timestamp: 616842062 us, Force: 483197 counts (uncalibrated), Voltage: 11.1462 V, Current: 0.1212 A, Power: 1.3600 W, Current PWM: 1600 us
+Timestamp: 616892062 us, Force: 482980 counts (uncalibrated), Voltage: 11.1487 V, Current: 0.1425 A, Power: 1.5900 W, Current PWM: 1600 us
+Timestamp: 616942062 us, Force: 483155 counts (uncalibrated), Voltage: 11.1487 V, Current: 0.1575 A, Power: 1.7500 W, Current PWM: 1600 us
+Timestamp: 616992062 us, Force: 483422 counts (uncalibrated), Voltage: 11.1525 V, Current: 0.1462 A, Power: 1.6300 W, Current PWM: 1600 us
+Timestamp: 617042062 us, Force: 483827 counts (uncalibrated), Voltage: 11.1475 V, Current: 0.1200 A, Power: 1.3400 W, Current PWM: 1600 us
+Timestamp: 617092062 us, Force: 483828 counts (uncalibrated), Voltage: 11.0900 V, Current: 0.0962 A, Power: 1.0600 W, Current PWM: 1600 us
+Timestamp: 617142062 us, Force: 483627 counts (uncalibrated), Voltage: 11.0287 V, Current: 0.1100 A, Power: 1.2200 W, Current PWM: 1600 us
+Timestamp: 617192062 us, Force: 483716 counts (uncalibrated), Voltage: 11.0337 V, Current: 0.1375 A, Power: 1.5200 W, Current PWM: 1600 us
+Timestamp: 617242062 us, Force: 483517 counts (uncalibrated), Voltage: 11.0300 V, Current: 0.1437 A, Power: 1.5900 W, Current PWM: 1600 us
+Timestamp: 617292062 us, Force: 483554 counts (uncalibrated), Voltage: 11.0325 V, Current: 0.1487 A, Power: 1.6400 W, Current PWM: 1600 us
+Timestamp: 617342062 us, Force: 483877 counts (uncalibrated), Voltage: 11.0325 V, Current: 0.1650 A, Power: 1.8200 W, Current PWM: 1600 us
+Timestamp: 617392062 us, Force: 483572 counts (uncalibrated), Voltage: 11.0325 V, Current: 0.1725 A, Power: 1.9100 W, Current PWM: 1600 us
+Timestamp: 617442062 us, Force: 483379 counts (uncalibrated), Voltage: 11.0350 V, Current: 0.1462 A, Power: 1.6100 W, Current PWM: 1600 us
+Timestamp: 617492062 us, Force: 483418 counts (uncalibrated), Voltage: 11.0300 V, Current: 0.1575 A, Power: 1.7400 W, Current PWM: 1600 us
+Timestamp: 617542062 us, Force: 483365 counts (uncalibrated), Voltage: 11.0350 V, Current: 0.1475 A, Power: 1.6300 W, Current PWM: 1600 us
+Timestamp: 617592062 us, Force: 483954 counts (uncalibrated), Voltage: 11.1200 V, Current: 0.1850 A, Power: 2.0600 W, Current PWM: 1600 us
+Timestamp: 617642062 us, Force: 483655 counts (uncalibrated), Voltage: 11.1237 V, Current: 0.1550 A, Power: 1.7300 W, Current PWM: 1600 us
+Timestamp: 617692062 us, Force: 483594 counts (uncalibrated), Voltage: 11.1225 V, Current: 0.1400 A, Power: 1.5600 W, Current PWM: 1600 us
+Timestamp: 617742062 us, Force: 483601 counts (uncalibrated), Voltage: 11.1187 V, Current: 0.1275 A, Power: 1.4200 W, Current PWM: 1600 us
+Timestamp: 617792062 us, Force: 483388 counts (uncalibrated), Voltage: 11.1200 V, Current: 0.1437 A, Power: 1.6000 W, Current PWM: 1600 us
+Timestamp: 617842062 us, Force: 483613 counts (uncalibrated), Voltage: 11.1175 V, Current: 0.1612 A, Power: 1.7900 W, Current PWM: 1600 us
+Timestamp: 617892062 us, Force: 483714 counts (uncalibrated), Voltage: 11.1225 V, Current: 0.1538 A, Power: 1.7200 W, Current PWM: 1600 us
+Timestamp: 617942062 us, Force: 483775 counts (uncalibrated), Voltage: 11.1200 V, Current: 0.1787 A, Power: 1.9800 W, Current PWM: 1600 us
+Timestamp: 617992062 us, Force: 483036 counts (uncalibrated), Voltage: 11.1250 V, Current: 0.1500 A, Power: 1.6600 W, Current PWM: 1600 us
+Timestamp: 618042062 us, Force: 483493 counts (uncalibrated), Voltage: 11.1200 V, Current: 0.1363 A, Power: 1.5100 W, Current PWM: 1600 us
+Timestamp: 618092062 us, Force: 483786 counts (uncalibrated), Voltage: 11.0012 V, Current: 0.1237 A, Power: 1.3600 W, Current PWM: 1600 us
+Timestamp: 618142062 us, Force: 484073 counts (uncalibrated), Voltage: 11.0012 V, Current: 0.1275 A, Power: 1.4100 W, Current PWM: 1600 us
+Timestamp: 618192062 us, Force: 483864 counts (uncalibrated), Voltage: 11.0012 V, Current: 0.0987 A, Power: 1.0900 W, Current PWM: 1600 us
+Timestamp: 618242062 us, Force: 483495 counts (uncalibrated), Voltage: 11.0000 V, Current: 0.1112 A, Power: 1.2300 W, Current PWM: 1600 us
+Timestamp: 618292062 us, Force: 483688 counts (uncalibrated), Voltage: 11.0000 V, Current: 0.1200 A, Power: 1.3200 W, Current PWM: 1600 us
+Timestamp: 618342062 us, Force: 483173 counts (uncalibrated), Voltage: 11.0562 V, Current: 0.1412 A, Power: 1.5600 W, Current PWM: 1600 us
+Timestamp: 618392062 us, Force: 483036 counts (uncalibrated), Voltage: 11.1175 V, Current: 0.1175 A, Power: 1.3100 W, Current PWM: 1600 us
+Timestamp: 618442062 us, Force: 483517 counts (uncalibrated), Voltage: 11.1200 V, Current: 0.1425 A, Power: 1.5900 W, Current PWM: 1600 us
+Timestamp: 618492062 us, Force: 483606 counts (uncalibrated), Voltage: 11.1187 V, Current: 0.1787 A, Power: 1.9800 W, Current PWM: 1600 us
+Timestamp: 618542062 us, Force: 483181 counts (uncalibrated), Voltage: 11.1225 V, Current: 0.1688 A, Power: 1.8800 W, Current PWM: 1600 us
+Timestamp: 618592062 us, Force: 483642 counts (uncalibrated), Voltage: 11.1200 V, Current: 0.1525 A, Power: 1.6900 W, Current PWM: 1600 us
+Timestamp: 618642062 us, Force: 483505 counts (uncalibrated), Voltage: 11.1225 V, Current: 0.1187 A, Power: 1.3200 W, Current PWM: 1600 us
+Timestamp: 618692062 us, Force: 484058 counts (uncalibrated), Voltage: 11.1187 V, Current: 0.1287 A, Power: 1.4300 W, Current PWM: 1600 us
+Timestamp: 618742062 us, Force: 483489 counts (uncalibrated), Voltage: 11.1175 V, Current: 0.1250 A, Power: 1.4000 W, Current PWM: 1600 us
+Timestamp: 618792062 us, Force: 483448 counts (uncalibrated), Voltage: 11.1213 V, Current: 0.1538 A, Power: 1.7200 W, Current PWM: 1600 us
+Timestamp: 618842062 us, Force: 483923 counts (uncalibrated), Voltage: 11.1125 V, Current: 0.1713 A, Power: 1.9100 W, Current PWM: 1600 us
+Timestamp: 618892062 us, Force: 483858 counts (uncalibrated), Voltage: 11.0550 V, Current: 0.1562 A, Power: 1.7300 W, Current PWM: 1600 us
+Timestamp: 618942062 us, Force: 483511 counts (uncalibrated), Voltage: 11.0525 V, Current: 0.1400 A, Power: 1.5500 W, Current PWM: 1600 us
+Timestamp: 618992062 us, Force: 483530 counts (uncalibrated), Voltage: 11.0538 V, Current: 0.1462 A, Power: 1.6100 W, Current PWM: 1600 us
+Timestamp: 619042062 us, Force: 483377 counts (uncalibrated), Voltage: 11.0500 V, Current: 0.1137 A, Power: 1.2500 W, Current PWM: 1600 us
+Timestamp: 619092062 us, Force: 483560 counts (uncalibrated), Voltage: 11.0525 V, Current: 0.1163 A, Power: 1.2800 W, Current PWM: 1600 us
+Timestamp: 619142062 us, Force: 483431 counts (uncalibrated), Voltage: 11.0512 V, Current: 0.1125 A, Power: 1.2400 W, Current PWM: 1600 us
+Timestamp: 619192062 us, Force: 483798 counts (uncalibrated), Voltage: 11.0512 V, Current: 0.1225 A, Power: 1.3600 W, Current PWM: 1600 us
+Timestamp: 619242062 us, Force: 484065 counts (uncalibrated), Voltage: 11.0512 V, Current: 0.1237 A, Power: 1.3700 W, Current PWM: 1600 us
+Timestamp: 619292062 us, Force: 484002 counts (uncalibrated), Voltage: 11.0512 V, Current: 0.1212 A, Power: 1.3400 W, Current PWM: 1600 us
+Timestamp: 619342062 us, Force: 483855 counts (uncalibrated), Voltage: 11.0538 V, Current: 0.1325 A, Power: 1.4600 W, Current PWM: 1600 us
+Timestamp: 619392062 us, Force: 483654 counts (uncalibrated), Voltage: 11.0500 V, Current: 0.1512 A, Power: 1.6800 W, Current PWM: 1600 us
+Timestamp: 619442062 us, Force: 483779 counts (uncalibrated), Voltage: 11.0512 V, Current: 0.1412 A, Power: 1.5600 W, Current PWM: 1600 us
+Timestamp: 619492062 us, Force: 483532 counts (uncalibrated), Voltage: 11.0487 V, Current: 0.1650 A, Power: 1.8200 W, Current PWM: 1600 us
+PWM step: 1650 us
+Timestamp: 619542062 us, Force: 483629 counts (uncalibrated), Voltage: 11.0538 V, Current: 0.1750 A, Power: 1.9300 W, Current PWM: 1650 us
+Timestamp: 619592062 us, Force: 483932 counts (uncalibrated), Voltage: 9.8438 V, Current: 0.4550 A, Power: 4.4800 W, Current PWM: 1650 us
+Timestamp: 619642062 us, Force: 483987 counts (uncalibrated), Voltage: 10.8850 V, Current: 0.4237 A, Power: 4.6100 W, Current PWM: 1650 us
+Timestamp: 619692062 us, Force: 483366 counts (uncalibrated), Voltage: 11.1725 V, Current: 0.3500 A, Power: 3.9000 W, Current PWM: 1650 us
+Timestamp: 619742062 us, Force: 483991 counts (uncalibrated), Voltage: 11.1762 V, Current: 0.2600 A, Power: 2.9100 W, Current PWM: 1650 us
+Timestamp: 619792062 us, Force: 483726 counts (uncalibrated), Voltage: 11.1825 V, Current: 0.3037 A, Power: 3.3900 W, Current PWM: 1650 us
+Timestamp: 619842062 us, Force: 483601 counts (uncalibrated), Voltage: 11.1862 V, Current: 0.2562 A, Power: 2.8700 W, Current PWM: 1650 us
+Timestamp: 619892062 us, Force: 483854 counts (uncalibrated), Voltage: 11.1862 V, Current: 0.2788 A, Power: 3.1200 W, Current PWM: 1650 us
+Timestamp: 619942062 us, Force: 483997 counts (uncalibrated), Voltage: 11.1312 V, Current: 0.2050 A, Power: 2.2800 W, Current PWM: 1650 us
+Timestamp: 619992062 us, Force: 483532 counts (uncalibrated), Voltage: 11.0625 V, Current: 0.1750 A, Power: 1.9300 W, Current PWM: 1650 us
+Timestamp: 620042062 us, Force: 483257 counts (uncalibrated), Voltage: 11.0612 V, Current: 0.2188 A, Power: 2.4200 W, Current PWM: 1650 us
+Timestamp: 620092062 us, Force: 483228 counts (uncalibrated), Voltage: 11.0637 V, Current: 0.2488 A, Power: 2.7500 W, Current PWM: 1650 us
+Timestamp: 620142062 us, Force: 483547 counts (uncalibrated), Voltage: 11.0588 V, Current: 0.2087 A, Power: 2.3000 W, Current PWM: 1650 us
+Timestamp: 620192062 us, Force: 483820 counts (uncalibrated), Voltage: 11.0675 V, Current: 0.2500 A, Power: 2.7600 W, Current PWM: 1650 us
+Timestamp: 620242062 us, Force: 483133 counts (uncalibrated), Voltage: 11.0712 V, Current: 0.2687 A, Power: 2.9700 W, Current PWM: 1650 us
+Timestamp: 620292062 us, Force: 483644 counts (uncalibrated), Voltage: 11.0588 V, Current: 0.2925 A, Power: 3.2400 W, Current PWM: 1650 us
+Timestamp: 620342062 us, Force: 483693 counts (uncalibrated), Voltage: 11.0600 V, Current: 0.2312 A, Power: 2.5600 W, Current PWM: 1650 us
+Timestamp: 620392062 us, Force: 483568 counts (uncalibrated), Voltage: 11.0600 V, Current: 0.1975 A, Power: 2.1900 W, Current PWM: 1650 us
+Timestamp: 620442062 us, Force: 483293 counts (uncalibrated), Voltage: 11.0662 V, Current: 0.1912 A, Power: 2.1100 W, Current PWM: 1650 us
+Timestamp: 620492062 us, Force: 483310 counts (uncalibrated), Voltage: 11.0600 V, Current: 0.1762 A, Power: 1.9500 W, Current PWM: 1650 us
+Timestamp: 620542062 us, Force: 483827 counts (uncalibrated), Voltage: 11.0600 V, Current: 0.2212 A, Power: 2.4400 W, Current PWM: 1650 us
+Timestamp: 620592062 us, Force: 483432 counts (uncalibrated), Voltage: 11.0550 V, Current: 0.1713 A, Power: 1.8900 W, Current PWM: 1650 us
+Timestamp: 620642062 us, Force: 483375 counts (uncalibrated), Voltage: 11.0637 V, Current: 0.2125 A, Power: 2.3600 W, Current PWM: 1650 us
+Timestamp: 620692062 us, Force: 483566 counts (uncalibrated), Voltage: 11.0637 V, Current: 0.2488 A, Power: 2.7500 W, Current PWM: 1650 us
+Timestamp: 620742062 us, Force: 483951 counts (uncalibrated), Voltage: 11.0662 V, Current: 0.2325 A, Power: 2.5700 W, Current PWM: 1650 us
+Timestamp: 620792062 us, Force: 483534 counts (uncalibrated), Voltage: 11.0562 V, Current: 0.2200 A, Power: 2.4300 W, Current PWM: 1650 us
+Timestamp: 620842062 us, Force: 483001 counts (uncalibrated), Voltage: 11.0625 V, Current: 0.2175 A, Power: 2.4100 W, Current PWM: 1650 us
+Timestamp: 620892062 us, Force: 483488 counts (uncalibrated), Voltage: 11.0675 V, Current: 0.2575 A, Power: 2.8500 W, Current PWM: 1650 us
+Timestamp: 620942062 us, Force: 483783 counts (uncalibrated), Voltage: 11.0675 V, Current: 0.2700 A, Power: 2.9800 W, Current PWM: 1650 us
+Timestamp: 620992062 us, Force: 483114 counts (uncalibrated), Voltage: 11.0650 V, Current: 0.2450 A, Power: 2.7100 W, Current PWM: 1650 us
+Timestamp: 621042062 us, Force: 483189 counts (uncalibrated), Voltage: 11.0562 V, Current: 0.2050 A, Power: 2.2700 W, Current PWM: 1650 us
+Timestamp: 621092062 us, Force: 483422 counts (uncalibrated), Voltage: 11.0675 V, Current: 0.2125 A, Power: 2.3600 W, Current PWM: 1650 us
+Timestamp: 621142062 us, Force: 483619 counts (uncalibrated), Voltage: 11.0612 V, Current: 0.2013 A, Power: 2.2300 W, Current PWM: 1650 us
+Timestamp: 621192062 us, Force: 483414 counts (uncalibrated), Voltage: 11.0588 V, Current: 0.2013 A, Power: 2.2300 W, Current PWM: 1650 us
+Timestamp: 621242062 us, Force: 483361 counts (uncalibrated), Voltage: 11.0538 V, Current: 0.1725 A, Power: 1.9100 W, Current PWM: 1650 us
+Timestamp: 621292062 us, Force: 483984 counts (uncalibrated), Voltage: 11.0625 V, Current: 0.1475 A, Power: 1.6300 W, Current PWM: 1650 us
+Timestamp: 621342062 us, Force: 483579 counts (uncalibrated), Voltage: 11.0650 V, Current: 0.2137 A, Power: 2.3700 W, Current PWM: 1650 us
+Timestamp: 621392062 us, Force: 483226 counts (uncalibrated), Voltage: 11.0612 V, Current: 0.2587 A, Power: 2.8700 W, Current PWM: 1650 us
+Timestamp: 621442062 us, Force: 483929 counts (uncalibrated), Voltage: 11.0600 V, Current: 0.2137 A, Power: 2.3700 W, Current PWM: 1650 us
+Timestamp: 621492062 us, Force: 483354 counts (uncalibrated), Voltage: 11.0625 V, Current: 0.2212 A, Power: 2.4400 W, Current PWM: 1650 us
+Timestamp: 621542062 us, Force: 483055 counts (uncalibrated), Voltage: 11.0712 V, Current: 0.2537 A, Power: 2.8000 W, Current PWM: 1650 us
+Timestamp: 621592062 us, Force: 483584 counts (uncalibrated), Voltage: 11.0763 V, Current: 0.2950 A, Power: 3.2600 W, Current PWM: 1650 us
+Timestamp: 621642062 us, Force: 483929 counts (uncalibrated), Voltage: 11.1200 V, Current: 0.2488 A, Power: 2.7600 W, Current PWM: 1650 us
+Timestamp: 621692062 us, Force: 483272 counts (uncalibrated), Voltage: 11.1262 V, Current: 0.2850 A, Power: 3.1700 W, Current PWM: 1650 us
+Timestamp: 621742062 us, Force: 483519 counts (uncalibrated), Voltage: 11.1200 V, Current: 0.2175 A, Power: 2.4200 W, Current PWM: 1650 us
+Timestamp: 621792062 us, Force: 483558 counts (uncalibrated), Voltage: 11.1237 V, Current: 0.3037 A, Power: 3.3800 W, Current PWM: 1650 us
+Timestamp: 621842062 us, Force: 483519 counts (uncalibrated), Voltage: 11.1262 V, Current: 0.2987 A, Power: 3.3300 W, Current PWM: 1650 us
+Timestamp: 621892062 us, Force: 483610 counts (uncalibrated), Voltage: 11.1213 V, Current: 0.2325 A, Power: 2.5900 W, Current PWM: 1650 us
+Timestamp: 621942062 us, Force: 483409 counts (uncalibrated), Voltage: 11.1200 V, Current: 0.2300 A, Power: 2.5600 W, Current PWM: 1650 us
+Timestamp: 621992062 us, Force: 483466 counts (uncalibrated), Voltage: 11.1287 V, Current: 0.2738 A, Power: 3.0500 W, Current PWM: 1650 us
+Timestamp: 622042062 us, Force: 483627 counts (uncalibrated), Voltage: 11.1200 V, Current: 0.2275 A, Power: 2.5300 W, Current PWM: 1650 us
+Timestamp: 622092062 us, Force: 483406 counts (uncalibrated), Voltage: 11.0275 V, Current: 0.2725 A, Power: 3.0100 W, Current PWM: 1650 us
+Timestamp: 622142062 us, Force: 483307 counts (uncalibrated), Voltage: 11.0275 V, Current: 0.2812 A, Power: 3.1000 W, Current PWM: 1650 us
+Timestamp: 622192062 us, Force: 483922 counts (uncalibrated), Voltage: 11.0250 V, Current: 0.3113 A, Power: 3.4300 W, Current PWM: 1650 us
+Timestamp: 622242062 us, Force: 483313 counts (uncalibrated), Voltage: 11.0275 V, Current: 0.2325 A, Power: 2.5600 W, Current PWM: 1650 us
+Timestamp: 622292062 us, Force: 483730 counts (uncalibrated), Voltage: 11.0200 V, Current: 0.2200 A, Power: 2.4200 W, Current PWM: 1650 us
+Timestamp: 622342062 us, Force: 483397 counts (uncalibrated), Voltage: 11.0237 V, Current: 0.2250 A, Power: 2.4800 W, Current PWM: 1650 us
+Timestamp: 622392062 us, Force: 483326 counts (uncalibrated), Voltage: 11.0225 V, Current: 0.1850 A, Power: 2.0400 W, Current PWM: 1650 us
+Timestamp: 622442062 us, Force: 483825 counts (uncalibrated), Voltage: 11.0275 V, Current: 0.2612 A, Power: 2.8800 W, Current PWM: 1650 us
+Timestamp: 622492062 us, Force: 483972 counts (uncalibrated), Voltage: 11.0600 V, Current: 0.2612 A, Power: 2.8900 W, Current PWM: 1650 us
+Timestamp: 622542062 us, Force: 483591 counts (uncalibrated), Voltage: 11.1150 V, Current: 0.2687 A, Power: 2.9800 W, Current PWM: 1650 us
+Timestamp: 622592062 us, Force: 483566 counts (uncalibrated), Voltage: 11.1112 V, Current: 0.2375 A, Power: 2.6400 W, Current PWM: 1650 us
+Timestamp: 622642062 us, Force: 483603 counts (uncalibrated), Voltage: 11.1163 V, Current: 0.2488 A, Power: 2.7600 W, Current PWM: 1650 us
+Timestamp: 622692062 us, Force: 483372 counts (uncalibrated), Voltage: 11.1137 V, Current: 0.2037 A, Power: 2.2700 W, Current PWM: 1650 us
+Timestamp: 622742062 us, Force: 483557 counts (uncalibrated), Voltage: 11.1150 V, Current: 0.2912 A, Power: 3.2400 W, Current PWM: 1650 us
+Timestamp: 622792062 us, Force: 483892 counts (uncalibrated), Voltage: 11.1137 V, Current: 0.2287 A, Power: 2.5500 W, Current PWM: 1650 us
+Timestamp: 622842062 us, Force: 483709 counts (uncalibrated), Voltage: 11.1163 V, Current: 0.2875 A, Power: 3.2000 W, Current PWM: 1650 us
+Timestamp: 622892062 us, Force: 483402 counts (uncalibrated), Voltage: 11.1100 V, Current: 0.2275 A, Power: 2.5200 W, Current PWM: 1650 us
+Timestamp: 622942062 us, Force: 483419 counts (uncalibrated), Voltage: 11.1187 V, Current: 0.2987 A, Power: 3.3300 W, Current PWM: 1650 us
+Timestamp: 622992062 us, Force: 483440 counts (uncalibrated), Voltage: 11.1075 V, Current: 0.2287 A, Power: 2.5500 W, Current PWM: 1650 us
+Timestamp: 623042062 us, Force: 483213 counts (uncalibrated), Voltage: 11.1187 V, Current: 0.2650 A, Power: 2.9400 W, Current PWM: 1650 us
+Timestamp: 623092062 us, Force: 483888 counts (uncalibrated), Voltage: 11.1100 V, Current: 0.2100 A, Power: 2.3300 W, Current PWM: 1650 us
+Timestamp: 623142062 us, Force: 483537 counts (uncalibrated), Voltage: 11.0912 V, Current: 0.2650 A, Power: 2.9400 W, Current PWM: 1650 us
+Timestamp: 623192062 us, Force: 483314 counts (uncalibrated), Voltage: 11.0487 V, Current: 0.2212 A, Power: 2.4400 W, Current PWM: 1650 us
+Timestamp: 623242062 us, Force: 483759 counts (uncalibrated), Voltage: 11.0525 V, Current: 0.1863 A, Power: 2.0600 W, Current PWM: 1650 us
+Timestamp: 623292062 us, Force: 483826 counts (uncalibrated), Voltage: 11.0512 V, Current: 0.2037 A, Power: 2.2500 W, Current PWM: 1650 us
+Timestamp: 623342062 us, Force: 483335 counts (uncalibrated), Voltage: 11.0538 V, Current: 0.2163 A, Power: 2.3900 W, Current PWM: 1650 us
+Timestamp: 623392062 us, Force: 483472 counts (uncalibrated), Voltage: 11.0462 V, Current: 0.2100 A, Power: 2.3200 W, Current PWM: 1650 us
+Timestamp: 623442062 us, Force: 483323 counts (uncalibrated), Voltage: 11.0462 V, Current: 0.2112 A, Power: 2.3300 W, Current PWM: 1650 us
+Timestamp: 623492062 us, Force: 483440 counts (uncalibrated), Voltage: 11.0487 V, Current: 0.2250 A, Power: 2.4800 W, Current PWM: 1650 us
+Timestamp: 623542062 us, Force: 483193 counts (uncalibrated), Voltage: 11.0475 V, Current: 0.2250 A, Power: 2.4800 W, Current PWM: 1650 us
+Timestamp: 623592062 us, Force: 483334 counts (uncalibrated), Voltage: 11.0550 V, Current: 0.2475 A, Power: 2.7400 W, Current PWM: 1650 us
+Timestamp: 623642062 us, Force: 483831 counts (uncalibrated), Voltage: 11.0575 V, Current: 0.2537 A, Power: 2.8000 W, Current PWM: 1650 us
+Timestamp: 623692062 us, Force: 483206 counts (uncalibrated), Voltage: 11.0588 V, Current: 0.2687 A, Power: 2.9700 W, Current PWM: 1650 us
+Timestamp: 623742062 us, Force: 483319 counts (uncalibrated), Voltage: 11.0525 V, Current: 0.2387 A, Power: 2.6400 W, Current PWM: 1650 us
+Timestamp: 623792062 us, Force: 482790 counts (uncalibrated), Voltage: 11.0487 V, Current: 0.2112 A, Power: 2.3300 W, Current PWM: 1650 us
+Timestamp: 623842062 us, Force: 483359 counts (uncalibrated), Voltage: 11.0487 V, Current: 0.1700 A, Power: 1.8800 W, Current PWM: 1650 us
+Timestamp: 623892062 us, Force: 482928 counts (uncalibrated), Voltage: 11.0425 V, Current: 0.2025 A, Power: 2.2400 W, Current PWM: 1650 us
+Timestamp: 623942062 us, Force: 483021 counts (uncalibrated), Voltage: 11.0475 V, Current: 0.1787 A, Power: 1.9700 W, Current PWM: 1650 us
+Timestamp: 623992062 us, Force: 483268 counts (uncalibrated), Voltage: 11.0487 V, Current: 0.2025 A, Power: 2.2400 W, Current PWM: 1650 us
+Timestamp: 624042062 us, Force: 483363 counts (uncalibrated), Voltage: 11.0625 V, Current: 0.2500 A, Power: 2.7600 W, Current PWM: 1650 us
+Timestamp: 624092062 us, Force: 483288 counts (uncalibrated), Voltage: 11.0675 V, Current: 0.2412 A, Power: 2.6800 W, Current PWM: 1650 us
+Timestamp: 624142062 us, Force: 483169 counts (uncalibrated), Voltage: 11.1250 V, Current: 0.2887 A, Power: 3.2100 W, Current PWM: 1650 us
+Timestamp: 624192062 us, Force: 483472 counts (uncalibrated), Voltage: 11.1175 V, Current: 0.2375 A, Power: 2.6400 W, Current PWM: 1650 us
+Timestamp: 624242062 us, Force: 483311 counts (uncalibrated), Voltage: 11.1225 V, Current: 0.2587 A, Power: 2.8800 W, Current PWM: 1650 us
+Timestamp: 624292062 us, Force: 482778 counts (uncalibrated), Voltage: 11.1200 V, Current: 0.2212 A, Power: 2.4600 W, Current PWM: 1650 us
+Timestamp: 624342062 us, Force: 483173 counts (uncalibrated), Voltage: 11.1213 V, Current: 0.2775 A, Power: 3.0800 W, Current PWM: 1650 us
+Timestamp: 624392062 us, Force: 483158 counts (uncalibrated), Voltage: 11.1225 V, Current: 0.2412 A, Power: 2.6900 W, Current PWM: 1650 us
+Timestamp: 624442062 us, Force: 483443 counts (uncalibrated), Voltage: 11.1187 V, Current: 0.2763 A, Power: 3.0700 W, Current PWM: 1650 us
+Timestamp: 624492062 us, Force: 483502 counts (uncalibrated), Voltage: 11.1275 V, Current: 0.2687 A, Power: 3.0000 W, Current PWM: 1650 us
+PWM step: 1700 us
+Timestamp: 624542062 us, Force: 483145 counts (uncalibrated), Voltage: 11.1213 V, Current: 0.2437 A, Power: 2.7100 W, Current PWM: 1700 us
+Timestamp: 624592062 us, Force: 483384 counts (uncalibrated), Voltage: 9.8162 V, Current: 0.5250 A, Power: 5.1600 W, Current PWM: 1700 us
+Timestamp: 624642062 us, Force: 483409 counts (uncalibrated), Voltage: 10.4275 V, Current: 0.4150 A, Power: 4.3300 W, Current PWM: 1700 us
+Timestamp: 624692062 us, Force: 483364 counts (uncalibrated), Voltage: 10.8663 V, Current: 0.5012 A, Power: 5.4500 W, Current PWM: 1700 us
+Timestamp: 624742062 us, Force: 483573 counts (uncalibrated), Voltage: 11.0612 V, Current: 0.3912 A, Power: 4.3300 W, Current PWM: 1700 us
+Timestamp: 624792062 us, Force: 483162 counts (uncalibrated), Voltage: 11.0600 V, Current: 0.3662 A, Power: 4.0400 W, Current PWM: 1700 us
+Timestamp: 624842062 us, Force: 482541 counts (uncalibrated), Voltage: 11.0687 V, Current: 0.2625 A, Power: 2.9100 W, Current PWM: 1700 us
+Timestamp: 624892062 us, Force: 483518 counts (uncalibrated), Voltage: 11.0588 V, Current: 0.2437 A, Power: 2.7000 W, Current PWM: 1700 us
+Timestamp: 624942062 us, Force: 483405 counts (uncalibrated), Voltage: 11.0687 V, Current: 0.3100 A, Power: 3.4300 W, Current PWM: 1700 us
+Timestamp: 624992062 us, Force: 483454 counts (uncalibrated), Voltage: 11.0650 V, Current: 0.2425 A, Power: 2.6900 W, Current PWM: 1700 us
+Timestamp: 625042062 us, Force: 483257 counts (uncalibrated), Voltage: 11.0600 V, Current: 0.2587 A, Power: 2.8700 W, Current PWM: 1700 us
+Timestamp: 625092062 us, Force: 483638 counts (uncalibrated), Voltage: 11.0675 V, Current: 0.2575 A, Power: 2.8500 W, Current PWM: 1700 us
+Timestamp: 625142062 us, Force: 483175 counts (uncalibrated), Voltage: 11.0600 V, Current: 0.2925 A, Power: 3.2400 W, Current PWM: 1700 us
+Timestamp: 625192062 us, Force: 483008 counts (uncalibrated), Voltage: 11.0700 V, Current: 0.3100 A, Power: 3.4300 W, Current PWM: 1700 us
+Timestamp: 625242062 us, Force: 483597 counts (uncalibrated), Voltage: 11.0650 V, Current: 0.2912 A, Power: 3.2300 W, Current PWM: 1700 us
+Timestamp: 625292062 us, Force: 483416 counts (uncalibrated), Voltage: 11.0650 V, Current: 0.3150 A, Power: 3.4800 W, Current PWM: 1700 us
+Timestamp: 625342062 us, Force: 483129 counts (uncalibrated), Voltage: 11.0675 V, Current: 0.2412 A, Power: 2.6800 W, Current PWM: 1700 us
+Timestamp: 625392062 us, Force: 482988 counts (uncalibrated), Voltage: 11.0637 V, Current: 0.3100 A, Power: 3.4300 W, Current PWM: 1700 us
+Timestamp: 625442062 us, Force: 483407 counts (uncalibrated), Voltage: 11.0687 V, Current: 0.3713 A, Power: 4.1100 W, Current PWM: 1700 us
+Timestamp: 625492062 us, Force: 483458 counts (uncalibrated), Voltage: 11.0625 V, Current: 0.2562 A, Power: 2.8300 W, Current PWM: 1700 us
+Timestamp: 625542062 us, Force: 483181 counts (uncalibrated), Voltage: 11.0637 V, Current: 0.3438 A, Power: 3.8000 W, Current PWM: 1700 us
+Timestamp: 625592062 us, Force: 482978 counts (uncalibrated), Voltage: 11.0662 V, Current: 0.2650 A, Power: 2.9300 W, Current PWM: 1700 us
+Timestamp: 625642062 us, Force: 483397 counts (uncalibrated), Voltage: 11.0612 V, Current: 0.3162 A, Power: 3.4900 W, Current PWM: 1700 us
+Timestamp: 625692062 us, Force: 483218 counts (uncalibrated), Voltage: 11.0700 V, Current: 0.3400 A, Power: 3.7600 W, Current PWM: 1700 us
+Timestamp: 625742062 us, Force: 482993 counts (uncalibrated), Voltage: 11.0600 V, Current: 0.2300 A, Power: 2.5500 W, Current PWM: 1700 us
+Timestamp: 625792062 us, Force: 483302 counts (uncalibrated), Voltage: 11.1163 V, Current: 0.3812 A, Power: 4.2400 W, Current PWM: 1700 us
+Timestamp: 625842062 us, Force: 483581 counts (uncalibrated), Voltage: 11.1237 V, Current: 0.2400 A, Power: 2.6800 W, Current PWM: 1700 us
+Timestamp: 625892062 us, Force: 483326 counts (uncalibrated), Voltage: 11.1150 V, Current: 0.2700 A, Power: 3.0000 W, Current PWM: 1700 us
+Timestamp: 625942062 us, Force: 483327 counts (uncalibrated), Voltage: 11.1225 V, Current: 0.3512 A, Power: 3.9000 W, Current PWM: 1700 us
+Timestamp: 625992062 us, Force: 483120 counts (uncalibrated), Voltage: 11.1250 V, Current: 0.3413 A, Power: 3.8000 W, Current PWM: 1700 us
+Timestamp: 626042062 us, Force: 483393 counts (uncalibrated), Voltage: 11.1250 V, Current: 0.2275 A, Power: 2.5300 W, Current PWM: 1700 us
+Timestamp: 626092062 us, Force: 483136 counts (uncalibrated), Voltage: 11.1225 V, Current: 0.2950 A, Power: 3.2800 W, Current PWM: 1700 us
+Timestamp: 626142062 us, Force: 483233 counts (uncalibrated), Voltage: 11.1213 V, Current: 0.3200 A, Power: 3.5600 W, Current PWM: 1700 us
+Timestamp: 626192062 us, Force: 483184 counts (uncalibrated), Voltage: 11.1250 V, Current: 0.2875 A, Power: 3.2000 W, Current PWM: 1700 us
+Timestamp: 626242062 us, Force: 483173 counts (uncalibrated), Voltage: 11.0637 V, Current: 0.2225 A, Power: 2.4600 W, Current PWM: 1700 us
+Timestamp: 626292062 us, Force: 482828 counts (uncalibrated), Voltage: 11.0600 V, Current: 0.3025 A, Power: 3.3400 W, Current PWM: 1700 us
+Timestamp: 626342062 us, Force: 483353 counts (uncalibrated), Voltage: 11.0675 V, Current: 0.3300 A, Power: 3.6500 W, Current PWM: 1700 us
+Timestamp: 626392062 us, Force: 483568 counts (uncalibrated), Voltage: 11.0588 V, Current: 0.2900 A, Power: 3.2100 W, Current PWM: 1700 us
+Timestamp: 626442062 us, Force: 483265 counts (uncalibrated), Voltage: 11.0712 V, Current: 0.3300 A, Power: 3.6500 W, Current PWM: 1700 us
+Timestamp: 626492062 us, Force: 483406 counts (uncalibrated), Voltage: 11.0625 V, Current: 0.2338 A, Power: 2.5900 W, Current PWM: 1700 us
+Timestamp: 626542062 us, Force: 483713 counts (uncalibrated), Voltage: 11.0650 V, Current: 0.3487 A, Power: 3.8500 W, Current PWM: 1700 us
+Timestamp: 626592062 us, Force: 483424 counts (uncalibrated), Voltage: 11.0687 V, Current: 0.2850 A, Power: 3.1500 W, Current PWM: 1700 us
+Timestamp: 626642062 us, Force: 482959 counts (uncalibrated), Voltage: 11.0575 V, Current: 0.3150 A, Power: 3.4800 W, Current PWM: 1700 us
+Timestamp: 626692062 us, Force: 483052 counts (uncalibrated), Voltage: 11.0712 V, Current: 0.3487 A, Power: 3.8700 W, Current PWM: 1700 us
+Timestamp: 626742062 us, Force: 483203 counts (uncalibrated), Voltage: 11.0625 V, Current: 0.2600 A, Power: 2.8800 W, Current PWM: 1700 us
+Timestamp: 626792062 us, Force: 483004 counts (uncalibrated), Voltage: 11.0662 V, Current: 0.3075 A, Power: 3.4000 W, Current PWM: 1700 us
+Timestamp: 626842062 us, Force: 483111 counts (uncalibrated), Voltage: 11.0612 V, Current: 0.2175 A, Power: 2.4100 W, Current PWM: 1700 us
+Timestamp: 626892062 us, Force: 483126 counts (uncalibrated), Voltage: 11.0575 V, Current: 0.3450 A, Power: 3.8100 W, Current PWM: 1700 us
+Timestamp: 626942062 us, Force: 483069 counts (uncalibrated), Voltage: 11.0675 V, Current: 0.2750 A, Power: 3.0500 W, Current PWM: 1700 us
+Timestamp: 626992062 us, Force: 483098 counts (uncalibrated), Voltage: 11.0612 V, Current: 0.2488 A, Power: 2.7500 W, Current PWM: 1700 us
+Timestamp: 627042062 us, Force: 483071 counts (uncalibrated), Voltage: 11.0687 V, Current: 0.3413 A, Power: 3.7800 W, Current PWM: 1700 us
+Timestamp: 627092062 us, Force: 483034 counts (uncalibrated), Voltage: 11.0637 V, Current: 0.2087 A, Power: 2.3000 W, Current PWM: 1700 us
+Timestamp: 627142062 us, Force: 483427 counts (uncalibrated), Voltage: 11.0662 V, Current: 0.2950 A, Power: 3.2600 W, Current PWM: 1700 us
+Timestamp: 627192062 us, Force: 482758 counts (uncalibrated), Voltage: 11.0600 V, Current: 0.2837 A, Power: 3.1400 W, Current PWM: 1700 us
+Timestamp: 627242062 us, Force: 482933 counts (uncalibrated), Voltage: 11.0625 V, Current: 0.3113 A, Power: 3.4400 W, Current PWM: 1700 us
+Timestamp: 627292062 us, Force: 483348 counts (uncalibrated), Voltage: 11.0662 V, Current: 0.3050 A, Power: 3.3800 W, Current PWM: 1700 us
+Timestamp: 627342062 us, Force: 483497 counts (uncalibrated), Voltage: 11.0612 V, Current: 0.2462 A, Power: 2.7300 W, Current PWM: 1700 us
+Timestamp: 627392062 us, Force: 482838 counts (uncalibrated), Voltage: 11.0625 V, Current: 0.3113 A, Power: 3.4400 W, Current PWM: 1700 us
+Timestamp: 627442062 us, Force: 483387 counts (uncalibrated), Voltage: 11.0625 V, Current: 0.2837 A, Power: 3.1400 W, Current PWM: 1700 us
+Timestamp: 627492062 us, Force: 483216 counts (uncalibrated), Voltage: 11.0650 V, Current: 0.3287 A, Power: 3.6400 W, Current PWM: 1700 us
+Timestamp: 627542062 us, Force: 482897 counts (uncalibrated), Voltage: 11.0675 V, Current: 0.3562 A, Power: 3.9400 W, Current PWM: 1700 us
+Timestamp: 627592062 us, Force: 482940 counts (uncalibrated), Voltage: 11.0650 V, Current: 0.2750 A, Power: 3.0500 W, Current PWM: 1700 us
+Timestamp: 627642062 us, Force: 483155 counts (uncalibrated), Voltage: 11.0625 V, Current: 0.3162 A, Power: 3.4900 W, Current PWM: 1700 us
+Timestamp: 627692062 us, Force: 483206 counts (uncalibrated), Voltage: 11.0675 V, Current: 0.2925 A, Power: 3.2400 W, Current PWM: 1700 us
+Timestamp: 627742062 us, Force: 482961 counts (uncalibrated), Voltage: 11.0575 V, Current: 0.3237 A, Power: 3.5800 W, Current PWM: 1700 us
+Timestamp: 627792062 us, Force: 482668 counts (uncalibrated), Voltage: 11.0725 V, Current: 0.3587 A, Power: 3.9700 W, Current PWM: 1700 us
+Timestamp: 627842062 us, Force: 483043 counts (uncalibrated), Voltage: 11.0575 V, Current: 0.2712 A, Power: 3.0000 W, Current PWM: 1700 us
+Timestamp: 627892062 us, Force: 483218 counts (uncalibrated), Voltage: 11.0650 V, Current: 0.3550 A, Power: 3.9300 W, Current PWM: 1700 us
+Timestamp: 627942062 us, Force: 482943 counts (uncalibrated), Voltage: 11.0662 V, Current: 0.3025 A, Power: 3.3500 W, Current PWM: 1700 us
+Timestamp: 627992062 us, Force: 483442 counts (uncalibrated), Voltage: 11.0588 V, Current: 0.3200 A, Power: 3.5300 W, Current PWM: 1700 us
+Timestamp: 628042062 us, Force: 483387 counts (uncalibrated), Voltage: 11.0675 V, Current: 0.3325 A, Power: 3.6700 W, Current PWM: 1700 us
+Timestamp: 628092062 us, Force: 483230 counts (uncalibrated), Voltage: 11.0600 V, Current: 0.2462 A, Power: 2.7300 W, Current PWM: 1700 us
+Timestamp: 628142062 us, Force: 482909 counts (uncalibrated), Voltage: 11.1225 V, Current: 0.2875 A, Power: 3.2000 W, Current PWM: 1700 us
+Timestamp: 628192062 us, Force: 483010 counts (uncalibrated), Voltage: 11.1287 V, Current: 0.3150 A, Power: 3.5100 W, Current PWM: 1700 us
+Timestamp: 628242062 us, Force: 482891 counts (uncalibrated), Voltage: 11.1175 V, Current: 0.2975 A, Power: 3.3000 W, Current PWM: 1700 us
+Timestamp: 628292062 us, Force: 483138 counts (uncalibrated), Voltage: 11.1225 V, Current: 0.2687 A, Power: 3.0000 W, Current PWM: 1700 us
+Timestamp: 628342062 us, Force: 483101 counts (uncalibrated), Voltage: 11.1250 V, Current: 0.3637 A, Power: 4.0400 W, Current PWM: 1700 us
+Timestamp: 628392062 us, Force: 483320 counts (uncalibrated), Voltage: 11.1287 V, Current: 0.3150 A, Power: 3.5100 W, Current PWM: 1700 us
+Timestamp: 628442062 us, Force: 483405 counts (uncalibrated), Voltage: 11.1262 V, Current: 0.2788 A, Power: 3.1000 W, Current PWM: 1700 us
+Timestamp: 628492062 us, Force: 483262 counts (uncalibrated), Voltage: 11.1137 V, Current: 0.2662 A, Power: 2.9600 W, Current PWM: 1700 us
+Timestamp: 628542062 us, Force: 483031 counts (uncalibrated), Voltage: 11.0400 V, Current: 0.3363 A, Power: 3.7100 W, Current PWM: 1700 us
+Timestamp: 628592062 us, Force: 483160 counts (uncalibrated), Voltage: 11.0375 V, Current: 0.2637 A, Power: 2.9100 W, Current PWM: 1700 us
+Timestamp: 628642062 us, Force: 483387 counts (uncalibrated), Voltage: 11.0350 V, Current: 0.2875 A, Power: 3.1700 W, Current PWM: 1700 us
+Timestamp: 628692062 us, Force: 482980 counts (uncalibrated), Voltage: 11.0413 V, Current: 0.2887 A, Power: 3.1900 W, Current PWM: 1700 us
+Timestamp: 628742062 us, Force: 483389 counts (uncalibrated), Voltage: 11.0325 V, Current: 0.2775 A, Power: 3.0600 W, Current PWM: 1700 us
+Timestamp: 628792062 us, Force: 482960 counts (uncalibrated), Voltage: 11.0387 V, Current: 0.2912 A, Power: 3.2100 W, Current PWM: 1700 us
+Timestamp: 628842062 us, Force: 482787 counts (uncalibrated), Voltage: 11.0337 V, Current: 0.2887 A, Power: 3.1900 W, Current PWM: 1700 us
+Timestamp: 628892062 us, Force: 483182 counts (uncalibrated), Voltage: 11.0387 V, Current: 0.2675 A, Power: 2.9600 W, Current PWM: 1700 us
+Timestamp: 628942062 us, Force: 483105 counts (uncalibrated), Voltage: 11.0275 V, Current: 0.3187 A, Power: 3.5200 W, Current PWM: 1700 us
+Timestamp: 628992062 us, Force: 482982 counts (uncalibrated), Voltage: 11.0375 V, Current: 0.2612 A, Power: 2.8800 W, Current PWM: 1700 us
+Timestamp: 629042062 us, Force: 483071 counts (uncalibrated), Voltage: 11.0350 V, Current: 0.2987 A, Power: 3.3000 W, Current PWM: 1700 us
+Timestamp: 629092062 us, Force: 482680 counts (uncalibrated), Voltage: 11.0387 V, Current: 0.3088 A, Power: 3.4000 W, Current PWM: 1700 us
+Timestamp: 629142062 us, Force: 483217 counts (uncalibrated), Voltage: 11.0625 V, Current: 0.2300 A, Power: 2.5500 W, Current PWM: 1700 us
+Timestamp: 629192062 us, Force: 483216 counts (uncalibrated), Voltage: 11.0700 V, Current: 0.3962 A, Power: 4.3900 W, Current PWM: 1700 us
+Timestamp: 629242062 us, Force: 482877 counts (uncalibrated), Voltage: 11.0687 V, Current: 0.2350 A, Power: 2.6000 W, Current PWM: 1700 us
+Timestamp: 629292062 us, Force: 482794 counts (uncalibrated), Voltage: 11.1312 V, Current: 0.3363 A, Power: 3.7400 W, Current PWM: 1700 us
+Timestamp: 629342062 us, Force: 483529 counts (uncalibrated), Voltage: 11.1287 V, Current: 0.3300 A, Power: 3.6700 W, Current PWM: 1700 us
+Timestamp: 629392062 us, Force: 482834 counts (uncalibrated), Voltage: 11.1312 V, Current: 0.2400 A, Power: 2.6800 W, Current PWM: 1700 us
+Timestamp: 629442062 us, Force: 483011 counts (uncalibrated), Voltage: 11.1262 V, Current: 0.2525 A, Power: 2.8000 W, Current PWM: 1700 us
+Timestamp: 629492062 us, Force: 483360 counts (uncalibrated), Voltage: 11.1275 V, Current: 0.2912 A, Power: 3.2400 W, Current PWM: 1700 us
+
+PWM test complete.
+
+Thesis DAQ - choose a number, then Enter
+1. Calibrate force sensor
+2. Print formatted timestamped sensor output
+3. Print unformatted timestamped sensor output (CSV)
+4. Perform PWM test
+5. Perform PWM test with timestamped data printing
+6. Current pin settings
+7. PWM test settings
+Type exit + Enter in any mode to stop and return here.
+> 
+[HOST COMMAND] exit
+exit
+
+Returned to neutral.
+
+Thesis DAQ - choose a number, then Enter
+1. Calibrate force sensor
+2. Print formatted timestamped sensor output
+3. Print unformatted timestamped sensor output (CSV)
+4. Perform PWM test
+5. Perform PWM test with timestamped data printing
+6. Current pin settings
+7. PWM test settings
+Type exit + Enter in any mode to stop and return here.
+> 

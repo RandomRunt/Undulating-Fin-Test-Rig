@@ -8,6 +8,7 @@ Python tools for fin geometry, USB serial recording, and offline load-cell calib
 |---|---|---|
 | [FinGenerator.py](FinGenerator.py) | Calculate fin flat-pattern dimensions and display a 3D fin surface. | NumPy, Matplotlib, SciPy |
 | [SerialLogger.py](SerialLogger.py) | Control Thesis-DAQ through a serial console and save option 3 streams as CSV. | pySerial |
+| [PlotRecording.py](PlotRecording.py) | Plot CSV or terminal logs and summarise force per electrical watt at each PWM command. | Matplotlib |
 | [LoadCellCalibration.py](LoadCellCalibration.py) | Fit force calibration coefficients from recorded raw load-cell counts. | Python standard library |
 
 ## Setup
@@ -53,6 +54,38 @@ Files are saved under `recordings/` with a label and timestamp. The logger print
 - Firmware commands pass through normally. `/help` shows console help. `/quit` and Ctrl+C attempt to send `exit` before closing; the logger does not reconnect automatically.
 
 If the port is busy, close ESP-IDF Monitor. If no menu appears or you connected during a stream, enter `exit`, then `3` to capture a fresh CSV header.
+
+## Plot a recording
+
+From the repository root:
+
+```powershell
+python software/PlotRecording.py software/recordings/daq_20261007_235818_490431_terminal.log
+```
+
+Pass any Thesis-DAQ `.log` or `.csv` path, or omit the path to be prompted for one.
+The Matplotlib window shows force, power, current and PWM versus device time,
+plus mean power and force per watt at each PWM setting. PWM is a motor command
+in microseconds, not measured RPM. Repeated visits to a setting are pooled.
+
+The default `--settle-seconds 1` excludes the first second after each PWM change
+or recording block. Force per watt is **mean signed force / mean electrical
+power (N/W)** using paired valid readings with power above `--min-power 0.01` W.
+It is not a dimensionless efficiency or a mean of instantaneous ratios.
+
+Uncalibrated recordings show raw force counts; N/W requires calibrated force.
+Apply the JSON produced by the calibration tool below to raw counts with:
+
+```powershell
+python software/PlotRecording.py software/recordings/session.log --calibration recordings/calibration.json --save recordings/session.png --summary-csv recordings/session_summary.csv
+```
+
+An external calibration overrides recorded force wherever raw counts are
+available. Calibrated formatted logs already contain newtons and can be plotted
+directly. Use `--no-show` for saving without opening a window. Summary CSV files
+are never overwritten. Plot files at `--save` are overwritten if they exist.
+Missing readings appear as gaps; short transients between samples and events
+after the logger stops printing cannot be recovered by plotting.
 
 ## Calibrate the load cell
 
