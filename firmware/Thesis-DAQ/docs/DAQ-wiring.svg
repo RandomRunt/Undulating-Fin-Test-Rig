@@ -48,6 +48,9 @@
   <path class="wire battery" d="M240 168 H600"/>
   <path class="wire battery" d="M800 168 H880"/>
   <path class="wire ground" d="M240 203 H280 V235 H840 V203 H880"/>
+  <path class="wire ground" d="M240 203 H255 V367 Q265 373 255 379 V660 H480 V641 Q470 635 480 629 V621 Q470 615 480 609 V563 H460"/>
+  <circle cx="240" cy="203" r="4" fill="#64748b"/>
+  <text x="280" y="683" class="note">Battery negative to ESP32 GND (shared ground)</text>
   <path class="wire usb" d="M240 373 H280"/>
   <path class="wire usb" d="M460 363 H600"/>
   <path class="wire signal" d="M460 413 H600"/>

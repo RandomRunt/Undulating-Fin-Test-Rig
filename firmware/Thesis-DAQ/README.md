@@ -67,6 +67,8 @@ Settings apply for this session and revert to the defaults in `main.c` on reboot
 
 ### INA260 supply wiring (+ / -)
 
+![INA260 wiring: separate LiPo motor power and USB-powered ESP32, with SDA and SCL connections](docs/DAQ-wiring.svg)
+
 Measure the DC supply to the ESC, not the motor phase wires:
 
 | Connection | Wiring |
@@ -201,4 +203,6 @@ References: [ESP-IDF I2C](https://docs.espressif.com/projects/esp-idf/en/stable/
 [IDF Monitor](https://docs.espressif.com/projects/esp-idf/en/stable/esp32c3/api-guides/tools/idf-monitor.html),
 [Basic ESC](https://bluerobotics.com/store/thrusters/speed-controllers/besc30-r3/),
 [INA260 datasheet](https://www.ti.com/lit/ds/symlink/ina260.pdf),
-[NAU7802 datasheet](https://www.nuvoton.com.cn/export/resource-files/en-us--DS_NAU7802_DataSheet_EN_Rev2.6.pdf).
+[NAU7802 datasheet](https://www.nuvoton.com.cn/export/resource-files/en-us--DS_NAU7802_DataSheet_EN_Rev2.6.pdf),
+[INA260 Breakout Board](https://cdn-learn.adafruit.com/downloads/pdf/adafruit-ina260-current-voltage-power-sensor-breakout.pdf),
+[NAU7802 Breakout Board](https://cdn-learn.adafruit.com/downloads/pdf/adafruit-nau7802-24-bit-adc-stemma-qt-qwiic.pdf).
