@@ -1,9 +1,10 @@
 """Interactive Thesis-DAQ serial console with automatic CSV recording.
 
 Install: python -m pip install pyserial
-List ports: python software/SerialLogger.py --list-ports
-Connect: python software/SerialLogger.py --port COM5
-Select firmware option 3 for CSV. Type exit to return to its menu, /quit to quit.
+List ports: python SerialLogger.py --list-ports
+Connect: python SerialLogger.py --port COM17
+Select firmware option 3 for CSV.
+Type exit to return to its menu, /quit to quit.
 """
 
 import argparse

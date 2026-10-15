@@ -1,7 +1,9 @@
 """Plot Thesis-DAQ CSV or terminal logs and summarise force per electrical watt.
 
 python PlotRecording.py recordings/session.log --settle-seconds 1
+python PlotRecording.py recordings/daq_20261007_235818_490431_terminal.log --settle-seconds 1
 python PlotRecording.py recordings/session.log --calibration recordings/calibration.json
+python PlotRecording.py recordings/ --calibration recordings/calibration.json
 PWM pulse width is a motor command, not measured RPM. Force/watt is signed N/W.
 """
 
