@@ -1,10 +1,7 @@
-"""Plot Thesis-DAQ CSV or terminal logs and summarise force per electrical watt.
-
-python PlotRecording.py recordings/session.log --settle-seconds 1
-python PlotRecording.py recordings/daq_20261007_235818_490431_terminal.log --settle-seconds 1
-python PlotRecording.py recordings/session.log --calibration recordings/calibration.json
-python PlotRecording.py recordings/ --calibration recordings/calibration.json
-PWM pulse width is a motor command, not measured RPM. Force/watt is signed N/W.
+"""Plot test CSV/log measurements; run from the repository root:
+python software/PlotRecording.py software/recordings/run.log --calibration software/recordings/calibration.json
+Omit --calibration if already calibrated; --save plot.png exports the figure.
+Power tests summarise settled rows by target watts; other tests group by PWM.
 """
 
 import argparse
@@ -19,7 +16,8 @@ import sys
 
 FORMATTED = re.compile(
     r"^Timestamp: (\d+) us, Force: (.*?), Voltage: (\S+) V, "
-    r"Current: (\S+) A, Power: (\S+) W, Current PWM: (\d+) us$"
+    r"Current: (\S+) A, Power: (\S+) W, Current PWM: (\d+) us"
+    r"(?:, Target: (\S+) W, Filtered: (\S+) W, Settled: ([01]), Step: (\d+))?$"
 )
 FIELDS = {"time_us", "force_raw", "force_N", "voltage_V", "current_A",
           "power_W", "pulse_us", "power_status", "force_status"}
@@ -52,8 +50,11 @@ def read_recording(path, calibration=None):
                 boundary = True
                 continue
             match = FORMATTED.fullmatch(line)
+            target = filtered = None
+            settled = None
+            test_step = math.nan
             if match:
-                timestamp, force, voltage, current, power, pwm = match.groups()
+                timestamp, force, voltage, current, power, pwm, target, filtered, settled, test_step = match.groups()
                 raw = number(force.split(" counts")[0]) if " counts" in force else math.nan
                 force_N = number(force[:-2]) if force.endswith(" N") else math.nan
             elif header and re.match(r"^\d+,", line):
@@ -63,6 +64,10 @@ def read_recording(path, calibration=None):
                     boundary = True
                     continue
                 record = dict(zip(header, row))
+                target = record.get("target_power_W")
+                filtered = record.get("filtered_power_W")
+                settled = record.get("power_settled")
+                test_step = record.get("test_step")
                 timestamp, pwm = record["time_us"], record["pulse_us"]
                 raw = number(record["force_raw"])
                 force_N = number(record["force_N"])
@@ -80,6 +85,13 @@ def read_recording(path, calibration=None):
                 boundary = True
                 continue
             timestamp, pwm = number(timestamp), number(pwm)
+            if target is not None:
+                if (not math.isfinite(number(target)) or number(target) <= 0 or
+                        settled not in ("0", "1") or not math.isfinite(number(test_step)) or
+                        number(test_step) < 1 or not number(test_step).is_integer()):
+                    malformed += 1
+                    boundary = True
+                    continue
             if not math.isfinite(timestamp) or timestamp < 0 or not math.isfinite(pwm):
                 malformed += 1
                 boundary = True
@@ -89,7 +101,10 @@ def read_recording(path, calibration=None):
             samples.append(dict(time_s=timestamp / 1e6, pwm_us=int(pwm),
                                 force_raw=raw, force_N=force_N,
                                 voltage_V=number(voltage), current_A=number(current),
-                                power_W=number(power), boundary=boundary))
+                                power_W=number(power), boundary=boundary,
+                                target_power_W=number(target), filtered_power_W=number(filtered),
+                                power_settled=settled == "1" if settled is not None else None,
+                                test_step=number(test_step)))
             boundary = False
     if not samples:
         raise ValueError("No Thesis-DAQ samples found in the selected recording")
@@ -97,21 +112,30 @@ def read_recording(path, calibration=None):
 
 
 def summarise(samples, settle_seconds=1.0, min_power=0.01):
-    """Discard settling after each block/PWM change; use paired force/power means."""
+    """Group power tests by target and settled flag; other tests by PWM command."""
     groups = {}
     step_start = None
     previous = None
     for sample in samples:
+        target = sample.get("target_power_W", math.nan)
+        power_test = math.isfinite(target)
+        key = ("power", target) if power_test else ("pwm", sample["pwm_us"])
+        previous_target = previous.get("target_power_W", math.nan) if previous else math.nan
+        previous_key = (("power", previous_target) if math.isfinite(previous_target)
+                        else ("pwm", previous["pwm_us"])) if previous else None
         if (previous is None or sample["boundary"] or
-                sample["pwm_us"] != previous["pwm_us"] or
+                key != previous_key or
+                (power_test and sample.get("test_step") != previous.get("test_step")) or
                 sample["time_s"] <= previous["time_s"]):
             step_start = sample["time_s"]
         previous = sample
         if sample["time_s"] - step_start < settle_seconds:
             continue
-        groups.setdefault(sample["pwm_us"], []).append(sample)
+        if power_test and sample.get("power_settled") is not True:
+            continue
+        groups.setdefault(key, []).append(sample)
     result = []
-    for pwm, rows in sorted(groups.items()):
+    for (kind, setting), rows in sorted(groups.items()):
         def mean(key):
             values = [row[key] for row in rows if math.isfinite(row[key])]
             return statistics.mean(values) if values else math.nan
@@ -119,7 +143,9 @@ def summarise(samples, settle_seconds=1.0, min_power=0.01):
                   math.isfinite(row["power_W"]) and row["power_W"] > min_power]
         force = statistics.mean(row["force_N"] for row in paired) if paired else math.nan
         power = statistics.mean(row["power_W"] for row in paired) if paired else math.nan
-        result.append(dict(pwm_us=pwm, samples=len(rows), paired_samples=len(paired),
+        result.append(dict(pwm_us=mean("pwm_us") if kind == "power" else setting,
+                           target_power_W=setting if kind == "power" else math.nan,
+                           samples=len(rows), paired_samples=len(paired),
                            mean_force_N=mean("force_N"), mean_power_W=mean("power_W"),
                            mean_current_A=mean("current_A"),
                            force_per_watt_N_W=force / power if paired else math.nan))
@@ -143,21 +169,38 @@ def plot_recording(samples, summary, title):
         for ax, key in ((axes[0, 0], force_key), (axes[0, 1], "power_W"),
                         (axes[1, 0], "current_A"), (axes[1, 1], "pwm_us")):
             ax.plot(t, [row[key] for row in block], linewidth=1)
+        if any(math.isfinite(row.get("target_power_W", math.nan)) for row in block):
+            axes[0, 1].plot(t, [row["target_power_W"] for row in block], "--", linewidth=1,
+                            color="black", label="Target power")
+    handles, labels = axes[0, 1].get_legend_handles_labels()
+    if handles:
+        axes[0, 1].legend(handles[:1], labels[:1])
     for ax, label in zip(axes.flat[:4],
                          ("Force (N)" if calibrated else "Force (uncalibrated counts)",
                           "Electrical power (W)", "Supply current (A)", "PWM command (µs)")):
         ax.set(xlabel="Device time since boot (s)", ylabel=label)
-    pwm = [row["pwm_us"] for row in summary]
-    axes[2, 0].plot(pwm, [row["mean_power_W"] for row in summary], "o-")
-    axes[2, 0].set(xlabel="PWM command (µs)", ylabel="Mean electrical power (W)")
-    axes[2, 1].plot(pwm, [row["force_per_watt_N_W"] for row in summary], "o-")
-    axes[2, 1].set(xlabel="PWM command (µs)", ylabel="Signed force / power (N/W)")
+    power_summary = [row for row in summary if math.isfinite(row["target_power_W"])]
+    if power_summary:
+        x = [row["mean_power_W"] for row in power_summary]
+        axes[2, 0].plot(x, [row["mean_force_N"] for row in power_summary], "o-")
+        axes[2, 0].set(xlabel="Mean electrical power (W)",
+                       ylabel="Mean force (N)" if calibrated else "Mean force (N, uncalibrated)")
+        axes[2, 1].plot(x, [row["force_per_watt_N_W"] for row in power_summary], "o-")
+        axes[2, 1].set(xlabel="Mean electrical power (W)", ylabel="Signed force / power (N/W)")
+    else:
+        pwm = [row["pwm_us"] for row in summary]
+        axes[2, 0].plot(pwm, [row["mean_power_W"] for row in summary], "o-")
+        axes[2, 0].set(xlabel="PWM command (µs)", ylabel="Mean electrical power (W)")
+        axes[2, 1].plot(pwm, [row["force_per_watt_N_W"] for row in summary], "o-")
+        axes[2, 1].set(xlabel="PWM command (µs)", ylabel="Signed force / power (N/W)")
     if not calibrated:
         axes[2, 1].text(0.5, 0.5, "Requires calibrated force\nUse --calibration calibration.json",
                         ha="center", va="center", transform=axes[2, 1].transAxes)
     for ax in axes.flat:
         ax.grid(True, alpha=0.3)
-    fig.suptitle(title + "\nPWM is a command, not measured RPM; summaries exclude settling")
+    fig.suptitle(title + ("\nPower-test summaries use settled samples grouped by target watts"
+                          if power_summary else
+                          "\nPWM is a command, not measured RPM; summaries exclude settling"))
     return fig
 
 
@@ -167,11 +210,11 @@ def main(argv=None):
     parser.add_argument("recording", type=Path, nargs="?", help="CSV or terminal .log file")
     parser.add_argument("--calibration", type=Path, help="JSON from LoadCellCalibration.py")
     parser.add_argument("--settle-seconds", type=float, default=1.0,
-                        help="Exclude this duration after each PWM/block change (default: 1)")
+                        help="Exclude seconds after each block/setting change (default: 1); power tests also require settled=1")
     parser.add_argument("--min-power", type=float, default=0.01,
                         help="Exclude power <= this value from N/W metrics (default: 0.01 W)")
     parser.add_argument("--save", type=Path, help="Save the plot, e.g. plots/run.png")
-    parser.add_argument("--summary-csv", type=Path, help="Save the per-PWM summary")
+    parser.add_argument("--summary-csv", type=Path, help="Save the per-PWM or per-target-watt summary")
     parser.add_argument("--no-show", action="store_true", help="Skip the interactive plot window")
     args = parser.parse_args(argv)
     try:
@@ -193,14 +236,15 @@ def main(argv=None):
         samples, malformed, dropped = read_recording(args.recording, calibration)
         summary = summarise(samples, args.settle_seconds, args.min_power)
         if not summary:
-            raise ValueError("No settled samples; reduce --settle-seconds")
+            raise ValueError("No settled samples; check --settle-seconds and power-test settled flags")
         if args.no_show:
             import matplotlib
             matplotlib.use("Agg")
         fig = plot_recording(samples, summary, args.recording.name)
-        print("PWM (µs)  Samples  Paired  Force (N)  Power (W)  Current (A)  Force/W (N/W)")
+        print("Target (W)  PWM (µs)  Samples  Paired  Force (N)  Power (W)  Current (A)  Force/W (N/W)")
         for row in summary:
-            print(f"{row['pwm_us']:8}  {row['samples']:7}  {row['paired_samples']:6}  "
+            target = f"{row['target_power_W']:.3f}" if math.isfinite(row['target_power_W']) else "-"
+            print(f"{target:>10}  {row['pwm_us']:8.1f}  {row['samples']:7}  {row['paired_samples']:6}  "
                   f"{row['mean_force_N']:9.4f}  {row['mean_power_W']:9.4f}  "
                   f"{row['mean_current_A']:11.4f}  {row['force_per_watt_N_W']:13.4f}")
         if not any(row["paired_samples"] for row in summary):

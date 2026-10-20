@@ -1,3 +1,9 @@
+// Build/flash this ESP-IDF project, then connect using software/SerialLogger.py.
+// Menu: 1 calibrate, 8 power-test CSV, 9 force N/power W, 10 settings, 11 repeat menu.
+// Option 10: set 1 5 1 30 = start/max/step watts, hold seconds; timing 5 60 = settle/timeout seconds.
+// limits 1700 11 25 = PWM ceiling (us), current cutoff (A), power cutoff (W).
+// exit stops and returns to neutral; calibration and settings reset on reboot.
+
 #include <inttypes.h>
 #include <math.h>
 #include <stdarg.h>
@@ -28,9 +34,11 @@
 #define STALE_US 500000
 #define CALIBRATION_SAMPLES 40
 #define MAX_CALIBRATION_POINTS 8
+#define POWER_CONTROL_US 100000 // Adjust at most 2 us per 100 ms, using fresh samples.
 
 typedef enum {
-    MENU, CALIBRATION, FORMATTED, CSV, PWM_TEST, PWM_DATA, PIN_SETTINGS, PWM_SETTINGS
+    MENU, CALIBRATION, FORMATTED, CSV, PWM_TEST, PWM_DATA, PIN_SETTINGS, PWM_SETTINGS,
+    POWER_RAW, POWER_PARSED, POWER_SETTINGS
 } app_mode_t;
 
 static app_mode_t mode = MENU;
@@ -48,10 +56,18 @@ static double collection_sum, applied_force_N;
 static int64_t collection_started;
 static double point_counts[MAX_CALIBRATION_POINTS], point_forces[MAX_CALIBRATION_POINTS];
 static unsigned dropped_lines;
+static double power_start_W = 5, power_max_W = 15, power_step_W = 5;
+static int power_hold_seconds = 5, power_settle_seconds = 2, power_timeout_seconds = 60;
+static int power_max_pwm = 1700;
+static double power_current_limit_A = 11, power_limit_W = 25;
+static double target_power_W, filtered_power_W;
+static int power_step_index;
+static int64_t power_step_started, power_in_band_since, power_control_at, power_sample_at;
+static bool power_filter_ready, power_settled;
 
 static void output(const char *format, ...)
 {
-    char line[256];
+    char line[384];
     va_list args;
     va_start(args, format);
     int length = vsnprintf(line, sizeof(line), format, args);
@@ -79,6 +95,16 @@ static bool pwm_active(void)
     return mode == PWM_TEST || mode == PWM_DATA;
 }
 
+static bool power_active(void)
+{
+    return mode == POWER_RAW || mode == POWER_PARSED;
+}
+
+static bool motor_active(void)
+{
+    return pwm_active() || power_active();
+}
+
 static void update_pwm(int64_t now);
 
 static void show_menu(void)
@@ -91,6 +117,10 @@ static void show_menu(void)
     output("5. Perform PWM test with timestamped data printing\n");
     output("6. Current pin settings\n");
     output("7. PWM test settings\n");
+    output("8. Power-controlled test: raw CSV data\n");
+    output("9. Power-controlled test: parsed force (N) and power (W)\n");
+    output("10. Power test settings and limits\n");
+    output("11. Repeat menu options\n");
     output("Type exit + Enter in any mode to stop and return here.\n> ");
 }
 
@@ -98,6 +128,8 @@ static void return_to_menu(const char *reason)
 {
     set_pulse(NEUTRAL_US);
     collecting = false;
+    power_settled = false;
+    power_filter_ready = false;
     mode = MENU;
     if (reason) output("\n%s\n", reason);
     show_menu();
@@ -132,6 +164,130 @@ static void show_pwm_settings(void)
            sweep_max, sweep_step, sweep_seconds);
     output("To change: set <maximum_us> <increment_us> <hold_seconds>, e.g. set 1700 50 5\n");
     output("Max 1500..1900; positive increment dividing the range; hold 1..60 s. Type exit to return.\n");
+}
+
+static void show_power_settings(void)
+{
+    output("Power targets: %.3f..%.3f W, step %.3f W; settled hold: %d s\n",
+           power_start_W, power_max_W, power_step_W, power_hold_seconds);
+    output("set <start_W> <max_W> <step_W> <hold_s>, e.g. set 5 15 5 5\n");
+    output("Targets/increments use up to three decimal places (minimum 0.001 W).\n");
+    output("PWM ceiling: %d us; current cutoff: %.3f A; power cutoff: %.3f W\n",
+           power_max_pwm, power_current_limit_A, power_limit_W);
+    output("limits <max_pwm_us> <max_A> <max_W>, e.g. limits 1700 11 25\n");
+    output("Settling: %d s in tolerance; acquisition timeout: %d s\n",
+           power_settle_seconds, power_timeout_seconds);
+    output("timing <settle_s> <timeout_s>, e.g. timing 2 60\n");
+    output("Tolerance: max(0.25 W, 5%% of target) on filtered power. Up to 100 targets.\n");
+    output("Forward only, max 1900 us; current cutoff <=15 A. Settings reset on reboot.\n");
+    output("Measure the same ESC input supply for both devices. Type exit to return.\n");
+}
+
+static void print_csv_header(bool power_test)
+{
+    output("time_us,force_raw,force_N,voltage_V,current_A,power_W,pulse_us,power_status,force_status,dropped_lines%s\n",
+           power_test ? ",target_power_W,filtered_power_W,power_settled,test_step" : "");
+}
+
+static double power_tolerance(void)
+{
+    return fmax(0.25, target_power_W * 0.05);
+}
+
+static bool valid_watt_setting(double watts)
+{
+    // Match the precision recorded in target_power_W, avoiding rounded/duplicate targets.
+    return isfinite(watts) && watts >= 0.001 && watts <= 500 &&
+           fabs(watts * 1000 - round(watts * 1000)) < 1e-6;
+}
+
+static void begin_power_step(int64_t now)
+{
+    power_step_started = now;
+    power_in_band_since = 0;
+    power_settled = false;
+    output("Power step %d: target %.3f W; hold %d s after settling.\n",
+           power_step_index + 1, target_power_W, power_hold_seconds);
+}
+
+static bool valid_power_sample(const power_sample_t *power)
+{
+    return isfinite(power->voltage_V) && power->voltage_V > 0 &&
+           isfinite(power->current_A) && power->current_A >= 0 &&
+           isfinite(power->power_W) && power->power_W >= 0;
+}
+
+// Observe before printing, then adjust PWM/advance targets after printing so the
+// measurement is labelled with the target and command that produced it.
+static void observe_power(int64_t now, const power_sample_t *power,
+                          esp_err_t power_status, esp_err_t force_status)
+{
+    if (!power_active()) return;
+    if ((power_status != ESP_OK && power_status != ESP_ERR_NOT_FINISHED) ||
+        (force_status != ESP_OK && force_status != ESP_ERR_NOT_FINISHED)) {
+        return_to_menu("Power test stopped: sensor read error.");
+        return;
+    }
+    if (power_status != ESP_OK || force_status != ESP_OK) {
+        power_in_band_since = 0;
+        power_settled = false;
+    }
+    if (power_status != ESP_OK) return;
+    if (!valid_power_sample(power)) {
+        return_to_menu("Power test stopped: invalid power sample or reversed current.");
+        return;
+    }
+    if (power->current_A >= power_current_limit_A || power->power_W >= power_limit_W) {
+        return_to_menu("Power test stopped: current or power cutoff exceeded.");
+        return;
+    }
+    filtered_power_W = power_filter_ready ?
+        filtered_power_W + 0.2 * (power->power_W - filtered_power_W) : power->power_W;
+    power_filter_ready = true;
+    power_sample_at = now;
+    if (force_status == ESP_OK && fabs(filtered_power_W - target_power_W) <= power_tolerance()) {
+        if (!power_in_band_since) power_in_band_since = now;
+        power_settled = now - power_in_band_since >= (int64_t)power_settle_seconds * 1000000;
+    } else {
+        power_in_band_since = 0;
+        power_settled = false;
+    }
+}
+
+static void update_power(int64_t now)
+{
+    if (!power_active()) return;
+    if (now - last_power > STALE_US || now - last_force > STALE_US) {
+        return_to_menu("Power test stopped: sensor data stale.");
+        return;
+    }
+    if (power_settled && now - power_in_band_since >=
+            (int64_t)(power_settle_seconds + power_hold_seconds) * 1000000) {
+        output("Power target complete: %.3f W, held %d s after settling.\n",
+               target_power_W, power_hold_seconds);
+        double next = power_start_W + (++power_step_index) * power_step_W;
+        if (next > power_max_W + 1e-6) {
+            return_to_menu("Power test complete.");
+            return;
+        }
+        target_power_W = next;
+        begin_power_step(now);
+    }
+    if (now - power_step_started >
+            (int64_t)(power_timeout_seconds + power_settle_seconds + power_hold_seconds) * 1000000) {
+        return_to_menu("Power test stopped: target not reached/held before timeout; check limits and load.");
+        return;
+    }
+    // Never wind up on missing data or issue multiple corrections for one sample.
+    if (!power_filter_ready || now < power_control_at || power_sample_at < power_control_at) return;
+    power_control_at = now + POWER_CONTROL_US;
+    double error = target_power_W - filtered_power_W;
+    if (fabs(error) <= power_tolerance()) return;
+    int adjustment = fabs(error) > 2 ? 2 : 1;
+    int next = pulse_us + (error > 0 ? adjustment : -adjustment);
+    if (next < NEUTRAL_US) next = NEUTRAL_US;
+    if (next > power_max_pwm) next = power_max_pwm;
+    if (next != pulse_us) set_pulse(next);
 }
 
 static void show_calibration(void)
@@ -278,31 +434,50 @@ static void fit_calibration(void)
 static void print_sample(int64_t now, const power_sample_t *power, int32_t raw,
                          esp_err_t power_status, esp_err_t force_status)
 {
-    if (mode != FORMATTED && mode != CSV && mode != PWM_DATA) return;
+    if (mode != FORMATTED && mode != CSV && mode != PWM_DATA && !power_active()) return;
     char raw_text[24] = "", force_text[48] = "unavailable";
     if (force_status == ESP_OK) {
         snprintf(raw_text, sizeof(raw_text), "%" PRId32, raw);
         if (calibrated) snprintf(force_text, sizeof(force_text), "%.6f", (raw - tare_counts) * newtons_per_count);
         else snprintf(force_text, sizeof(force_text), "%" PRId32 " counts (uncalibrated)", raw);
     }
-    if (mode == FORMATTED || mode == PWM_DATA) {
-        output("Timestamp: %" PRId64 " us, Force: %s%s, Voltage: %.4f V, Current: %.4f A, Power: %.4f W, Current PWM: %d us\n",
+    if (mode == FORMATTED || mode == PWM_DATA || mode == POWER_PARSED) {
+        char suffix[112] = "";
+        if (mode == POWER_PARSED) {
+            snprintf(suffix, sizeof(suffix), ", Target: %.3f W, Filtered: %.3f W, Settled: %d, Step: %d",
+                     target_power_W, filtered_power_W, power_settled, power_step_index + 1);
+        }
+        output("Timestamp: %" PRId64 " us, Force: %s%s, Voltage: %.4f V, Current: %.4f A, Power: %.4f W, Current PWM: %d us%s\n",
                now, force_text, calibrated && force_status == ESP_OK ? " N" : "",
-               power->voltage_V, power->current_A, power->power_W, pulse_us);
+               power->voltage_V, power->current_A, power->power_W, pulse_us, suffix);
     } else {
         // CSV keeps raw counts and read status, so later analysis can identify missing data.
         char calibrated_text[32] = "";
         if (calibrated && force_status == ESP_OK) {
             snprintf(calibrated_text, sizeof(calibrated_text), "%.6f", (raw - tare_counts) * newtons_per_count);
         }
-        output("%" PRId64 ",%s,%s,%.4f,%.4f,%.4f,%d,%s,%s,%u\n", now,
+        char suffix[96] = "";
+        if (mode == POWER_RAW) {
+            snprintf(suffix, sizeof(suffix), ",%.3f,%.4f,%d,%d", target_power_W,
+                     filtered_power_W, power_settled, power_step_index + 1);
+        }
+        output("%" PRId64 ",%s,%s,%.4f,%.4f,%.4f,%d,%s,%s,%u%s\n", now,
                raw_text, calibrated_text, power->voltage_V, power->current_A, power->power_W,
-               pulse_us, esp_err_to_name(power_status), esp_err_to_name(force_status), dropped_lines);
+               pulse_us, esp_err_to_name(power_status), esp_err_to_name(force_status), dropped_lines, suffix);
     }
 }
 
 static void command(const char *line, int64_t now)
 {
+    if (strcmp(line, "11") == 0) {
+        output("Menu repeated; current mode continues. Use exit before selecting another mode.\n");
+        show_menu();
+        // End the prompt line before streaming resumes. Reissue an active CSV
+        // header so a newly connected logger can record without selecting mode 3.
+        output("\n");
+        if (mode == CSV || mode == POWER_RAW) print_csv_header(mode == POWER_RAW);
+        return;
+    }
     // Match whole commands: treating every 'x' as stop would break the word 'exit'.
     if (strcmp(line, "exit") == 0 || strcmp(line, "stop") == 0) {
         return_to_menu("Returned to neutral.");
@@ -310,6 +485,7 @@ static void command(const char *line, int64_t now)
     }
     int a, b, c;
     double force;
+    double start_W, max_W, step_W;
     char extra;
     if (mode == MENU) {
         if (strcmp(line, "1") == 0) {
@@ -322,7 +498,7 @@ static void command(const char *line, int64_t now)
             }
             mode = line[0] == '2' ? FORMATTED : CSV;
             output("Printing sensor data; type exit + Enter to stop.\n");
-            if (mode == CSV) output("time_us,force_raw,force_N,voltage_V,current_A,power_W,pulse_us,power_status,force_status,dropped_lines\n");
+            if (mode == CSV) print_csv_header(false);
         } else if (strcmp(line, "4") == 0 || strcmp(line, "5") == 0) {
             if (!sensors_ready || now < esc_ready_at || !last_power || !last_force ||
                 now - last_power > STALE_US || now - last_force > STALE_US) {
@@ -340,8 +516,32 @@ static void command(const char *line, int64_t now)
         } else if (strcmp(line, "7") == 0) {
             mode = PWM_SETTINGS;
             show_pwm_settings();
+        } else if (strcmp(line, "8") == 0 || strcmp(line, "9") == 0) {
+            if (!sensors_ready || now < esc_ready_at || !last_power || !last_force ||
+                now - last_power > STALE_US || now - last_force > STALE_US) {
+                output("Wait for healthy sensors and five seconds of neutral ESC initialization.\n> ");
+                return;
+            }
+            if (strcmp(line, "9") == 0 && !calibrated) {
+                output("Calibrate force with option 1 first, or use option 8 for raw counts.\n> ");
+                return;
+            }
+            mode = line[0] == '8' ? POWER_RAW : POWER_PARSED;
+            set_pulse(NEUTRAL_US);
+            target_power_W = power_start_W;
+            filtered_power_W = NAN;
+            power_filter_ready = false;
+            power_sample_at = 0;
+            power_control_at = now;
+            power_step_index = 0;
+            output("Power test started. Adjusting PWM from measured ESC input watts. Type exit to stop.\n");
+            begin_power_step(now);
+            if (mode == POWER_RAW) print_csv_header(true);
+        } else if (strcmp(line, "10") == 0) {
+            mode = POWER_SETTINGS;
+            show_power_settings();
         } else {
-            output("Choose 1..7, then Enter.\n> ");
+            output("Choose 1..11, then Enter.\n> ");
         }
     } else if (mode == CALIBRATION) {
         if (strcmp(line, "tare") == 0) begin_collection(true, 0, now);
@@ -364,6 +564,32 @@ static void command(const char *line, int64_t now)
             sweep_seconds = c;
         } else output("Invalid settings; settings were not changed.\n");
         show_pwm_settings();
+    } else if (mode == POWER_SETTINGS) {
+        if (sscanf(line, "set %lf %lf %lf %d %c", &start_W, &max_W, &step_W, &a, &extra) == 4 &&
+            valid_watt_setting(start_W) && valid_watt_setting(max_W) && valid_watt_setting(step_W) &&
+            max_W >= start_W && max_W < power_limit_W &&
+            (max_W - start_W) / step_W <= 99 &&
+            fabs((max_W - start_W) / step_W - round((max_W - start_W) / step_W)) < 1e-6 &&
+            a >= 1 && a <= 600) {
+            power_start_W = start_W;
+            power_max_W = max_W;
+            power_step_W = step_W;
+            power_hold_seconds = a;
+        } else if (sscanf(line, "limits %d %lf %lf %c", &a, &start_W, &max_W, &extra) == 3 &&
+                   a > NEUTRAL_US && a <= MAX_FORWARD_US &&
+                   isfinite(start_W) && start_W > 0 && start_W <= 15 &&
+                   isfinite(max_W) && max_W > power_max_W && max_W <= 500) {
+            power_max_pwm = a;
+            power_current_limit_A = start_W;
+            power_limit_W = max_W;
+        } else if (sscanf(line, "timing %d %d %c", &a, &b, &extra) == 2 &&
+                   a >= 1 && a <= 60 && b >= a && b <= 600) {
+            power_settle_seconds = a;
+            power_timeout_seconds = b;
+        } else if (strcmp(line, "show") != 0) {
+            output("Invalid power settings; values unchanged. Targets must divide evenly and stay below cutoff.\n");
+        }
+        show_power_settings();
     } else output("Type exit + Enter to stop and return to the menu.\n");
 }
 
@@ -377,7 +603,8 @@ static void poll_commands(int64_t now)
     for (int i = 0; i < count; ++i) {
         char ch = input[i];
         // Echo while navigating, but keep streaming CSV free of typed characters.
-        bool echo = mode == MENU || mode == CALIBRATION || mode == PIN_SETTINGS || mode == PWM_SETTINGS;
+        bool echo = mode == MENU || mode == CALIBRATION || mode == PIN_SETTINGS ||
+                    mode == PWM_SETTINGS || mode == POWER_SETTINGS;
         if (ch == '\r' || ch == '\n') {
             if (echo && (used || overflow)) output("\n");
             if (overflow) output("Command too long; try again.\n");
@@ -442,10 +669,11 @@ void app_main(void)
                 last_force = esp_timer_get_time();
                 collect_sample(raw);
             }
+            observe_power(now, &power, p, f);
             print_sample(now, &power, raw, p, f);
-            if (pwm_active() && ((p != ESP_OK && p != ESP_ERR_NOT_FINISHED) ||
+            if (motor_active() && ((p != ESP_OK && p != ESP_ERR_NOT_FINISHED) ||
                                  (f != ESP_OK && f != ESP_ERR_NOT_FINISHED))) {
-                return_to_menu("PWM test stopped: sensor read error.");
+                return_to_menu("Motor test stopped: sensor read error.");
             }
         }
         now = esp_timer_get_time();
@@ -454,6 +682,7 @@ void app_main(void)
             output("Calibration point timed out; check the force sensor and retry.\n");
         }
         update_pwm(now);
+        update_power(now);
         // One task owns sensors, menu and PWM state, avoiding shared-state locks.
         vTaskDelay(pdMS_TO_TICKS(10));
     }

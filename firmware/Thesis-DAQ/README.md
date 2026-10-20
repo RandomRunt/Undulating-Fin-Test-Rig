@@ -14,11 +14,21 @@ selected. Type an option number and press Enter.
 | 5 | PWM sweep with formatted timestamped sensor output |
 | 6 | View/change current GPIO assignments |
 | 7 | View/change PWM test settings |
+| 8 | Power-controlled test with raw CSV output |
+| 9 | Power-controlled test with formatted force (N) and power (W) |
+| 10 | View/change power targets, hold times and control limits |
+| 11 | Repeat menu options while retaining the current mode |
 
 **Type `exit` and press Enter in any mode:** stop printing/recording/testing,
 return PWM to 1500 us neutral, and show the original menu. `stop` also does this.
 Unlike earlier firmware, a lone `x` is not a stop command; it is part of `exit`.
 Finish a mode with `exit` before selecting another option.
+
+Option **11** can be entered in any mode. It repeats the menu without changing
+motor output, test timing, calibration collection or settings. A running CSV
+mode also reprints its header so a logger can attach without selecting another
+output mode. `SerialLogger.py` sends `11` automatically when it connects. An
+active test continues; use `exit` to stop it before choosing another mode.
 
 ## Wiring and pin settings
 
@@ -164,6 +174,97 @@ Tests also stop on sensor errors, data older than 0.5 seconds, and detected USB
 disconnection. Closing a terminal may leave USB connected: enter `exit` before
 closing it. Software is not a substitute for an accessible motor-power cutoff.
 
+## Power-controlled tests (options 8, 9 and 10)
+
+These tests regulate the **measured DC input power to the ESC** by adjusting the
+forward PWM command. The fin mechanism and T200 can therefore run at the same
+input watt targets while using different PWM commands. Power is electrical
+input at the INA260 measurement point; it is not mechanical output power.
+Use the same supply measurement arrangement for both devices and compare the
+actual measured means and repeat runs, rather than assuming targets are exact.
+
+Select option **10** to customize settings. Defaults are 5, 10 and 15 W, with
+five seconds of settled measurement at each target:
+
+```text
+set 5 15 5 5
+```
+
+The arguments are `set <start_W> <max_W> <step_W> <hold_seconds>`. Start and
+increment must be at least 0.001 W with up to three decimal places, the increment must divide the range evenly, and
+the maximum must be below the power cutoff. Up to 100 targets and 1..600 seconds
+of hold time are accepted. To test one level, use e.g. `set 10 10 1 10`.
+
+Control limits and timing can be changed separately in option 10:
+
+```text
+limits 1700 11 25
+timing 2 60
+show
+```
+
+- `limits <max_pwm_us> <current_cutoff_A> <power_cutoff_W>` defaults to 1700 us,
+  11 A and 25 W. The PWM ceiling must be above 1500 and no higher than 1900 us;
+  current cutoff must be positive and no higher than 15 A; power cutoff must
+  exceed the configured maximum target and be no higher than 500 W. Set limits
+  before raising targets. These are software cutoffs on sampled readings,
+  not hardware current protection or a validated rating for the whole rig.
+  Power-controlled tests stop at measured current **>=11 A** with the default
+  cutoff, allowing a roughly 10 A operating target when other limits permit.
+  The independent default 25 W cutoff must also be configured for higher-power
+  experiments; setting the current cutoff does not raise the watt or PWM limits.
+- `timing <settle_seconds> <acquisition_timeout_seconds>` defaults to 2 and 60.
+  Settling must be 1..60 s; timeout must be at least settling and at most 600 s.
+  A step's total deadline is acquisition timeout + settling + hold time.
+- Settings are RAM-only. Review the limits for each motor, mechanism and supply.
+  The INA260's [15 A continuous chip rating](https://www.ti.com/lit/ds/symlink/ina260.pdf)
+  does not establish the current rating of the breakout, wiring or connectors.
+
+Enter `exit` to return to the menu, then select **8** for CSV output or **9**
+for readable newtons and watts. Option 9 requires force calibration; option 8
+can retain raw counts for calibration during later analysis. Both modes keep
+measured power in watts. The firmware waits for healthy sensors and the existing
+five seconds of neutral ESC initialization before permitting a test to start.
+
+The controller starts at neutral and adjusts by at most 2 us every 100 ms using
+fresh readings. A low-pass filter (`filtered += 0.2 * (measured - filtered)` at
+approximately 20 Hz) smooths cyclic power draw. It holds the command within a
+deadband of the larger of 0.25 W or 5% of the target. The settling clock starts
+when filtered power enters this band. After two uninterrupted seconds by default,
+rows are marked settled; the hold clock then runs for the configured duration.
+Leaving the band or missing a sensor conversion resets both clocks. The
+controller continues regulating during the hold. A new target retains the
+current command and filter history but starts a new settling period.
+
+CSV mode appends these columns to the existing sensor schema:
+
+```text
+target_power_W,filtered_power_W,power_settled,test_step
+```
+
+`power_settled` is 0 while approaching/reacquiring the target and 1 during the
+measurement hold. Force counts and sensor statuses remain available, and
+`force_N` is filled when calibrated. Formatted mode appends the same information:
+
+```text
+, Target: 5.000 W, Filtered: 4.950 W, Settled: 1, Step: 1
+```
+
+Measurements are printed before the next control correction/target change.
+Completion, `exit`/`stop`, USB disconnection, stale sensors (>0.5 s), sensor read
+errors, invalid power readings, reversed current, or current/power cutoff returns
+the output to neutral. An unreachable/unstable target times out and stops the
+test; it is not reported as a completed level. A low PWM ceiling may prevent
+reaching a target. Control gains/filtering need physical validation with each
+mechanism; the host simulations do not establish stability on the real rig.
+
+Use `SerialLogger.py` option 8 output for automatic CSV files. Its `--no-csv`
+or `/csv off` switch disables CSV saving while keeping the terminal log.
+`PlotRecording.py` reads both power-test modes and summarizes only settled rows
+by target watts, with N/W computed from measured power. Ordinary PWM grouping
+would discard useful data because the power controller changes PWM throughout
+the run. An external calibration JSON can be applied to raw CSV data in analysis.
+
 ## Timing and recording
 
 Data modes print approximately 20 rows/s. INA260 uses triggered voltage/current
@@ -190,12 +291,18 @@ lines when importing data.
 On a host with GCC, run:
 
 ```text
-gcc -std=c11 -Wall -Wextra -Werror -Itests/include tests/menu_test.c -o build/menu_test.exe
+gcc -std=c11 -Wall -Wextra -Werror -Itests/include tests/menu_test.c -lm -o build/menu_test.exe
 build/menu_test.exe
 ```
 
 The host tests cover silent modes, output formats, `exit`, invalid settings,
 calibration fitting/re-tare, PWM stepping, completion and stale-data shutdown.
+Power tests include customizable settings, raw/formatted telemetry, two simulated
+motor responses at the same three watt targets, command slew/ceilings, settled
+hold timing, missing conversions, cutoffs, reversed/invalid readings and timeout.
+Tests also verify that menu option 11 retains mode and motor/test state, refreshes
+active CSV headers, and that 10 A is allowed while measured current >=11 A trips
+when the independent watt cutoff permits those power levels.
 They do not replace checking PWM timing and measurements on the physical rig.
 
 References: [ESP-IDF I2C](https://docs.espressif.com/projects/esp-idf/en/stable/esp32c3/api-reference/peripherals/i2c.html),
