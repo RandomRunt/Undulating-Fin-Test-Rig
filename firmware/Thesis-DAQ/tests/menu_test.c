@@ -44,8 +44,41 @@ static void test_menu_repeat(void)
 
 static void test_power_control(void)
 {
+    assert(power_max_pwm == 1900 && directed_pulse(power_max_pwm) == 1900);
+    assert(power_start_W == 1 && power_max_W == 20 && power_step_W == 1);
+    assert(power_hold_seconds == 30 && power_limit_W == 55);
+    mode = POWER_SETTINGS;
+    command("set 5 50 5 5", 0);
+    assert(power_max_W == 50);
+    command("set 5 55 5 5", 0);
+    assert(power_max_W == 50); // Targets must remain below the protective cutoff.
+    for (int direction = 0; direction < 2; ++direction) {
+        reverse_pwm = direction != 0;
+        start_power_test("8", 10000000);
+        set_pulse(directed_pulse(power_max_pwm));
+        power_sample_t low_power = {12, 0.1f, 1};
+        observe_power(10000000, &low_power, ESP_OK, ESP_OK);
+        update_power(10000000);
+        assert(pulse_us == (direction ? 1100 : 1900));
+        command("exit", 10000000);
+    }
+    // Fluctuations outside the control deadband can still settle and be recorded.
+    start_power_test("8", 10000000);
+    power_sample_t fluctuating_power = {12, 0.45f, 5.4f};
+    observe_power(10000000, &fluctuating_power, ESP_OK, ESP_OK);
+    observe_power(12100000, &fluctuating_power, ESP_OK, ESP_OK);
+    assert(power_settled);
+    assert(fabs(filtered_power_W - target_power_W) > power_tolerance());
+    assert(fabs(filtered_power_W - target_power_W) < power_settling_tolerance());
+    fluctuating_power.power_W = 6;
+    observe_power(12150000, &fluctuating_power, ESP_OK, ESP_OK);
+    assert(!power_settled && !power_in_band_since);
+    command("exit", 12150000);
+    reverse_pwm = false;
+    // Keep the existing simulation/fault scenarios at their original limits.
     mode = POWER_SETTINGS;
     command("set 5 15 5 5", 0);
+    command("limits 1700 11 25", 0);
     assert(power_start_W == 5 && power_max_W == 15 && power_step_W == 5 && power_hold_seconds == 5);
     command("set 5 14 5 5", 0);
     command("set nan 15 5 5", 0);
@@ -110,7 +143,7 @@ static void test_power_control(void)
             assert(power_active());
             if (power_settled) {
                 ++settled_steps[power_step_index];
-                assert(fabs(filtered_power_W - target_power_W) <= power_tolerance());
+                assert(fabs(filtered_power_W - target_power_W) <= power_settling_tolerance());
                 if (power_step_index == 2) final_commands[device] = pulse_us;
             }
             int previous_pulse = pulse_us;
@@ -185,9 +218,143 @@ static void test_power_control(void)
     captured[0] = 0;
 }
 
+static void test_direction(void)
+{
+    return_to_menu(NULL);
+    command("direction reverse", 10000000);
+    assert(reverse_pwm && pulse_us == NEUTRAL_US && esc_ready_at == 15000000);
+    sensors_ready = true;
+    last_power = last_force = 11000000;
+    command("4", 11000000);
+    assert(mode == MENU); // Neutral dwell also applies after reversing.
+    last_power = last_force = 16000000;
+    command("5", 16000000);
+    assert(mode == PWM_DATA && pulse_us == 1440);
+    command("12", 16000000);
+    command("direction forward", 16000000);
+    assert(reverse_pwm && mode == PWM_DATA); // No live reversal.
+    command("11", 16000000);
+    assert(reverse_pwm && mode == PWM_DATA && pulse_us == 1440);
+    command("exit", 16000000);
+    assert(mode == MENU && pulse_us == NEUTRAL_US);
+
+    // Full reverse power-control run with simulated load and lag.
+    power_sample_t power;
+    double watts = 0.2;
+    int64_t now = 30000000;
+    start_power_test("8", now);
+    int settled_steps[3] = {0, 0, 0};
+    for (int tick = 0; tick < 2400 && power_active(); ++tick) {
+        now += 50000;
+        double demand = 0.2 + 0.1 * (NEUTRAL_US - pulse_us);
+        power = (power_sample_t){12, (float)(watts / 12), (float)watts};
+        watts += 0.15 * (demand - watts);
+        last_power = last_force = now;
+        observe_power(now, &power, ESP_OK, ESP_OK);
+        if (power_settled) ++settled_steps[power_step_index];
+        int previous = pulse_us;
+        update_power(now);
+        if (power_active()) {
+            assert(pulse_us <= NEUTRAL_US && pulse_us >= directed_pulse(power_max_pwm));
+            assert(abs(pulse_us - previous) <= 2);
+        }
+        captured[0] = 0;
+    }
+    assert(mode == MENU && pulse_us == NEUTRAL_US);
+    for (int step = 0; step < 3; ++step) assert(settled_steps[step] >= 99);
+
+    start_power_test("8", now);
+    set_pulse(directed_pulse(power_max_pwm));
+    power = (power_sample_t){12, 0.1f, 1};
+    observe_power(now, &power, ESP_OK, ESP_OK);
+    update_power(now);
+    assert(pulse_us == directed_pulse(power_max_pwm)); // Reverse limit clamps.
+    now += POWER_CONTROL_US;
+    last_power = last_force = now;
+    power = (power_sample_t){12, 1.5f, 18};
+    power_filter_ready = false;
+    observe_power(now, &power, ESP_OK, ESP_OK);
+    update_power(now);
+    assert(pulse_us == directed_pulse(power_max_pwm) + 2); // High watts back toward neutral.
+    captured[0] = 0;
+    print_sample(now, &power, 1000, ESP_OK, ESP_OK);
+    assert(strstr(captured, ",1302,ESP_OK,ESP_OK,")); // CSV contains physical pulse.
+    command("direction forward", now);
+    assert(reverse_pwm && mode == POWER_RAW);
+    update_power(now + STALE_US + 1);
+    assert(mode == MENU && pulse_us == NEUTRAL_US);
+    start_power_test("8", now);
+    power = (power_sample_t){12, 11, 20};
+    observe_power(now, &power, ESP_OK, ESP_OK);
+    assert(mode == MENU && pulse_us == NEUTRAL_US);
+    command("direction sideways", now);
+    assert(reverse_pwm);
+    command("direction show", now);
+    assert(reverse_pwm);
+    command("12", now);
+    assert(!reverse_pwm && pulse_us == NEUTRAL_US);
+    captured[0] = 0;
+}
+
+static void test_pwm_table(void)
+{
+    const int expected[] = {
+        1440, 1398, 1370, 1347, 1326, 1305, 1287, 1270, 1253, 1238,
+        1223, 1209, 1195, 1180, 1162, 1146, 1131, 1119, 1106, 1100
+    };
+    power_sample_t power = {12, 0.5f, 6};
+    for (int direction = 0; direction < 2; ++direction) {
+        reverse_pwm = direction != 0;
+        for (int option = 4; option <= 5; ++option) {
+            int64_t now = 10000000;
+            return_to_menu(NULL);
+            sensors_ready = true;
+            esc_ready_at = 0;
+            last_power = last_force = now;
+            captured[0] = 0;
+            command(option == 4 ? "4" : "5", now);
+            for (size_t step = 0; step < 20; ++step) {
+                int expected_pulse = direction ? expected[step] : 3000 - expected[step];
+                assert(mode == (option == 4 ? PWM_TEST : PWM_DATA));
+                assert(pulse_us == expected_pulse && pwm_step_index == step);
+                assert(step_deadline == now + 30000000);
+                captured[0] = 0;
+                print_sample(now, &power, 2100, ESP_OK, ESP_OK);
+                if (option == 5) {
+                    assert(strstr(captured, "Force: 10.000000 N"));
+                    assert(strstr(captured, "Power: 6.0000 W"));
+                    char pwm_text[40];
+                    snprintf(pwm_text, sizeof(pwm_text), "Current PWM: %d us", expected_pulse);
+                    assert(strstr(captured, pwm_text));
+                } else assert(captured[0] == 0);
+                last_power = last_force = now + 29999999;
+                update_pwm(now + 29999999);
+                assert(pulse_us == expected_pulse && pwm_step_index == step);
+                now += 30000000;
+                last_power = last_force = now;
+                update_pwm(now);
+            }
+            assert(now == 610000000 && mode == MENU && pulse_us == NEUTRAL_US);
+            assert(strstr(captured, "PWM test complete."));
+        }
+    }
+    command("5", 610000000);
+    assert(mode == PWM_DATA && pulse_us == 1440 && pwm_step_index == 0);
+    command("stop", 610000001);
+    assert(mode == MENU && pulse_us == NEUTRAL_US);
+    command("5", 610000002);
+    update_pwm(610000000 + STALE_US + 1);
+    assert(mode == MENU && pulse_us == NEUTRAL_US);
+    reverse_pwm = false;
+    captured[0] = 0;
+}
+
 int main(void)
 {
+    assert(reverse_pwm && directed_pulse(MAX_FORWARD_US) == 1100);
+    reverse_pwm = false; // Existing forward simulations explicitly select their direction.
     power_sample_t power = {12, 2, 24};
+    calibrated = false; // Exercise unavailable force output regardless of startup calibration.
     mode = MENU;
     print_sample(12345, &power, 123, ESP_OK, ESP_OK);
     assert(captured[0] == 0); // Startup/menu must not continuously print samples.
@@ -222,11 +389,8 @@ int main(void)
 
     mode = PWM_SETTINGS;
     command("set 1800 50 3", 0);
-    assert(sweep_max == 1800 && sweep_step == 50 && sweep_seconds == 3);
-    command("set 1800 0 3", 0);
-    command("set 1950 50 3", 0);
-    command("set 1800 70 3", 0);
-    assert(sweep_max == 1800 && sweep_step == 50 && sweep_seconds == 3);
+    assert(strstr(captured, "20 steps, 30 s each (600 s total)"));
+    assert(strstr(captured, "Table and hold time are fixed."));
     captured[0] = 0;
 
     mode = PIN_SETTINGS;
@@ -252,32 +416,10 @@ int main(void)
     assert(calibrated && tare_counts == 1100 && fabs(newtons_per_count - 0.01) < 1e-9);
     captured[0] = 0;
 
-    return_to_menu(NULL);
-    sensors_ready = true;
-    esc_ready_at = 0;
-    sweep_max = 1600;
-    sweep_step = 50;
-    sweep_seconds = 1;
-    last_power = last_force = 10000000;
-    command("4", 10000000);
-    assert(mode == PWM_TEST && pulse_us == 1500);
-    update_pwm(10400000);
-    assert(pulse_us == 1500); // No early step before the hold expires.
-    last_power = last_force = 11000000;
-    update_pwm(11000000);
-    assert(pulse_us == 1550);
-    last_power = last_force = 12000000;
-    update_pwm(12000000);
-    assert(pulse_us == 1600);
-    last_power = last_force = 13000000;
-    update_pwm(13000000);
-    assert(mode == MENU && pulse_us == 1500);
-    command("5", 13000000);
-    assert(mode == PWM_DATA);
-    update_pwm(13600000);
-    assert(mode == MENU && pulse_us == 1500); // Stale sensors stop the test.
+    test_pwm_table();
     test_menu_repeat();
     test_power_control();
+    test_direction();
     puts("Menu, output, CSV, calibration, PWM and power-control simulation/fault tests passed.");
     return 0;
 }

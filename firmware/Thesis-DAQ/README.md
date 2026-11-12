@@ -5,19 +5,30 @@ IDF Monitor on the native USB COM port. The ESC starts at 1500 us neutral.
 Sensors are read quietly in the background; no measurement stream starts until
 selected. Type an option number and press Enter.
 
+Build from an ESP-IDF 6.1 terminal (the version selected in `.vscode/settings.json`):
+
+```powershell
+idf.py build
+```
+
+After changing ESP-IDF installations, run `idf.py fullclean` followed by
+`idf.py build` to refresh cached SDK, Python and bootloader paths. The `build`
+directory contains generated files tied to the selected installation.
+
 | Option | Function |
 |---|---|
 | 1 | Guided multi-point force calibration |
 | 2 | Formatted timestamped sensor output |
 | 3 | Unformatted timestamped sensor output (CSV) |
-| 4 | PWM sweep with step notices only |
-| 5 | PWM sweep with formatted timestamped sensor output |
+| 4 | Fixed PWM table, 30 seconds per step, with step notices only |
+| 5 | Fixed PWM table with formatted timestamped force and power |
 | 6 | View/change current GPIO assignments |
-| 7 | View/change PWM test settings |
+| 7 | View the fixed PWM table and hold time |
 | 8 | Power-controlled test with raw CSV output |
 | 9 | Power-controlled test with formatted force (N) and power (W) |
 | 10 | View/change power targets, hold times and control limits |
 | 11 | Repeat menu options while retaining the current mode |
+| 12 | Toggle forward/reverse PWM direction while stopped |
 
 **Type `exit` and press Enter in any mode:** stop printing/recording/testing,
 return PWM to 1500 us neutral, and show the original menu. `stop` also does this.
@@ -157,15 +168,52 @@ not while streaming, keeping typed text out of CSV rows.
 
 ## PWM settings and tests (options 7, 4 and 5)
 
-Defaults: neutral/start 1500 us, maximum 1700 us, 50 us increments, five seconds
-at each step, 50 Hz pulse frequency. In option 7, `set 1700 50 5` sets the maximum,
-increment and hold seconds. Maximum is 1500..1900; increment must be positive and
-divide the range exactly; dwell is an integer 1..60 seconds. Settings are RAM-only.
+Direction defaults to reverse. From the menu or settings (7 or 10), enter `12`
+to toggle it, or use `direction reverse` / `direction forward` to select it.
+`direction show` reports it in any mode. Stop with `exit` before changing
+direction; a change holds neutral and requires five seconds before a test can
+start. Direction applies to both PWM and power-controlled tests and resets on
+reboot. Reverse mirrors commands around 1500 us: 1700 becomes 1300 us and 1900
+becomes 1100 us. Power-control limits retain their forward-equivalent values in
+either direction, so `limits 1700 11 25` needs no conversion.
+Settings display the actual table/limit. CSV `pulse_us` and formatted PWM
+always report the actual output width; the CSV schema is unchanged.
 
-Choose option 4 or 5 to start the configured test explicitly. With defaults:
-1500 -> 1550 -> 1600 -> 1650 -> 1700 -> 1500 us. The initial neutral step and each
-subsequent step last five seconds. Completion returns to neutral and the menu.
-Option 4 prints only step/test notices; option 5 adds formatted measurement rows.
+Options 4 and 5 run the following fixed table in order, holding each pulse width
+for **30 seconds** at 50 Hz. Option 7 displays the table; the old
+`set <maximum_us> <increment_us> <hold_seconds>` sweep command no longer applies.
+
+| Nominal power (W) | Reverse PWM (us) |
+|---:|---:|
+| 1 | 1440 |
+| 2 | 1398 |
+| 3 | 1370 |
+| 4 | 1347 |
+| 5 | 1326 |
+| 6 | 1305 |
+| 7 | 1287 |
+| 8 | 1270 |
+| 9 | 1253 |
+| 10 | 1238 |
+| 11 | 1223 |
+| 12 | 1209 |
+| 13 | 1195 |
+| 14 | 1180 |
+| 15 | 1162 |
+| 16 | 1146 |
+| 17 | 1131 |
+| 18 | 1119 |
+| 19 | 1106 |
+| 20 | 1100 |
+
+The first pulse is applied immediately after the startup checks, with no extra
+neutral test step. Total hold time is **600 seconds (10 minutes)**; completion
+returns to 1500 us neutral and the menu. Forward direction mirrors this table
+around 1500 us (1560 through 1900 us). The watt labels describe the original
+measurements; PWM tests hold the pulse fixed and report live measured power.
+Option 4 prints only step/test notices; **option 5** adds formatted measurement
+rows with timestamp, force (N when calibrated), voltage, current, power (W), and
+actual PWM, using the same format as option 2.
 These are throttle pulse widths, not measured RPM. Confirm the powered ESC's
 initialization tones before starting a test; firmware enforces five seconds of
 neutral after configuring its output.
@@ -177,17 +225,17 @@ closing it. Software is not a substitute for an accessible motor-power cutoff.
 ## Power-controlled tests (options 8, 9 and 10)
 
 These tests regulate the **measured DC input power to the ESC** by adjusting the
-forward PWM command. The fin mechanism and T200 can therefore run at the same
+PWM command in the selected direction. The fin mechanism and T200 can therefore run at the same
 input watt targets while using different PWM commands. Power is electrical
 input at the INA260 measurement point; it is not mechanical output power.
 Use the same supply measurement arrangement for both devices and compare the
 actual measured means and repeat runs, rather than assuming targets are exact.
 
-Select option **10** to customize settings. Defaults are 5, 10 and 15 W, with
+Select option **10** to customize settings. Defaults are 5 through 50 W in 5 W steps, with
 five seconds of settled measurement at each target:
 
 ```text
-set 5 15 5 5
+set 5 50 5 5
 ```
 
 The arguments are `set <start_W> <max_W> <step_W> <hold_seconds>`. Start and
@@ -198,20 +246,22 @@ of hold time are accepted. To test one level, use e.g. `set 10 10 1 10`.
 Control limits and timing can be changed separately in option 10:
 
 ```text
-limits 1700 11 25
+limits 1900 11 55
 timing 2 60
 show
 ```
 
-- `limits <max_pwm_us> <current_cutoff_A> <power_cutoff_W>` defaults to 1700 us,
-  11 A and 25 W. The PWM ceiling must be above 1500 and no higher than 1900 us;
+- `limits <max_pwm_us> <current_cutoff_A> <power_cutoff_W>` defaults to 1900 us,
+  11 A and 55 W. This allows 50 W targets with headroom before the power cutoff.
+  PWM runs from neutral at 1500 us to 1900 us in forward, or 1100 us in reverse.
+  The PWM ceiling must be above 1500 and no higher than 1900 us;
   current cutoff must be positive and no higher than 15 A; power cutoff must
   exceed the configured maximum target and be no higher than 500 W. Set limits
   before raising targets. These are software cutoffs on sampled readings,
   not hardware current protection or a validated rating for the whole rig.
   Power-controlled tests stop at measured current **>=11 A** with the default
   cutoff, allowing a roughly 10 A operating target when other limits permit.
-  The independent default 25 W cutoff must also be configured for higher-power
+  The independent default 55 W cutoff must also be configured for higher-power
   experiments; setting the current cutoff does not raise the watt or PWM limits.
 - `timing <settle_seconds> <acquisition_timeout_seconds>` defaults to 2 and 60.
   Settling must be 1..60 s; timeout must be at least settling and at most 600 s.
@@ -229,8 +279,9 @@ five seconds of neutral ESC initialization before permitting a test to start.
 The controller starts at neutral and adjusts by at most 2 us every 100 ms using
 fresh readings. A low-pass filter (`filtered += 0.2 * (measured - filtered)` at
 approximately 20 Hz) smooths cyclic power draw. It holds the command within a
-deadband of the larger of 0.25 W or 5% of the target. The settling clock starts
-when filtered power enters this band. After two uninterrupted seconds by default,
+deadband of the larger of 0.25 W or 5% of the target. Settling uses a wider band:
+the larger of 0.5 W or 10% of the target (4.5..5.5 W for a 5 W target).
+The settling clock starts when filtered power enters this band. After two uninterrupted seconds by default,
 rows are marked settled; the hold clock then runs for the configured duration.
 Leaving the band or missing a sensor conversion resets both clocks. The
 controller continues regulating during the hold. A new target retains the
@@ -296,7 +347,9 @@ build/menu_test.exe
 ```
 
 The host tests cover silent modes, output formats, `exit`, invalid settings,
-calibration fitting/re-tare, PWM stepping, completion and stale-data shutdown.
+all 20 PWM table entries and 30-second holds in both directions, formatted force
+and power, direction-change interlocks and neutral dwell, calibration fitting/re-tare,
+PWM completion/restart and stale-data shutdown.
 Power tests include customizable settings, raw/formatted telemetry, two simulated
 motor responses at the same three watt targets, command slew/ceilings, settled
 hold timing, missing conversions, cutoffs, reversed/invalid readings and timeout.

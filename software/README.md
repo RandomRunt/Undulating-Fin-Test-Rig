@@ -56,6 +56,15 @@ the setting. These commands stay on the host and do not change motor operation
 or stop firmware output. Enabling before a CSV header arrives waits for one.
 The terminal transcript stays enabled throughout. Formatted output is retained
 in the transcript; toggling CSV does not convert formatted lines into CSV rows.
+Enter `12` while stopped to toggle PWM direction, or use `/direction reverse`
+and `/direction forward` to select it explicitly. `/direction show` checks the
+firmware setting. Stop with `exit` before changing direction, then wait five
+seconds before starting another test. Both PWM and power-controlled tests use
+this setting; reboot restores forward. PWM settings and limits stay in
+forward-equivalent units (1700 means an actual 1300 us pulse in reverse).
+Recorded `pulse_us` remains the actual output width, including reverse pulses
+below 1500 us; direction commands and firmware responses are in the transcript.
+
 Entering `11` repeats the menu without changing the active mode. During a CSV
 stream it also refreshes the header, starting a new CSV file when saving is on.
 The startup request therefore lets the logger attach to an already running CSV

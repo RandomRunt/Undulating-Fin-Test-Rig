@@ -1,0 +1,9 @@
+# Experimental recordings and generated results stay local.
+/recordings/
+/software/recordings/
+/output/
+
+# Python caches and temporary previews.
+__pycache__/
+*.pyc
+/tmp/

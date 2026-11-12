@@ -124,6 +124,39 @@ class RecordingTests(unittest.TestCase):
         self.assertEqual(port.writes, [b"11\n", b"exit\n", b"exit\n"])
         self.assertNotIn(b"3\n", port.writes)
 
+    def test_direction_commands_forwarded_and_reverse_csv_preserved(self):
+        class Port:
+            in_waiting = 1
+
+            def __init__(self):
+                self.writes = []
+
+            def write(self, data):
+                self.writes.append(data)
+
+            def read(self, size):
+                return b""
+
+        commands = queue.Queue()
+        for command in ("/direction reverse", "/direction show", "/direction sideways",
+                        "12", "/direction forward", "/quit"):
+            commands.put(command)
+        port = Port()
+        transcript = io.BytesIO()
+        with tempfile.TemporaryDirectory() as directory:
+            recorder = CSVRecorder(directory, report=lambda _: None)
+            recorder.consume(POWER_HEADER)
+            recorder.consume("100,1000,-1,12,1,12,1300,ESP_OK,ESP_OK,0,12,12,1,1")
+            with patch("SerialLogger.time.monotonic", side_effect=range(100)), patch("sys.stdout", io.StringIO()):
+                run_console(port, recorder, transcript, commands)
+            with next(Path(directory).glob("*.csv")).open(newline="") as stream:
+                row = next(csv.DictReader(stream))
+            self.assertEqual(row["pulse_us"], "1300")
+            self.assertEqual(row["force_N"], "-1")
+        self.assertEqual(port.writes, [b"11\n", b"direction reverse\n", b"direction show\n",
+                                       b"12\n", b"direction forward\n", b"exit\n", b"exit\n"])
+        self.assertIn(b"[HOST COMMAND] direction reverse", transcript.getvalue())
+
     def test_power_summary_ignores_pwm_changes_and_unsettled_rows(self):
         lines = [POWER_HEADER]
         for target, step in ((5, 1), (10, 2)):

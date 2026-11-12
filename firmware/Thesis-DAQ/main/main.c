@@ -1,7 +1,8 @@
 // Build/flash this ESP-IDF project, then connect using software/SerialLogger.py.
 // Menu: 1 calibrate, 8 power-test CSV, 9 force N/power W, 10 settings, 11 repeat menu.
 // Option 10: set 1 5 1 30 = start/max/step watts, hold seconds; timing 5 60 = settle/timeout seconds.
-// limits 1700 11 25 = PWM ceiling (us), current cutoff (A), power cutoff (W).
+// limits 1900 11 55 = PWM ceiling (us), current cutoff (A), power cutoff (W).
+// 12 toggles direction while stopped; direction forward/reverse/show selects or reports it.
 // exit stops and returns to neutral; calibration and settings reset on reboot.
 
 #include <inttypes.h>
@@ -35,6 +36,14 @@
 #define CALIBRATION_SAMPLES 40
 #define MAX_CALIBRATION_POINTS 8
 #define POWER_CONTROL_US 100000 // Adjust at most 2 us per 100 ms, using fresh samples.
+#define PWM_HOLD_SECONDS 30
+
+// Measured reverse pulse widths for nominal 1..20 W; power is still measured live.
+static const int pwm_reverse_us[] = {
+    1440, 1398, 1370, 1347, 1326, 1305, 1287, 1270, 1253, 1238,
+    1223, 1209, 1195, 1180, 1162, 1146, 1131, 1119, 1106, 1100
+};
+#define PWM_STEP_COUNT (sizeof(pwm_reverse_us) / sizeof(pwm_reverse_us[0]))
 
 typedef enum {
     MENU, CALIBRATION, FORMATTED, CSV, PWM_TEST, PWM_DATA, PIN_SETTINGS, PWM_SETTINGS,
@@ -44,22 +53,25 @@ typedef enum {
 static app_mode_t mode = MENU;
 static int sda_gpio = DEFAULT_SDA, scl_gpio = DEFAULT_SCL, esc_gpio = DEFAULT_ESC;
 static int pulse_us = NEUTRAL_US;
-static int sweep_max = 1700, sweep_step = 50, sweep_seconds = 5;
+static bool reverse_pwm = true; // RAM-only; settings remain forward-equivalent magnitudes.
+static size_t pwm_step_index;
 static int64_t step_deadline, esc_ready_at, last_power, last_force;
 static bool sensors_ready;
 static i2c_master_bus_handle_t bus;
-static double tare_counts, newtons_per_count;
-static bool tared, calibrated;
+static double tare_counts = 580660.709594;
+static double newtons_per_count = 1.76389597e-05;
+static bool tared = true;
+static bool calibrated = true;
 static bool collecting, collecting_tare;
 static int collection_count, point_count;
 static double collection_sum, applied_force_N;
 static int64_t collection_started;
 static double point_counts[MAX_CALIBRATION_POINTS], point_forces[MAX_CALIBRATION_POINTS];
 static unsigned dropped_lines;
-static double power_start_W = 5, power_max_W = 15, power_step_W = 5;
-static int power_hold_seconds = 5, power_settle_seconds = 2, power_timeout_seconds = 60;
-static int power_max_pwm = 1700;
-static double power_current_limit_A = 11, power_limit_W = 25;
+static double power_start_W = 1, power_max_W = 20, power_step_W = 1;
+static int power_hold_seconds = 30, power_settle_seconds = 2, power_timeout_seconds = 60;
+static int power_max_pwm = MAX_FORWARD_US;
+static double power_current_limit_A = 11, power_limit_W = 55;
 static double target_power_W, filtered_power_W;
 static int power_step_index;
 static int64_t power_step_started, power_in_band_since, power_control_at, power_sample_at;
@@ -95,6 +107,24 @@ static bool pwm_active(void)
     return mode == PWM_TEST || mode == PWM_DATA;
 }
 
+static int directed_pulse(int forward_us)
+{
+    return reverse_pwm ? 2 * NEUTRAL_US - forward_us : forward_us;
+}
+
+static int drive_pulse(void)
+{
+    // Mirroring is its own inverse; pulse_us always records the hardware command.
+    return directed_pulse(pulse_us);
+}
+
+static void show_direction(void)
+{
+    output("PWM direction: %s; neutral 1500 us; full configured range 1500..%d us.\n",
+           reverse_pwm ? "reverse" : "forward", directed_pulse(MAX_FORWARD_US));
+    output("Use direction forward | direction reverse | direction show while stopped. Settings reset on reboot.\n");
+}
+
 static bool power_active(void)
 {
     return mode == POWER_RAW || mode == POWER_PARSED;
@@ -113,14 +143,16 @@ static void show_menu(void)
     output("1. Calibrate force sensor\n");
     output("2. Print formatted timestamped sensor output\n");
     output("3. Print unformatted timestamped sensor output (CSV)\n");
-    output("4. Perform PWM test\n");
-    output("5. Perform PWM test with timestamped data printing\n");
+    output("4. Perform table PWM test (20 steps, 30 s each)\n");
+    output("5. Perform table PWM test with formatted force and power\n");
     output("6. Current pin settings\n");
     output("7. PWM test settings\n");
     output("8. Power-controlled test: raw CSV data\n");
     output("9. Power-controlled test: parsed force (N) and power (W)\n");
     output("10. Power test settings and limits\n");
     output("11. Repeat menu options\n");
+    output("12. Toggle PWM direction (while stopped)\n");
+    output("PWM direction: %s\n", reverse_pwm ? "reverse" : "forward");
     output("Type exit + Enter in any mode to stop and return here.\n> ");
 }
 
@@ -135,18 +167,23 @@ static void return_to_menu(const char *reason)
     show_menu();
 }
 
+static void begin_pwm_step(int64_t now)
+{
+    set_pulse(directed_pulse(2 * NEUTRAL_US - pwm_reverse_us[pwm_step_index]));
+    step_deadline = now + (int64_t)PWM_HOLD_SECONDS * 1000000;
+    output("PWM step %u/%u: nominal %u W, PWM %d us; hold %d s.\n",
+           (unsigned)pwm_step_index + 1, (unsigned)PWM_STEP_COUNT,
+           (unsigned)pwm_step_index + 1, pulse_us, PWM_HOLD_SECONDS);
+}
+
 static void update_pwm(int64_t now)
 {
     if (!pwm_active()) return;
     if (now - last_power > STALE_US || now - last_force > STALE_US) {
         return_to_menu("PWM test stopped: sensor data stale.");
     } else if (now >= step_deadline) {
-        if (pulse_us >= sweep_max) return_to_menu("PWM test complete.");
-        else {
-            set_pulse(pulse_us + sweep_step);
-            step_deadline = now + (int64_t)sweep_seconds * 1000000;
-            output("PWM step: %d us\n", pulse_us);
-        }
+        if (++pwm_step_index >= PWM_STEP_COUNT) return_to_menu("PWM test complete.");
+        else begin_pwm_step(now);
     }
 }
 
@@ -160,26 +197,33 @@ static void show_pins(void)
 
 static void show_pwm_settings(void)
 {
-    output("Start/stop: 1500 us; maximum: %d us; increment: %d us; hold: %d s; frequency: 50 Hz\n",
-           sweep_max, sweep_step, sweep_seconds);
-    output("To change: set <maximum_us> <increment_us> <hold_seconds>, e.g. set 1700 50 5\n");
-    output("Max 1500..1900; positive increment dividing the range; hold 1..60 s. Type exit to return.\n");
+    show_direction();
+    output("Fixed PWM table: %u steps, %d s each (600 s total), 50 Hz; stop: 1500 us.\n",
+           (unsigned)PWM_STEP_COUNT, PWM_HOLD_SECONDS);
+    for (size_t i = 0; i < PWM_STEP_COUNT; ++i) {
+        output("Nominal %u W: %d us\n", (unsigned)i + 1,
+               directed_pulse(2 * NEUTRAL_US - pwm_reverse_us[i]));
+    }
+    output("Power labels are nominal; formatted output reports measured watts.\n");
+    output("Table and hold time are fixed. Type exit to return.\n");
 }
 
 static void show_power_settings(void)
 {
+    show_direction();
     output("Power targets: %.3f..%.3f W, step %.3f W; settled hold: %d s\n",
            power_start_W, power_max_W, power_step_W, power_hold_seconds);
-    output("set <start_W> <max_W> <step_W> <hold_s>, e.g. set 5 15 5 5\n");
+    output("set <start_W> <max_W> <step_W> <hold_s>, e.g. set 5 50 5 5\n");
     output("Targets/increments use up to three decimal places (minimum 0.001 W).\n");
     output("PWM ceiling: %d us; current cutoff: %.3f A; power cutoff: %.3f W\n",
            power_max_pwm, power_current_limit_A, power_limit_W);
-    output("limits <max_pwm_us> <max_A> <max_W>, e.g. limits 1700 11 25\n");
+    output("limits <max_pwm_us> <max_A> <max_W>, e.g. limits 1900 11 55\n");
     output("Settling: %d s in tolerance; acquisition timeout: %d s\n",
            power_settle_seconds, power_timeout_seconds);
     output("timing <settle_s> <timeout_s>, e.g. timing 2 60\n");
-    output("Tolerance: max(0.25 W, 5%% of target) on filtered power. Up to 100 targets.\n");
-    output("Forward only, max 1900 us; current cutoff <=15 A. Settings reset on reboot.\n");
+    output("Control tolerance: max(0.25 W, 5%%); settling tolerance: max(0.5 W, 10%%) on filtered power. Up to 100 targets.\n");
+    output("PWM limits use forward-equivalent widths, max 1900 us; actual limit: %d us.\n", directed_pulse(power_max_pwm));
+    output("Current cutoff <=15 A. Settings reset on reboot.\n");
     output("Measure the same ESC input supply for both devices. Type exit to return.\n");
 }
 
@@ -192,6 +236,11 @@ static void print_csv_header(bool power_test)
 static double power_tolerance(void)
 {
     return fmax(0.25, target_power_W * 0.05);
+}
+
+static double power_settling_tolerance(void)
+{
+    return fmax(0.5, target_power_W * 0.10);
 }
 
 static bool valid_watt_setting(double watts)
@@ -245,7 +294,7 @@ static void observe_power(int64_t now, const power_sample_t *power,
         filtered_power_W + 0.2 * (power->power_W - filtered_power_W) : power->power_W;
     power_filter_ready = true;
     power_sample_at = now;
-    if (force_status == ESP_OK && fabs(filtered_power_W - target_power_W) <= power_tolerance()) {
+    if (force_status == ESP_OK && fabs(filtered_power_W - target_power_W) <= power_settling_tolerance()) {
         if (!power_in_band_since) power_in_band_since = now;
         power_settled = now - power_in_band_since >= (int64_t)power_settle_seconds * 1000000;
     } else {
@@ -284,10 +333,10 @@ static void update_power(int64_t now)
     double error = target_power_W - filtered_power_W;
     if (fabs(error) <= power_tolerance()) return;
     int adjustment = fabs(error) > 2 ? 2 : 1;
-    int next = pulse_us + (error > 0 ? adjustment : -adjustment);
+    int next = drive_pulse() + (error > 0 ? adjustment : -adjustment);
     if (next < NEUTRAL_US) next = NEUTRAL_US;
     if (next > power_max_pwm) next = power_max_pwm;
-    if (next != pulse_us) set_pulse(next);
+    if (next != drive_pulse()) set_pulse(directed_pulse(next));
 }
 
 static void show_calibration(void)
@@ -469,6 +518,22 @@ static void print_sample(int64_t now, const power_sample_t *power, int32_t raw,
 
 static void command(const char *line, int64_t now)
 {
+    if (strcmp(line, "12") == 0 || strcmp(line, "direction") == 0 ||
+        strncmp(line, "direction ", 10) == 0) {
+        if (strcmp(line, "direction") == 0 || strcmp(line, "direction show") == 0) {
+            show_direction();
+        } else if (mode != MENU && mode != PWM_SETTINGS && mode != POWER_SETTINGS) {
+            output("Stop with exit before changing PWM direction.\n");
+        } else if (strcmp(line, "12") == 0 || strcmp(line, "direction forward") == 0 ||
+                   strcmp(line, "direction reverse") == 0) {
+            set_pulse(NEUTRAL_US);
+            reverse_pwm = strcmp(line, "12") == 0 ? !reverse_pwm : strcmp(line, "direction reverse") == 0;
+            // Require a neutral dwell before starting in the selected direction.
+            esc_ready_at = now + 5000000;
+            show_direction();
+        } else output("Use direction forward | direction reverse | direction show.\n");
+        return;
+    }
     if (strcmp(line, "11") == 0) {
         output("Menu repeated; current mode continues. Use exit before selecting another mode.\n");
         show_menu();
@@ -506,10 +571,10 @@ static void command(const char *line, int64_t now)
                 return;
             }
             mode = line[0] == '4' ? PWM_TEST : PWM_DATA;
-            set_pulse(NEUTRAL_US);
-            step_deadline = now + (int64_t)sweep_seconds * 1000000;
-            output("PWM test started: 1500..%d us, step %d us, hold %d s. Type exit to stop.\n",
-                   sweep_max, sweep_step, sweep_seconds);
+            pwm_step_index = 0;
+            output("PWM test started: %u table steps, hold %d s each. Type exit to stop.\n",
+                   (unsigned)PWM_STEP_COUNT, PWM_HOLD_SECONDS);
+            begin_pwm_step(now);
         } else if (strcmp(line, "6") == 0) {
             mode = PIN_SETTINGS;
             show_pins();
@@ -535,13 +600,14 @@ static void command(const char *line, int64_t now)
             power_control_at = now;
             power_step_index = 0;
             output("Power test started. Adjusting PWM from measured ESC input watts. Type exit to stop.\n");
+            show_direction();
             begin_power_step(now);
             if (mode == POWER_RAW) print_csv_header(true);
         } else if (strcmp(line, "10") == 0) {
             mode = POWER_SETTINGS;
             show_power_settings();
         } else {
-            output("Choose 1..11, then Enter.\n> ");
+            output("Choose 1..12, then Enter.\n> ");
         }
     } else if (mode == CALIBRATION) {
         if (strcmp(line, "tare") == 0) begin_collection(true, 0, now);
@@ -556,13 +622,6 @@ static void command(const char *line, int64_t now)
         if (sscanf(line, "pins %d %d %d %c", &a, &b, &c, &extra) == 3) change_pins(a, b, c);
         else show_pins();
     } else if (mode == PWM_SETTINGS) {
-        if (sscanf(line, "set %d %d %d %c", &a, &b, &c, &extra) == 3 &&
-            a >= NEUTRAL_US && a <= MAX_FORWARD_US && b >= 1 && b <= 400 &&
-            (a - NEUTRAL_US) % b == 0 && c >= 1 && c <= 60) {
-            sweep_max = a;
-            sweep_step = b;
-            sweep_seconds = c;
-        } else output("Invalid settings; settings were not changed.\n");
         show_pwm_settings();
     } else if (mode == POWER_SETTINGS) {
         if (sscanf(line, "set %lf %lf %lf %d %c", &start_W, &max_W, &step_W, &a, &extra) == 4 &&

@@ -3,6 +3,7 @@ python software/SerialLogger.py --port COM5
 --list-ports finds devices; --no-csv disables CSV; /csv on or /csv off toggles it.
 Connect requests menu 11; choose 3 for sensor CSV or 8 for power-test CSV.
 11 repeats the menu; exit stops the mode; /quit closes the console.
+12 toggles PWM direction while stopped; /direction forward|reverse|show selects it.
 """
 
 import argparse
@@ -150,11 +151,18 @@ def run_console(port, recorder, transcript, commands):
                     command = "exit"
                     quit_at = time.monotonic() + 0.5
                 elif command == "/help":
-                    print("\n[logger] Firmware menu: 1..11; 11 repeats the menu without changing the active mode.")
+                    print("\n[logger] Firmware menu: 1..12; 11 repeats the menu without changing the active mode.")
+                    print("[logger] 12 toggles PWM direction while stopped; /direction forward, /direction reverse, /direction show.")
+                    print("[logger] Stop with exit before changing direction; wait five seconds before restarting a test.")
                     print("[logger] /csv on, /csv off, /csv: enable, disable, or show CSV recording.")
                     print("[logger] Choose a data/test mode from the firmware menu; CSV streams are saved when enabled.")
                     print("[logger] exit stops the active mode; /quit closes the console.")
                     continue
+                elif command == "/direction" or command.startswith("/direction "):
+                    if command not in ("/direction", "/direction forward", "/direction reverse", "/direction show"):
+                        print("[logger] Use /direction forward, /direction reverse, or /direction show.")
+                        continue
+                    command = command[1:]
                 elif command == "/csv" or command.startswith("/csv "):
                     if command in ("/csv on", "/csv off"):
                         recorder.set_enabled(command == "/csv on")
@@ -234,6 +242,7 @@ def main(argv=None):
                 print(f"CSV recording {'on' if args.csv_enabled else 'off'}; /csv on or /csv off changes it.")
                 print("Requesting menu (11). Choose a data/test mode; exit stops it; /quit closes the console.")
                 print("Enter 11 to repeat the menu and refresh an active CSV stream's header.")
+                print("12 toggles PWM direction while stopped; /direction forward|reverse|show selects or checks it.")
                 commands = queue.Queue()
                 threading.Thread(target=read_keyboard, args=(commands,), daemon=True).start()
                 run_console(port, CSVRecorder(args.output_dir, args.name, enabled=args.csv_enabled), transcript, commands)
