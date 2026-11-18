@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="1030" viewBox="0 0 1100 1030">
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8Z" fill="context-stroke"/></marker>
+    <style>
+      text {font-family:Arial,sans-serif;fill:#172033;font-size:15px}
+      .title {font-size:22px;font-weight:bold}
+      .heading {font-size:17px;font-weight:bold}
+      .note {font-size:13px;fill:#475569}
+      .wire {fill:none;stroke-width:2.5;stroke-linejoin:miter;marker-end:url(#arrow)}
+      .battery {stroke:#be123c}
+      .usb {stroke:#2563eb}
+      .signal {stroke:#059669}
+      .ground {stroke:#64748b}
+    </style>
+  </defs>
+  <rect width="1100" height="1030" fill="#ffffff"/>
+  <text x="35" y="38" class="title">DAQ wiring &#8212; separate LiPo and USB supplies</text>
+  <rect x="25" y="65" width="1050" height="185" rx="10" fill="#fff1f2" stroke="#fda4af"/>
+  <text x="45" y="92" class="heading">LiPo motor power</text>
+  <rect x="25" y="275" width="1050" height="735" rx="10" fill="#eff6ff" stroke="#93c5fd"/>
+  <text x="45" y="302" class="heading">USB-powered measurement and control</text>
+
+  <rect x="60" y="115" width="180" height="110" fill="#ffffff" stroke="#be123c" stroke-width="2"/>
+  <text x="80" y="141" class="heading">LiPo battery</text>
+  <text x="145" y="174">+ positive</text><text x="145" y="209">&#8722; negative</text>
+
+  <rect x="600" y="115" width="200" height="490" fill="#ffffff" stroke="#64748b" stroke-width="2"/>
+  <text x="620" y="142" class="heading">INA260</text>
+  <text x="612" y="174">IN+</text><text x="756" y="174">IN&#8722;</text>
+  <path d="M650 168 H675 V158 H725 V168 H750" fill="none" stroke="#be123c" stroke-width="2"/>
+  <text x="659" y="198" class="note">Internal shunt</text>
+  <text x="612" y="369">VIN (3.3 V)</text>
+  <text x="612" y="419">SDA</text><text x="612" y="469">SCL</text><text x="612" y="569">GND</text>
+  <text x="620" y="594" class="note">IN&#8722; remains LiPo positive</text>
+
+  <rect x="880" y="115" width="180" height="490" fill="#ffffff" stroke="#64748b" stroke-width="2"/>
+  <text x="900" y="142" class="heading">Basic ESC</text>
+  <text x="892" y="174">Power +</text><text x="892" y="209">Power &#8722;</text>
+  <text x="892" y="519">PWM / white</text><text x="892" y="569">Signal GND</text>
+
+  <rect x="60" y="325" width="180" height="75" fill="#ffffff" stroke="#2563eb" stroke-width="2"/>
+  <text x="80" y="351" class="heading">Computer / USB</text><text x="184" y="379">USB</text>
+  <rect x="280" y="325" width="180" height="280" fill="#ffffff" stroke="#2563eb" stroke-width="2"/>
+  <text x="295" y="351" class="heading">ESP32-C3</text><text x="292" y="379">USB-C</text>
+  <text x="396" y="369">3V3</text><text x="385" y="419">GPIO0</text><text x="385" y="469">GPIO1</text>
+  <text x="385" y="519">GPIO3</text><text x="400" y="569">GND</text>
+
+  <path class="wire battery" d="M240 168 H600"/>
+  <path class="wire battery" d="M800 168 H880"/>
+  <path class="wire ground" d="M240 203 H280 V235 H840 V203 H880"/>
+  <path class="wire ground" d="M240 203 H255 V367 Q265 373 255 379 V660 H480 V641 Q470 635 480 629 V621 Q470 615 480 609 V563 H460"/>
+  <circle cx="240" cy="203" r="4" fill="#64748b"/>
+  <text x="280" y="683" class="note">Battery negative to ESP32 GND (shared ground)</text>
+  <path class="wire usb" d="M240 373 H280"/>
+  <path class="wire usb" d="M460 363 H600"/>
+  <path class="wire signal" d="M460 413 H600"/>
+  <path class="wire signal" d="M460 463 H600"/>
+  <path class="wire signal" d="M460 513 H475 V635 H850 V513 H880"/>
+  <path class="wire ground" d="M460 563 H600"/>
+  <path class="wire ground" stroke-dasharray="7 5" d="M460 563 H465 V615 H835 V563 H880"/>
+  <text x="465" y="402" class="note" style="font-size:11px">I&#178;C data</text><text x="465" y="452" class="note" style="font-size:11px">I&#178;C clock</text>
+  <text x="825" y="495" class="note">PWM</text>
+  <rect x="600" y="735" width="200" height="260" fill="#ffffff" stroke="#64748b" stroke-width="2"/>
+  <text x="620" y="762" class="heading">NAU7802</text>
+  <text x="612" y="801">VIN (3.3 V)</text>
+  <text x="612" y="841">SDA</text>
+  <text x="612" y="881">SCL</text>
+  <text x="612" y="961">GND</text>
+  <text x="620" y="985" class="note">B+ / B&#8722; unused</text>
+  <text x="750" y="801">E+</text>
+  <text x="750" y="841">E&#8722;</text>
+  <text x="750" y="881">A+</text>
+  <text x="750" y="921">A&#8722;</text>
+  <text x="710" y="961">Shield/GND</text>
+
+  <rect x="880" y="735" width="180" height="260" fill="#ffffff" stroke="#64748b" stroke-width="2"/>
+  <text x="900" y="762" class="heading">S-type load cell</text>
+  <text x="892" y="801">Red / excitation +</text>
+  <text x="892" y="841">Black / excitation &#8722;</text>
+  <text x="892" y="881">Green / signal +</text>
+  <text x="892" y="921">White / signal &#8722;</text>
+  <text x="892" y="961">Yellow / shield</text>
+
+  <path class="wire usb" d="M565 363 V407 Q575 413 565 419 V457 Q575 463 565 469 V507 Q575 513 565 519 V557 Q575 563 565 569 V609 Q575 615 565 621 V629 Q575 635 565 641 V795 H600"/>
+  <path class="wire signal" d="M540 413 V457 Q550 463 540 469 V507 Q550 513 540 519 V557 Q550 563 540 569 V609 Q550 615 540 621 V629 Q550 635 540 641 V835 H600"/>
+  <path class="wire signal" d="M515 463 V507 Q525 513 515 519 V557 Q525 563 515 569 V609 Q525 615 515 621 V629 Q525 635 515 641 V875 H600"/>
+  <path class="wire ground" d="M490 563 V609 Q500 615 490 621 V629 Q500 635 490 641 V955 H600"/>
+  <circle cx="565" cy="363" r="4" fill="#2563eb"/>
+  <circle cx="540" cy="413" r="4" fill="#059669"/>
+  <circle cx="515" cy="463" r="4" fill="#059669"/>
+  <circle cx="490" cy="563" r="4" fill="#64748b"/>
+
+  <path class="wire" stroke="#be123c" d="M880 795 H800"/>
+  <path class="wire" stroke="#172033" d="M880 835 H800"/>
+  <path class="wire signal" d="M880 875 H800"/>
+  <path class="wire" stroke="#94a3b8" d="M880 915 H800"/>
+  <path class="wire" stroke="#ca8a04" d="M880 955 H800"/>
+</svg>
